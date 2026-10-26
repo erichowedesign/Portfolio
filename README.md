@@ -31,23 +31,22 @@ Edit **`src/data/projects.ts`**:
 
 Add screenshots to **`public/images/`** and reference them in case study pages when ready.
 
-## Deploy to Vercel (recommended)
+## Deploy
 
-1. Push this repo to GitHub
-2. Go to [vercel.com/new](https://vercel.com/new)
-3. Import the repo — set **Root Directory** to `portfolio`
-4. Deploy (defaults work for Next.js)
-5. Add custom domain in Vercel project settings if you have one
+Live at [erichowe.com](https://erichowe.com). Hosted on Vercel (project `portfolio`), code at [erichowedesign/Portfolio](https://github.com/erichowedesign/Portfolio).
 
-### CLI alternative
+Deploys are automatic:
+
+- Push to `main` → production deploy to erichowe.com
+- Push any other branch → preview deploy with its own URL
 
 ```bash
-npm i -g vercel
-cd portfolio
-vercel
+git add -A
+git commit -m "Describe the change"
+git push
 ```
 
-Follow prompts. Production URL will look like `your-project.vercel.app`.
+Manual deploy from this folder (bypasses GitHub): `npx vercel --prod`
 
 ## Update resume & LinkedIn
 
