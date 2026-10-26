@@ -40,7 +40,7 @@ export default function ContactPage() {
             rel="noopener noreferrer"
             className="text-base font-medium text-accent hover:text-accent-hover"
           >
-            linkedin.com/in/yourprofile
+            linkedin.com/in/eric-howe-76a771b4
           </a>
         </div>
       </div>

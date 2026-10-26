@@ -21,8 +21,8 @@ export type Project = {
 export const siteConfig = {
   name: "Eric Howe",
   title: "Lead Product Designer",
-  email: "your.email@example.com",
-  linkedin: "https://linkedin.com/in/yourprofile",
+  email: "erichowedesign@gmail.com",
+  linkedin: "https://www.linkedin.com/in/eric-howe-76a771b4/",
   location: "Portland, OR · Open to remote",
   summary:
     "I lead design for complex operational tools — setting direction, elevating team craft, and scaling patterns across enterprise products.",
