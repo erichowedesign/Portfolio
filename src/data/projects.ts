@@ -7,7 +7,7 @@ export type ImageSlot = {
   /** Crops the image to this shape. Leave unset on real images to show them uncropped. */
   aspect?: ImageAspect;
   caption?: string;
-  /** Path under /public, e.g. "/images/projects/relate/01.jpg". Without it, a wireframe box is shown. */
+  /** Path under /public, e.g. "/images/projects/nikeplus/01.jpg". Without it, a wireframe box is shown. */
   src?: string;
   width?: number;
   height?: number;
