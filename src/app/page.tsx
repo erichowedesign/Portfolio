@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { projects, siteConfig } from "@/data/projects";
+import { caseStudies, galleryProjects, siteConfig } from "@/data/projects";
 import { ProjectCard } from "@/components/ProjectCard";
 
 export default function HomePage() {
@@ -34,12 +34,23 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="work" className="mx-auto max-w-wide px-6 pb-20">
+      <section id="work" className="mx-auto max-w-wide px-6 pb-16">
         <h2 className="mb-8 text-sm font-medium uppercase tracking-wider text-ink-faint">
-          Selected work
+          Case studies
         </h2>
         <div className="grid gap-6 sm:grid-cols-2">
-          {projects.map((project) => (
+          {caseStudies.map((project) => (
+            <ProjectCard key={project.slug} project={project} />
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-wide px-6 pb-20">
+        <h2 className="mb-8 text-sm font-medium uppercase tracking-wider text-ink-faint">
+          More projects
+        </h2>
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {galleryProjects.map((project) => (
             <ProjectCard key={project.slug} project={project} />
           ))}
         </div>

@@ -1,22 +1,51 @@
-export type ProjectSection = {
-  title: string;
-  content: string[];
-  list?: string[];
+export type ImageAspect = "wide" | "video" | "landscape" | "square" | "portrait";
+
+export type ImageSlot = {
+  label: string;
+  aspect?: ImageAspect;
+  caption?: string;
 };
 
-export type Project = {
+export type MetaItem = {
+  label: string;
+  value: string;
+};
+
+type ProjectBase = {
   slug: string;
   title: string;
-  subtitle: string;
-  impact: string;
-  role: string;
-  timeline: string;
-  team: string;
+  category: string;
+  year: string;
+  /** One line shown on project cards. */
+  summary: string;
   tags: string[];
-  heroColor: string;
-  overview: string;
-  sections: ProjectSection[];
+  cover: ImageSlot;
+  meta: MetaItem[];
 };
+
+export type CaseStudySection = {
+  title: string;
+  body: string[];
+  list?: string[];
+  /** Images render below the text; 2–3 images sit side by side. */
+  images?: ImageSlot[];
+};
+
+export type CaseStudy = ProjectBase & {
+  kind: "case-study";
+  overview: string;
+  highlights: MetaItem[];
+  sections: CaseStudySection[];
+};
+
+export type GalleryProject = ProjectBase & {
+  kind: "gallery";
+  description: string[];
+  /** Each row holds 1–3 images, displayed side by side. */
+  gallery: ImageSlot[][];
+};
+
+export type Project = CaseStudy | GalleryProject;
 
 export const siteConfig = {
   name: "Eric Howe",
@@ -59,151 +88,204 @@ export const siteConfig = {
   },
 };
 
-export const projects: Project[] = [
+const caseStudyMeta: MetaItem[] = [
+  { label: "Role", value: "Your title on the project" },
+  { label: "Timeline", value: "Duration · Year" },
+  { label: "Team", value: "Who you worked with" },
+  { label: "Tools", value: "Figma, FigJam, etc." },
+];
+
+const caseStudyHighlights: MetaItem[] = [
+  { label: "Outcome metric", value: "00%" },
+  { label: "Adoption or scale", value: "000+" },
+  { label: "Time or cost saved", value: "0x" },
+];
+
+const caseStudySections: CaseStudySection[] = [
   {
-    slug: "inventory-allocation-tool",
-    title: "Regional Inventory Allocation Tool",
-    subtitle: "Global athletic apparel company · Internal ops",
-    impact: "~35% reduction in allocation task time · 12 regional teams",
-    role: "Lead Product Designer",
-    timeline: "14 months",
-    team: "1 designer (guided) · 2 PMs · 6 engineers · ops SMEs",
-    tags: ["Design leadership", "Workflow design", "Design systems"],
-    heroColor: "from-slate-800 to-slate-600",
-    overview:
-      "Operational teams spent hours reconciling inventory across regions using spreadsheets and legacy tools. As design lead, I set UX direction and guided a designer through research and delivery for a unified allocation workflow adopted by 12 regional teams.",
-    sections: [
-      {
-        title: "Context",
-        content: [
-          "Regional inventory planners and warehouse ops leads manage high-volume SKU allocation during seasonal peaks — high-stakes decisions under time pressure.",
-          "Data lived in 4+ systems. Planners copied numbers manually. New hires required weeks of shadowing.",
-        ],
-      },
-      {
-        title: "Problem",
-        content: [
-          "Misallocation drove costly transfers and fulfillment delays. Planners lacked confidence in data and tools.",
-          "Design challenge: surface complex constraints without overwhelming power users.",
-        ],
-      },
-      {
-        title: "Leadership",
-        content: ["My scope as design lead:"],
-        list: [
-          "Set UX direction and IA strategy across 2 eng squads",
-          "Guided 1 designer on research synthesis and deliverable quality",
-          "Facilitated weekly critique with PM and eng leads",
-          "Drove exception-first framework — pushed back on low-impact feature requests",
-          "Established patterns adopted into internal ops design system",
-        ],
-      },
-      {
-        title: "Process",
-        content: ["Research and alignment approach:"],
-        list: [
-          "Contextual inquiry with 8 planners across 3 regions",
-          "Workflow mapping — 6 handoff points causing delay",
-          "Cross-functional workshops with PM, eng, and ops",
-          "Concept and usability testing before build",
-        ],
-      },
-      {
-        title: "Solution",
-        content: ["Task-based navigation and progressive disclosure:"],
-        list: [
-          "Exception-first landing matched mental model",
-          "Inline validation kept users in flow during bulk edits",
-          "Audit log on same screen for trust and compliance",
-          "Shared patterns aligned with internal ops design system",
-        ],
-      },
-      {
-        title: "Impact",
-        content: [
-          "~35% reduction in weekly allocation cycle time. 12 regional teams adopted across two rollout phases. Allocation patterns became reference flows for subsequent ops tools.",
-        ],
-      },
-      {
-        title: "Reflection",
-        content: [
-          "Embedding ops SMEs in critiques made decisions stick. I'd instrument analytics earlier to tie design changes to error rates across teams.",
-        ],
-      },
+    title: "Context",
+    body: [
+      "Who the users are, what the business does, and what the world looked like before this project. Two or three sentences.",
     ],
   },
   {
-    slug: "returns-processing-dashboard",
-    title: "Returns Processing Operations Dashboard",
-    subtitle: "Global athletic apparel company · Internal ops",
-    impact: "Fewer processing errors · 800+ daily users",
-    role: "Lead Product Designer (player-coach)",
-    timeline: "10 months",
-    team: "1 PM · 4 engineers · returns ops lead",
-    tags: ["Player-coach", "Ops UX", "Stakeholder leadership"],
-    heroColor: "from-zinc-800 to-zinc-600",
+    title: "Problem",
+    body: [
+      "The core problem in one or two sentences, framed from the user's and the business's point of view.",
+      "Optional: the design challenge or key constraint that made this hard.",
+    ],
+    images: [{ label: "Before state / current experience", aspect: "video" }],
+  },
+  {
+    title: "My role",
+    body: ["What you owned and how you led:"],
+    list: [
+      "Scope of ownership and decisions you drove",
+      "People you guided, mentored, or aligned",
+      "Rituals you ran (critique, workshops, reviews)",
+    ],
+  },
+  {
+    title: "Process",
+    body: [
+      "How you got from problem to solution — research, synthesis, exploration, testing. Show the messy middle.",
+    ],
+    list: ["Research method + what you learned", "Key insight that shaped direction", "How you validated it"],
+    images: [
+      { label: "Research artifact", aspect: "landscape", caption: "Caption for the artifact" },
+      { label: "Journey map / flow", aspect: "landscape", caption: "Caption for the flow" },
+    ],
+  },
+  {
+    title: "Solution",
+    body: ["The final design and the reasoning behind the most important decisions."],
+    images: [
+      { label: "Key screen", aspect: "wide", caption: "Caption describing the key screen" },
+      { label: "Detail", aspect: "square" },
+      { label: "Detail", aspect: "square" },
+      { label: "Detail", aspect: "square" },
+    ],
+  },
+  {
+    title: "Outcomes",
+    body: [
+      "What changed because of this work — metrics, adoption, qualitative feedback, and anything the team kept building on.",
+    ],
+  },
+  {
+    title: "Reflection",
+    body: ["What you learned, and what you'd do differently next time."],
+  },
+];
+
+const galleryDescription = [
+  "A short description of the project: what it is, who it was for, and what you contributed. Two or three sentences.",
+];
+
+export const projects: Project[] = [
+  {
+    kind: "case-study",
+    slug: "case-study-one",
+    title: "Case Study One",
+    category: "Company · Product area",
+    year: "2025",
+    summary: "One-line summary of the project and its headline outcome.",
+    tags: ["Tag one", "Tag two", "Tag three"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: caseStudyMeta,
     overview:
-      "Returns center staff processed thousands of inbound items daily using fragmented screens. As sole designer on the pod, I owned design direction, stakeholder alignment, and quality bar for a unified dashboard serving 800+ daily users.",
-    sections: [
-      {
-        title: "Context",
-        content: [
-          "Associates complete high-volume, repetitive tasks; supervisors manage throughput and exceptions across lanes.",
-          "Users switched between 3 tools per item. Priority queues were unclear. Supervisors relied on end-of-day reports.",
-        ],
-      },
-      {
-        title: "Problem",
-        content: [
-          "Processing delays and errors increased cost per return. Associates needed speed and clarity; supervisors needed situational awareness without micromanaging.",
-        ],
-      },
-      {
-        title: "Leadership",
-        content: ["Player-coach scope on the pod:"],
-        list: [
-          "Owned design direction with no direct reports — set standards for eng design reviews",
-          "Advocated for role-based IA over separate tools; aligned ops leadership on shared data model",
-          "Ran weekly working sessions with floor leads during pilot",
-          "Defined scan-feedback patterns reused in subsequent floor-tool projects",
-        ],
-      },
-      {
-        title: "Process",
-        content: ["Floor-first discovery:"],
-        list: [
-          "Site visits during peak receipt at 2 processing centers",
-          "Task timing — 40% of time lost to context switching",
-          "Co-design sessions with associates on paper",
-          "Pilot prototype on one lane before full build",
-        ],
-      },
-      {
-        title: "Solution",
-        content: ["Role-based views on a shared data model:"],
-        list: [
-          "Associate mode: scan → classify → disposition → next",
-          "Supervisor mode: queue depth, error rate, active exceptions",
-          "Large touch targets and immediate scan feedback",
-          "Plain-language error recovery to reduce escalations",
-        ],
-      },
-      {
-        title: "Impact",
-        content: [
-          "Pilot lane showed ~25% fewer mis-classifications. Rolled out to 800+ daily users. Scan-feedback patterns adopted as reference for other ops tools.",
-        ],
-      },
-      {
-        title: "Reflection",
-        content: [
-          "Designing with associates on the floor surfaced constraints we wouldn't catch in Figma. Next time I'd run a longer pilot across shift changes.",
-        ],
-      },
+      "A two-to-three sentence overview: the problem, what you did, and the result. Someone who only reads this paragraph should understand the project.",
+    highlights: caseStudyHighlights,
+    sections: caseStudySections,
+  },
+  {
+    kind: "case-study",
+    slug: "case-study-two",
+    title: "Case Study Two",
+    category: "Company · Product area",
+    year: "2024",
+    summary: "One-line summary of the project and its headline outcome.",
+    tags: ["Tag one", "Tag two"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: caseStudyMeta,
+    overview:
+      "A two-to-three sentence overview: the problem, what you did, and the result. Someone who only reads this paragraph should understand the project.",
+    highlights: caseStudyHighlights,
+    sections: caseStudySections,
+  },
+  {
+    kind: "gallery",
+    slug: "project-one",
+    title: "Project One",
+    category: "Visual design",
+    year: "2025",
+    summary: "One-line description of the work shown.",
+    tags: ["Tag one", "Tag two"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: [
+      { label: "Type", value: "Project type" },
+      { label: "Year", value: "2025" },
+      { label: "Tools", value: "Figma" },
+    ],
+    description: galleryDescription,
+    gallery: [
+      [{ label: "Hero image", aspect: "wide" }],
+      [
+        { label: "Screen", aspect: "landscape" },
+        { label: "Screen", aspect: "landscape" },
+      ],
+      [{ label: "Full-width image", aspect: "video", caption: "Optional caption" }],
+      [
+        { label: "Detail", aspect: "square" },
+        { label: "Detail", aspect: "square" },
+        { label: "Detail", aspect: "square" },
+      ],
+    ],
+  },
+  {
+    kind: "gallery",
+    slug: "project-two",
+    title: "Project Two",
+    category: "Mobile app",
+    year: "2024",
+    summary: "One-line description of the work shown.",
+    tags: ["Tag one", "Tag two"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: [
+      { label: "Type", value: "Project type" },
+      { label: "Year", value: "2024" },
+      { label: "Tools", value: "Figma" },
+    ],
+    description: galleryDescription,
+    gallery: [
+      [{ label: "Hero image", aspect: "video" }],
+      [
+        { label: "Mobile screen", aspect: "portrait" },
+        { label: "Mobile screen", aspect: "portrait" },
+        { label: "Mobile screen", aspect: "portrait" },
+      ],
+      [{ label: "Full-width image", aspect: "wide" }],
+    ],
+  },
+  {
+    kind: "gallery",
+    slug: "project-three",
+    title: "Project Three",
+    category: "Design system",
+    year: "2023",
+    summary: "One-line description of the work shown.",
+    tags: ["Tag one"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: [
+      { label: "Type", value: "Project type" },
+      { label: "Year", value: "2023" },
+      { label: "Tools", value: "Figma" },
+    ],
+    description: galleryDescription,
+    gallery: [
+      [{ label: "Hero image", aspect: "wide" }],
+      [
+        { label: "Component sheet", aspect: "square" },
+        { label: "Component sheet", aspect: "square" },
+      ],
+      [{ label: "Full-width image", aspect: "video" }],
     ],
   },
 ];
 
+export const caseStudies = projects.filter(
+  (p): p is CaseStudy => p.kind === "case-study",
+);
+
+export const galleryProjects = projects.filter(
+  (p): p is GalleryProject => p.kind === "gallery",
+);
+
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);
+}
+
+export function getNextProject(slug: string): Project {
+  const index = projects.findIndex((p) => p.slug === slug);
+  return projects[(index + 1) % projects.length];
 }
