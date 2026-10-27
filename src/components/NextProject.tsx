@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Project } from "@/data/projects";
+import { projectHref, type Project } from "@/data/projects";
 
 export function NextProject({ project }: { project: Project }) {
   return (
@@ -8,7 +8,7 @@ export function NextProject({ project }: { project: Project }) {
         Next project
       </p>
       <Link
-        href={`/work/${project.slug}`}
+        href={projectHref(project)}
         className="group inline-flex items-baseline gap-3 text-2xl font-semibold tracking-tight text-ink transition hover:text-accent"
       >
         {project.title}

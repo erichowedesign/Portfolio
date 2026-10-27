@@ -1,17 +1,19 @@
 import Link from "next/link";
-import type { CaseStudy, ImageSlot } from "@/data/projects";
+import { backLink, type CaseStudy, type ImageSlot } from "@/data/projects";
 import { ImagePlaceholder, ImageRow } from "@/components/ImagePlaceholder";
 import { MetaList } from "@/components/MetaList";
 
 export function CaseStudyLayout({ project }: { project: CaseStudy }) {
+  const back = backLink(project);
+
   return (
     <article className="py-16">
       <header className="mx-auto max-w-content px-6">
         <Link
-          href="/#work"
+          href={back.href}
           className="mb-8 inline-block text-sm text-ink-muted transition hover:text-ink"
         >
-          ← Back to work
+          ← {back.label}
         </Link>
         <p className="mb-3 text-xs font-medium uppercase tracking-wider text-ink-faint">
           Case study · {project.category} · {project.year}

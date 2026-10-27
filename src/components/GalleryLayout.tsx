@@ -1,16 +1,18 @@
 import Link from "next/link";
-import type { GalleryProject } from "@/data/projects";
+import { backLink, type GalleryProject } from "@/data/projects";
 import { ImageRow } from "@/components/ImagePlaceholder";
 
 export function GalleryLayout({ project }: { project: GalleryProject }) {
+  const back = backLink(project);
+
   return (
     <article className="py-16">
       <header className="mx-auto max-w-wide px-6">
         <Link
-          href="/#work"
+          href={back.href}
           className="mb-8 inline-block text-sm text-ink-muted transition hover:text-ink"
         >
-          ← Back to work
+          ← {back.label}
         </Link>
         <div className="grid gap-8 sm:grid-cols-[2fr_1fr]">
           <div>

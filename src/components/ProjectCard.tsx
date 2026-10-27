@@ -1,11 +1,11 @@
 import Link from "next/link";
-import type { Project } from "@/data/projects";
+import { projectHref, type Project } from "@/data/projects";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
     <Link
-      href={`/work/${project.slug}`}
+      href={projectHref(project)}
       className="group block rounded-xl border border-surface-border bg-surface-card p-4 transition hover:border-ink/20 hover:shadow-sm"
     >
       <ImagePlaceholder slot={project.cover} className="mb-5" />

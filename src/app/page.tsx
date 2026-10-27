@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { caseStudies, galleryProjects, siteConfig } from "@/data/projects";
-import { ProjectCard } from "@/components/ProjectCard";
+import { collections, getCollectionProjects, siteConfig } from "@/data/projects";
+import { CollectionCard } from "@/components/CollectionCard";
+import { ProjectSections } from "@/components/ProjectSections";
 
 export default function HomePage() {
   return (
@@ -36,25 +37,16 @@ export default function HomePage() {
 
       <section id="work" className="mx-auto max-w-wide px-6 pb-16">
         <h2 className="mb-8 text-sm font-medium uppercase tracking-wider text-ink-faint">
-          Case studies
+          Work
         </h2>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {caseStudies.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
+        <div className="space-y-6">
+          {collections.map((collection) => (
+            <CollectionCard key={collection.slug} collection={collection} />
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-wide px-6 pb-20">
-        <h2 className="mb-8 text-sm font-medium uppercase tracking-wider text-ink-faint">
-          More projects
-        </h2>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {galleryProjects.map((project) => (
-            <ProjectCard key={project.slug} project={project} />
-          ))}
-        </div>
-      </section>
+      <ProjectSections projects={getCollectionProjects(undefined)} />
     </>
   );
 }

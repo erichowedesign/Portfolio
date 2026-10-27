@@ -11,8 +11,20 @@ export type MetaItem = {
   value: string;
 };
 
+export type Collection = {
+  slug: string;
+  title: string;
+  period: string;
+  /** One line shown on the home page card. */
+  summary: string;
+  intro: string[];
+  cover: ImageSlot;
+};
+
 type ProjectBase = {
   slug: string;
+  /** Projects in a collection live under /{collection}/{slug} and share its password. */
+  collection?: string;
   title: string;
   category: string;
   year: string;
@@ -165,6 +177,7 @@ const galleryDescription = [
 export const projects: Project[] = [
   {
     kind: "case-study",
+    collection: "nike",
     slug: "case-study-one",
     title: "Case Study One",
     category: "Company · Product area",
@@ -180,6 +193,7 @@ export const projects: Project[] = [
   },
   {
     kind: "case-study",
+    collection: "nike",
     slug: "case-study-two",
     title: "Case Study Two",
     category: "Company · Product area",
@@ -195,6 +209,7 @@ export const projects: Project[] = [
   },
   {
     kind: "gallery",
+    collection: "nike",
     slug: "project-one",
     title: "Project One",
     category: "Visual design",
@@ -224,6 +239,7 @@ export const projects: Project[] = [
   },
   {
     kind: "gallery",
+    collection: "nike",
     slug: "project-two",
     title: "Project Two",
     category: "Mobile app",
@@ -249,6 +265,7 @@ export const projects: Project[] = [
   },
   {
     kind: "gallery",
+    collection: "nike",
     slug: "project-three",
     title: "Project Three",
     category: "Design system",
@@ -273,19 +290,50 @@ export const projects: Project[] = [
   },
 ];
 
-export const caseStudies = projects.filter(
-  (p): p is CaseStudy => p.kind === "case-study",
-);
+export const nikeCollection: Collection = {
+  slug: "nike",
+  title: "Nike",
+  period: "2018 – 2026",
+  summary: "One-line summary of the body of work at Nike.",
+  intro: [
+    "A short introduction to your time at Nike: the teams you were part of, the kinds of products you designed, and the scope of your role. Two or three sentences.",
+    "Optional: a note on confidentiality, e.g. that details have been anonymized.",
+  ],
+  cover: { label: "Collection cover", aspect: "video" },
+};
 
-export const galleryProjects = projects.filter(
-  (p): p is GalleryProject => p.kind === "gallery",
-);
+export const collections: Collection[] = [nikeCollection];
 
-export function getProject(slug: string): Project | undefined {
-  return projects.find((p) => p.slug === slug);
+export function getCollection(slug: string): Collection | undefined {
+  return collections.find((c) => c.slug === slug);
 }
 
-export function getNextProject(slug: string): Project {
-  const index = projects.findIndex((p) => p.slug === slug);
-  return projects[(index + 1) % projects.length];
+export function getCollectionProjects(collection: string | undefined): Project[] {
+  return projects.filter((p) => p.collection === collection);
+}
+
+export function getProject(
+  slug: string,
+  collection?: string,
+): Project | undefined {
+  return getCollectionProjects(collection).find((p) => p.slug === slug);
+}
+
+export function getNextProject(project: Project): Project {
+  const siblings = getCollectionProjects(project.collection);
+  const index = siblings.findIndex((p) => p.slug === project.slug);
+  return siblings[(index + 1) % siblings.length];
+}
+
+export function projectHref(project: Project): string {
+  return project.collection
+    ? `/${project.collection}/${project.slug}`
+    : `/work/${project.slug}`;
+}
+
+export function backLink(project: Project): { href: string; label: string } {
+  const collection = project.collection && getCollection(project.collection);
+  return collection
+    ? { href: `/${collection.slug}`, label: `Back to ${collection.title}` }
+    : { href: "/#work", label: "Back to work" };
 }
