@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { collections, getCollectionProjects, siteConfig } from "@/data/projects";
 import { CollectionCard } from "@/components/CollectionCard";
 import { ProjectWideCard } from "@/components/ProjectWideCard";
@@ -19,20 +18,6 @@ export default function HomePage() {
           designers, facilitating critique, and scaling patterns through design
           systems.
         </p>
-        <div className="mt-8 flex flex-wrap gap-4">
-          <Link
-            href="#work"
-            className="rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-white transition hover:bg-ink/90"
-          >
-            View selected work
-          </Link>
-          <Link
-            href="/contact"
-            className="rounded-lg border border-surface-border px-5 py-2.5 text-sm font-medium text-ink transition hover:border-ink/30"
-          >
-            Get in touch
-          </Link>
-        </div>
       </section>
 
       <section id="work" className="mx-auto max-w-wide px-6 pb-20">
