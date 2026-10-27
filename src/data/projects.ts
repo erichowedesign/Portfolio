@@ -1,9 +1,16 @@
+import { oldSiteProjects } from "@/data/oldSiteProjects";
+
 export type ImageAspect = "wide" | "video" | "landscape" | "square" | "portrait";
 
 export type ImageSlot = {
   label: string;
+  /** Crops the image to this shape. Leave unset on real images to show them uncropped. */
   aspect?: ImageAspect;
   caption?: string;
+  /** Path under /public, e.g. "/images/projects/relate/01.jpg". Without it, a wireframe box is shown. */
+  src?: string;
+  width?: number;
+  height?: number;
 };
 
 export type MetaItem = {
@@ -174,60 +181,6 @@ const galleryDescription = [
   "A short description of the project: what it is, who it was for, and what you contributed. Two or three sentences.",
 ];
 
-const galleryLayouts: Record<string, ImageSlot[][]> = {
-  web: [
-    [{ label: "Hero image", aspect: "wide" }],
-    [
-      { label: "Screen", aspect: "landscape" },
-      { label: "Screen", aspect: "landscape" },
-    ],
-    [{ label: "Full-width image", aspect: "video" }],
-  ],
-  mobile: [
-    [{ label: "Hero image", aspect: "video" }],
-    [
-      { label: "Mobile screen", aspect: "portrait" },
-      { label: "Mobile screen", aspect: "portrait" },
-      { label: "Mobile screen", aspect: "portrait" },
-    ],
-  ],
-  visual: [
-    [{ label: "Hero image", aspect: "wide" }],
-    [
-      { label: "Detail", aspect: "square" },
-      { label: "Detail", aspect: "square" },
-      { label: "Detail", aspect: "square" },
-    ],
-    [{ label: "Full-width image", aspect: "video", caption: "Optional caption" }],
-  ],
-};
-
-function lightProject(
-  slug: string,
-  title: string,
-  category: string,
-  year: string,
-  layout: keyof typeof galleryLayouts,
-): GalleryProject {
-  return {
-    kind: "gallery",
-    slug,
-    title,
-    category,
-    year,
-    summary: "One-line description of the work shown.",
-    tags: ["Tag one", "Tag two"],
-    cover: { label: "Cover image", aspect: "video" },
-    meta: [
-      { label: "Type", value: category },
-      { label: "Year", value: year },
-      { label: "Tools", value: "Figma" },
-    ],
-    description: galleryDescription,
-    gallery: galleryLayouts[layout],
-  };
-}
-
 export const projects: Project[] = [
   {
     kind: "case-study",
@@ -342,12 +295,7 @@ export const projects: Project[] = [
       [{ label: "Full-width image", aspect: "video" }],
     ],
   },
-  lightProject("project-a", "Project A", "Web app", "2026", "web"),
-  lightProject("project-b", "Project B", "Mobile app", "2026", "mobile"),
-  lightProject("project-c", "Project C", "Visual design", "2025", "visual"),
-  lightProject("project-d", "Project D", "Web app", "2025", "web"),
-  lightProject("project-e", "Project E", "Mobile app", "2024", "mobile"),
-  lightProject("project-f", "Project F", "Concept", "2024", "visual"),
+  ...oldSiteProjects,
 ];
 
 export const nikeCollection: Collection = {

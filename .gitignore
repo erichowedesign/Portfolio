@@ -39,3 +39,6 @@ next-env.d.ts
 
 # local node toolchain
 /.tools
+
+# raw image library from the old Squarespace site; copy chosen images into project folders
+/public/images/squarespace/
