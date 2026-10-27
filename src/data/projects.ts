@@ -307,7 +307,7 @@ export const nikeCollection: Collection = {
     "A short introduction to your time at Nike: the teams you were part of, the kinds of products you designed, and the scope of your role. Two or three sentences.",
     "Optional: a note on confidentiality, e.g. that details have been anonymized.",
   ],
-  cover: { label: "Collection cover", aspect: "video" },
+  cover: { label: "Nike", src: "/images/projects/nike/splash_nikethumb.png", aspect: "video" },
 };
 
 export const collections: Collection[] = [nikeCollection];
