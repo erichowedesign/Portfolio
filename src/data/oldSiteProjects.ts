@@ -11,10 +11,10 @@ function oldSiteProject(
   title: string,
   client: string,
   year: string,
+  /** Card image on the home page, in public/images/projects/{slug}/. Shown cropped to 16:9. */
+  splash: string,
   gallery: ImageSlot[][],
 ): GalleryProject {
-  const landscape = gallery.flat().find((img) => img.width && img.height && img.height / img.width < 0.7);
-  const cover = landscape ?? gallery[0][0];
   return {
     kind: "gallery",
     slug,
@@ -23,7 +23,7 @@ function oldSiteProject(
     year,
     summary: "One-line description of the work shown.",
     tags: [],
-    cover: { ...cover, label: title, aspect: "video" },
+    cover: { label: title, src: `/images/projects/${slug}/${splash}`, aspect: "video" },
     meta: [
       { label: "Client", value: client },
       { label: "Year", value: year },
@@ -34,7 +34,7 @@ function oldSiteProject(
 }
 
 export const oldSiteProjects: GalleryProject[] = [
-  oldSiteProject("nikeplus", "Nike+ — Web Redesign", "Nike+", "2017", [
+  oldSiteProject("nikeplus", "Nike+ — Web Redesign", "Nike+", "2017", "splash_nikeplus.webp", [
     [{ label: "Nike+", src: "/images/projects/nikeplus/01.jpg", width: 1440, height: 4481 }],
     [{ label: "Nike+", src: "/images/projects/nikeplus/02.jpg", width: 1920, height: 1080 }],
     [{ label: "Nike+", src: "/images/projects/nikeplus/03.jpg", width: 1920, height: 1080 }],
@@ -48,7 +48,7 @@ export const oldSiteProjects: GalleryProject[] = [
     [{ label: "Nike+", src: "/images/projects/nikeplus/11.jpg", width: 1920, height: 1080 }],
     [{ label: "Nike+", src: "/images/projects/nikeplus/12.jpg", width: 1920, height: 1080 }],
   ]),
-  oldSiteProject("verizon-innovation-pitch", "Verizon OTT — Innovation Pitch", "Verizon OTT", "2017", [
+  oldSiteProject("verizon-innovation-pitch", "Verizon OTT — Innovation Pitch", "Verizon OTT", "2017", "splash_verizon.webp", [
     [{ label: "Verizon OTT", src: "/images/projects/verizon-innovation-pitch/01.jpg", width: 1920, height: 1080 }],
     [{ label: "Verizon OTT", src: "/images/projects/verizon-innovation-pitch/02.jpg", width: 1920, height: 1080 }],
     [{ label: "Verizon OTT", src: "/images/projects/verizon-innovation-pitch/03.jpg", width: 1920, height: 1080 }],
@@ -63,7 +63,7 @@ export const oldSiteProjects: GalleryProject[] = [
     [{ label: "Verizon OTT", src: "/images/projects/verizon-innovation-pitch/12.jpg", width: 1920, height: 1080 }],
     [{ label: "Verizon OTT", src: "/images/projects/verizon-innovation-pitch/13.jpg", width: 1920, height: 1080 }],
   ]),
-  oldSiteProject("google-product-experts", "Google — Product Experts", "Google", "2017", [
+  oldSiteProject("google-product-experts", "Google — Product Experts", "Google", "2017", "splash_google.webp", [
     [{ label: "Google", src: "/images/projects/google-product-experts/01.jpg", width: 1920, height: 1080 }],
     [{ label: "Google", src: "/images/projects/google-product-experts/02.jpg", width: 1920, height: 1080 }],
     [{ label: "Google", src: "/images/projects/google-product-experts/03.jpg", width: 1920, height: 1080 }],
@@ -95,7 +95,7 @@ export const oldSiteProjects: GalleryProject[] = [
     [{ label: "Google", src: "/images/projects/google-product-experts/29.jpg", width: 1920, height: 1080 }],
     [{ label: "Google", src: "/images/projects/google-product-experts/30.jpg", width: 1920, height: 1080 }],
   ]),
-  oldSiteProject("15-years-of-sb-dunk", "Nike SB — 15 Years of SB Dunk", "Nike SB", "2017", [
+  oldSiteProject("15-years-of-sb-dunk", "Nike SB — 15 Years of SB Dunk", "Nike SB", "2017", "splash_nikesb.webp", [
     [{ label: "Nike SB", src: "/images/projects/15-years-of-sb-dunk/01.jpg", width: 1920, height: 1080 }],
     [{ label: "Nike SB", src: "/images/projects/15-years-of-sb-dunk/02.jpg", width: 1920, height: 1080 }],
     [{ label: "Nike SB", src: "/images/projects/15-years-of-sb-dunk/03.jpg", width: 1920, height: 1080 }],
@@ -109,7 +109,7 @@ export const oldSiteProjects: GalleryProject[] = [
     [{ label: "Nike SB", src: "/images/projects/15-years-of-sb-dunk/11.jpg", width: 1440, height: 3476 }],
     [{ label: "Nike SB", src: "/images/projects/15-years-of-sb-dunk/12.jpg", width: 1920, height: 1080 }],
   ]),
-  oldSiteProject("natures-recipe", "Nature's Recipe — Web Design", "Nature's Recipe", "2017", [
+  oldSiteProject("natures-recipe", "Nature's Recipe — Web Design", "Nature's Recipe", "2017", "splash_natures_recipe.webp", [
     [{ label: "Nature's Recipe", src: "/images/projects/natures-recipe/01.jpg", width: 1920, height: 1080 }],
     [{ label: "Nature's Recipe", src: "/images/projects/natures-recipe/02.jpg", width: 1440, height: 4261 }],
     [{ label: "Nature's Recipe", src: "/images/projects/natures-recipe/03.jpg", width: 1920, height: 1080 }],
