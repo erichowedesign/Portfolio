@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { collections, getCollectionProjects, siteConfig } from "@/data/projects";
 import { CollectionCard } from "@/components/CollectionCard";
-import { ProjectSections } from "@/components/ProjectSections";
+import { ProjectWideCard } from "@/components/ProjectWideCard";
 
 export default function HomePage() {
   return (
@@ -35,7 +35,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="work" className="mx-auto max-w-wide px-6 pb-16">
+      <section id="work" className="mx-auto max-w-wide px-6 pb-20">
         <h2 className="mb-8 text-sm font-medium uppercase tracking-wider text-ink-faint">
           Work
         </h2>
@@ -43,10 +43,11 @@ export default function HomePage() {
           {collections.map((collection) => (
             <CollectionCard key={collection.slug} collection={collection} />
           ))}
+          {getCollectionProjects(undefined).map((project) => (
+            <ProjectWideCard key={project.slug} project={project} />
+          ))}
         </div>
       </section>
-
-      <ProjectSections projects={getCollectionProjects(undefined)} />
     </>
   );
 }

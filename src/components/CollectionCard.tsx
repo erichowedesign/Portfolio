@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { getCollectionProjects, type Collection } from "@/data/projects";
-import { ImagePlaceholder } from "@/components/ImagePlaceholder";
+import { WideCard } from "@/components/WideCard";
 
 export function CollectionCard({ collection }: { collection: Collection }) {
   const projects = getCollectionProjects(collection.slug);
@@ -8,31 +7,25 @@ export function CollectionCard({ collection }: { collection: Collection }) {
   const projectCount = projects.length - caseStudyCount;
 
   return (
-    <Link
+    <WideCard
       href={`/${collection.slug}`}
-      className="group grid gap-6 rounded-xl border border-surface-border bg-surface-card p-4 transition hover:border-ink/20 hover:shadow-sm sm:grid-cols-[3fr_2fr] sm:items-center"
-    >
-      <ImagePlaceholder slot={collection.cover} />
-      <div className="px-2 pb-2 sm:pr-6">
+      cover={collection.cover}
+      eyebrow={collection.period}
+      title={collection.title}
+      summary={collection.summary}
+      badge={
         <p className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-surface-border px-2.5 py-1 text-xs font-medium text-ink-muted">
           <LockIcon />
           Password protected
         </p>
-        <p className="mb-2 text-xs font-medium uppercase tracking-wider text-ink-faint">
-          {collection.period}
-        </p>
-        <h3 className="mb-2 text-2xl font-semibold tracking-tight text-ink group-hover:text-accent">
-          {collection.title}
-        </h3>
-        <p className="mb-4 text-sm leading-relaxed text-ink-muted">
-          {collection.summary}
-        </p>
+      }
+      footer={
         <p className="text-sm text-ink-faint">
           {caseStudyCount} case {caseStudyCount === 1 ? "study" : "studies"} ·{" "}
           {projectCount} {projectCount === 1 ? "project" : "projects"}
         </p>
-      </div>
-    </Link>
+      }
+    />
   );
 }
 
