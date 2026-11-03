@@ -1,0 +1,478 @@
+/**
+ * Generates src/app/tokens.css (and a JSON snapshot) from the Appetite UI
+ * Figma file: https://www.figma.com/design/2s2IMdwXuk8M1klMmEt9xT
+ *
+ * Re-run: node scripts/build-tokens.mjs
+ * Re-sync from Figma by updating TOKENS below, then re-run.
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+const TOKENS = {
+  source: {
+    fileKey: "2s2IMdwXuk8M1klMmEt9xT",
+    fileName: "Color - Dark Mode Token Starter | Appetite UI (Community) Copy",
+    url: "https://www.figma.com/design/2s2IMdwXuk8M1klMmEt9xT",
+  },
+  primitives: {
+    "colors/gray/0": "#ffffff",
+    "colors/gray/50": "#f9fafb",
+    "colors/gray/100": "#f3f4f6",
+    "colors/gray/200": "#e5e7eb",
+    "colors/gray/300": "#d1d5db",
+    "colors/gray/400": "#9ca3af",
+    "colors/gray/500": "#6b7280",
+    "colors/gray/600": "#4b5563",
+    "colors/gray/700": "#374151",
+    "colors/gray/800": "#1f2937",
+    "colors/gray/900": "#111827",
+    "colors/gray/950": "#030712",
+    "colors/blue/50": "#eff6ff",
+    "colors/blue/100": "#dbeafe",
+    "colors/blue/200": "#bedbff",
+    "colors/blue/300": "#82bfff",
+    "colors/blue/400": "#2b7fff",
+    "colors/blue/500": "#155dfc",
+    "colors/blue/600": "#1447e6",
+    "colors/blue/700": "#193cb8",
+    "colors/blue/800": "#1c398e",
+    "colors/blue/900": "#0d2673",
+    "colors/blue/950": "#132150",
+    "colors/red/50": "#fef2f2",
+    "colors/red/100": "#ffe2e2",
+    "colors/red/200": "#ffc9c9",
+    "colors/red/300": "#ffa2a2",
+    "colors/red/400": "#ff6467",
+    "colors/red/500": "#fb2c36",
+    "colors/red/600": "#e7000b",
+    "colors/red/700": "#c10007",
+    "colors/red/800": "#9f0712",
+    "colors/red/900": "#82181a",
+    "colors/red/950": "#460809",
+    "colors/orange/50": "#fff7ed",
+    "colors/orange/100": "#ffedd4",
+    "colors/orange/200": "#ffd6a7",
+    "colors/orange/300": "#ffb86a",
+    "colors/orange/400": "#ff8904",
+    "colors/orange/500": "#ff6900",
+    "colors/orange/600": "#f54900",
+    "colors/orange/700": "#ca3500",
+    "colors/orange/800": "#9f2d00",
+    "colors/orange/900": "#7e2a0c",
+    "colors/orange/950": "#441306",
+    "colors/yellow/50": "#fffbeb",
+    "colors/yellow/100": "#fef3c6",
+    "colors/yellow/200": "#fee685",
+    "colors/yellow/300": "#ffd230",
+    "colors/yellow/400": "#ffb900",
+    "colors/yellow/500": "#fe9a00",
+    "colors/yellow/600": "#e17100",
+    "colors/yellow/700": "#bb4d00",
+    "colors/yellow/800": "#973c00",
+    "colors/yellow/900": "#7b3306",
+    "colors/yellow/950": "#461901",
+    "colors/green/50": "#f0fdf4",
+    "colors/green/100": "#dcfce7",
+    "colors/green/200": "#bbf7d0",
+    "colors/green/300": "#86efac",
+    "colors/green/400": "#4ade80",
+    "colors/green/500": "#22c55e",
+    "colors/green/600": "#16a34a",
+    "colors/green/700": "#15803d",
+    "colors/green/800": "#166534",
+    "colors/green/900": "#14532d",
+    "colors/green/950": "#09361b",
+    "colors/purple/50": "#efebff",
+    "colors/purple/100": "#dcd5ff",
+    "colors/purple/200": "#cac0ff",
+    "colors/purple/300": "#a897ff",
+    "colors/purple/400": "#8c71f6",
+    "colors/purple/500": "#7d52f4",
+    "colors/purple/600": "#693ee0",
+    "colors/purple/700": "#5b2cc9",
+    "colors/purple/800": "#4c25a7",
+    "colors/purple/900": "#3d1d86",
+    "colors/purple/950": "#351a75",
+    "colors/sky/50": "#ebf8ff",
+    "colors/sky/100": "#d5f1ff",
+    "colors/sky/200": "#c0eaff",
+    "colors/sky/300": "#97dcff",
+    "colors/sky/400": "#68cdff",
+    "colors/sky/500": "#47c2ff",
+    "colors/sky/600": "#35ade9",
+    "colors/sky/700": "#2597d0",
+    "colors/sky/800": "#1f7ead",
+    "colors/sky/900": "#18658b",
+    "colors/sky/950": "#124b68",
+    "colors/pink/50": "#ffebf4",
+    "colors/pink/100": "#ffd5ea",
+    "colors/pink/200": "#ffc0df",
+    "colors/pink/300": "#ff97cb",
+    "colors/pink/400": "#ff68b3",
+    "colors/pink/500": "#fb4ba3",
+    "colors/pink/600": "#e9358f",
+    "colors/pink/700": "#d0257a",
+    "colors/pink/800": "#ad1f66",
+    "colors/pink/900": "#8b1852",
+    "colors/pink/950": "#68123d",
+    "colors/teal/50": "#e4fbf8",
+    "colors/teal/100": "#d0fbf5",
+    "colors/teal/200": "#c2f5ee",
+    "colors/teal/300": "#84ebdd",
+    "colors/teal/400": "#3fdec9",
+    "colors/teal/500": "#22d3bb",
+    "colors/teal/600": "#1daf9c",
+    "colors/teal/700": "#178c7d",
+    "colors/teal/800": "#1a7569",
+    "colors/teal/900": "#16645a",
+    "colors/teal/950": "#0b463e",
+    "colors/alpha/white/alpha-10": "#ffffff1a",
+    "colors/alpha/white/alpha-16": "#ffffff29",
+    "colors/alpha/white/alpha-24": "#ffffff3d",
+    "colors/alpha/black/alpha-10": "#0307121a",
+    "colors/alpha/black/alpha-16": "#03071229",
+    "colors/alpha/black/alpha-24": "#0307123d",
+    "colors/alpha/gray/alpha-10": "#6a72821a",
+    "colors/alpha/gray/alpha-16": "#6a728229",
+    "colors/alpha/gray/alpha-24": "#6a72823d",
+    "colors/alpha/blue/alpha-10": "#2b7fff1a",
+    "colors/alpha/blue/alpha-16": "#2b7fff29",
+    "colors/alpha/blue/alpha-24": "#2b7fff3d",
+    "colors/alpha/red/alpha-10": "#fb2c361a",
+    "colors/alpha/red/alpha-16": "#fb2c3629",
+    "colors/alpha/red/alpha-24": "#fb2c363d",
+    "colors/alpha/orange/alpha-10": "#ff69001a",
+    "colors/alpha/orange/alpha-16": "#ff690029",
+    "colors/alpha/orange/alpha-24": "#ff69003d",
+    "colors/alpha/yellow/alpha-10": "#fe9a001a",
+    "colors/alpha/yellow/alpha-16": "#fe9a0029",
+    "colors/alpha/yellow/alpha-24": "#fe9a003d",
+    "colors/alpha/green/alpha-10": "#22c55e1a",
+    "colors/alpha/green/alpha-16": "#22c55e29",
+    "colors/alpha/green/alpha-24": "#22c55e3d",
+    "colors/alpha/purple/alpha-10": "#7d52f41a",
+    "colors/alpha/purple/alpha-16": "#7d52f429",
+    "colors/alpha/purple/alpha-24": "#7d52f43d",
+    "colors/alpha/sky/alpha-10": "#47c2ff1a",
+    "colors/alpha/sky/alpha-16": "#47c2ff29",
+    "colors/alpha/sky/alpha-24": "#47c2ff3d",
+    "colors/alpha/pink/alpha-10": "#fb4ba31a",
+    "colors/alpha/pink/alpha-16": "#fb4ba329",
+    "colors/alpha/pink/alpha-24": "#fb4ba33d",
+    "colors/alpha/teal/alpha-10": "#22d3bb1a",
+    "colors/alpha/teal/alpha-16": "#22d3bb29",
+    "colors/alpha/teal/alpha-24": "#22d3bb3d",
+    "dimensions/spacing/0": 0,
+    "dimensions/spacing/px": 1,
+    "dimensions/spacing/1": 4,
+    "dimensions/spacing/1,5": 6,
+    "dimensions/spacing/2": 8,
+    "dimensions/spacing/3": 12,
+    "dimensions/spacing/4": 16,
+    "dimensions/spacing/5": 20,
+    "dimensions/spacing/6": 24,
+    "dimensions/spacing/7": 28,
+    "dimensions/spacing/8": 32,
+    "dimensions/spacing/9": 36,
+    "dimensions/spacing/10": 40,
+    "dimensions/spacing/11": 44,
+    "dimensions/spacing/12": 48,
+    "dimensions/spacing/14": 56,
+    "dimensions/spacing/16": 64,
+    "dimensions/spacing/20": 80,
+    "dimensions/spacing/24": 96,
+    "dimensions/spacing/32": 128,
+    "dimensions/spacing/40": 160,
+    "dimensions/radius/none": 0,
+    "dimensions/radius/sm": 2,
+    "dimensions/radius/base": 4,
+    "dimensions/radius/md": 6,
+    "dimensions/radius/lg": 8,
+    "dimensions/radius/xl": 12,
+    "dimensions/radius/2xl": 16,
+    "dimensions/radius/3xl": 24,
+    "dimensions/radius/full": 9999,
+    "dimensions/border/0,75": 0.75,
+    "dimensions/border/1": 1,
+    "dimensions/border/2": 2,
+    "dimensions/border/4": 4,
+    "typography/fontFamily/Body": "Geist",
+    "typography/fontFamily/Heading": "Geist",
+    "typography/fontSize/xs": 12,
+    "typography/fontSize/sm": 14,
+    "typography/fontSize/base": 16,
+    "typography/fontSize/lg": 18,
+    "typography/fontSize/xl": 20,
+    "typography/fontSize/2xl": 24,
+    "typography/fontSize/3xl": 30,
+    "typography/fontSize/4xl": 36,
+    "typography/fontSize/5xl": 48,
+    "typography/fontSize/6xl": 60,
+    "typography/lineHeight/xs": 16,
+    "typography/lineHeight/sm": 20,
+    "typography/lineHeight/base": 24,
+    "typography/lineHeight/lg": 28,
+    "typography/lineHeight/xl": 28,
+    "typography/lineHeight/2xl": 32,
+    "typography/lineHeight/3xl": 36,
+    "typography/lineHeight/4xl": 40,
+    "typography/lineHeight/5xl": 52,
+    "typography/lineHeight/6xl": 64,
+    "typography/fontWeight/default": 400,
+    "typography/fontWeight/emphasized": 600,
+    "typography/letterSpacing/tight": -0.02,
+    "typography/letterSpacing/normal": 0,
+    "typography/letterSpacing/wide": 0.02,
+  },
+  semantic: {
+    "static/white-0": { light: "colors/gray/0", dark: "colors/gray/0" },
+    "static/black-950": { light: "colors/gray/950", dark: "colors/gray/950" },
+    "bg/white-0": { light: "colors/gray/0", dark: "colors/gray/950" },
+    "bg/weak-50": { light: "colors/gray/50", dark: "colors/gray/800" },
+    "bg/soft-200": { light: "colors/gray/200", dark: "colors/gray/700" },
+    "bg/sub-300": { light: "colors/gray/300", dark: "colors/gray/600" },
+    "bg/surface-800": { light: "colors/gray/800", dark: "colors/gray/200" },
+    "bg/strong-950": { light: "colors/gray/950", dark: "colors/gray/0" },
+    "text/white-0": { light: "colors/gray/0", dark: "colors/gray/950" },
+    "text/disabled-300": { light: "colors/gray/300", dark: "colors/gray/600" },
+    "text/soft-400": { light: "colors/gray/400", dark: "colors/gray/500" },
+    "text/sub-600": { light: "colors/gray/600", dark: "colors/gray/400" },
+    "text/strong-950": { light: "colors/gray/950", dark: "colors/gray/0" },
+    "fg/white-0": { light: "colors/gray/0", dark: "colors/gray/950" },
+    "fg/disabled-300": { light: "colors/gray/300", dark: "colors/gray/600" },
+    "fg/soft-400": { light: "colors/gray/400", dark: "colors/gray/500" },
+    "fg/sub-600": { light: "colors/gray/600", dark: "colors/gray/400" },
+    "fg/strong-950": { light: "colors/gray/950", dark: "colors/gray/0" },
+    "border/white-0": { light: "colors/gray/0", dark: "colors/gray/950" },
+    "border/soft-200": { light: "colors/gray/200", dark: "colors/gray/800" },
+    "border/sub-300": { light: "colors/gray/300", dark: "colors/gray/600" },
+    "border/strong-950": { light: "colors/gray/950", dark: "colors/gray/0" },
+    "brand/lighter": { light: "colors/blue/50", dark: "colors/blue/950" },
+    "brand/light": { light: "colors/blue/100", dark: "colors/blue/900" },
+    "brand/base": { light: "colors/blue/500", dark: "colors/blue/500" },
+    "brand/dark": { light: "colors/blue/700", dark: "colors/blue/300" },
+    "brand/darker": { light: "colors/blue/800", dark: "colors/blue/200" },
+    "brand/alpha-10": { light: "colors/alpha/blue/alpha-10", dark: "colors/alpha/blue/alpha-10" },
+    "brand/alpha-16": { light: "colors/alpha/blue/alpha-16", dark: "colors/alpha/blue/alpha-16" },
+    "brand/alpha-24": { light: "colors/alpha/blue/alpha-24", dark: "colors/alpha/blue/alpha-24" },
+    "state/faded/lighter-100": { light: "colors/gray/100", dark: "colors/alpha/gray/alpha-16" },
+    "state/faded/light-200": { light: "colors/gray/200", dark: "colors/alpha/gray/alpha-24" },
+    "state/faded/base-500": { light: "colors/gray/500", dark: "colors/gray/500" },
+    "state/faded/dark-950": { light: "colors/gray/950", dark: "colors/gray/300" },
+    "state/information/lighter-50": { light: "colors/blue/50", dark: "colors/alpha/blue/alpha-16" },
+    "state/information/light-200": { light: "colors/blue/200", dark: "colors/alpha/blue/alpha-24" },
+    "state/information/base-500": { light: "colors/blue/500", dark: "colors/blue/500" },
+    "state/information/dark-950": { light: "colors/blue/950", dark: "colors/blue/400" },
+    "state/error/lighter-50": { light: "colors/red/50", dark: "colors/alpha/red/alpha-16" },
+    "state/error/light-200": { light: "colors/red/200", dark: "colors/alpha/red/alpha-24" },
+    "state/error/base-500": { light: "colors/red/500", dark: "colors/red/600" },
+    "state/error/dark-950": { light: "colors/red/950", dark: "colors/red/400" },
+    "state/warning/lighter-50": { light: "colors/orange/50", dark: "colors/alpha/orange/alpha-16" },
+    "state/warning/light-200": { light: "colors/orange/200", dark: "colors/alpha/orange/alpha-24" },
+    "state/warning/base-500": { light: "colors/orange/500", dark: "colors/orange/600" },
+    "state/warning/dark-950": { light: "colors/yellow/950", dark: "colors/orange/400" },
+    "state/away/lighter-50": { light: "colors/yellow/50", dark: "colors/alpha/yellow/alpha-16" },
+    "state/away/light-200": { light: "colors/yellow/200", dark: "colors/alpha/yellow/alpha-24" },
+    "state/away/base-500": { light: "colors/yellow/500", dark: "colors/yellow/600" },
+    "state/away/dark-950": { light: "colors/yellow/950", dark: "colors/yellow/400" },
+    "state/success/lighter-50": { light: "colors/green/50", dark: "colors/alpha/green/alpha-10" },
+    "state/success/light-200": { light: "colors/green/200", dark: "colors/alpha/green/alpha-16" },
+    "state/success/base-500": { light: "colors/green/500", dark: "colors/green/600" },
+    "state/success/dark-950": { light: "colors/green/950", dark: "colors/green/400" },
+    "state/feature/lighter-50": { light: "colors/purple/50", dark: "colors/alpha/purple/alpha-16" },
+    "state/feature/light-200": { light: "colors/purple/200", dark: "colors/alpha/purple/alpha-24" },
+    "state/feature/base-500": { light: "colors/purple/500", dark: "colors/purple/500" },
+    "state/feature/dark-950": { light: "colors/purple/950", dark: "colors/purple/400" },
+    "state/verified/lighter-50": { light: "colors/sky/50", dark: "colors/alpha/sky/alpha-16" },
+    "state/verified/light-200": { light: "colors/sky/200", dark: "colors/alpha/sky/alpha-24" },
+    "state/verified/base-500": { light: "colors/sky/500", dark: "colors/sky/600" },
+    "state/verified/dark-950": { light: "colors/sky/950", dark: "colors/sky/400" },
+    "state/highlighted/lighter-50": { light: "colors/pink/50", dark: "colors/alpha/pink/alpha-16" },
+    "state/highlighted/light-200": { light: "colors/pink/200", dark: "colors/alpha/pink/alpha-24" },
+    "state/highlighted/base-500": { light: "colors/pink/500", dark: "colors/pink/600" },
+    "state/highlighted/dark-950": { light: "colors/pink/950", dark: "colors/pink/400" },
+    "state/stable/lighter-50": { light: "colors/teal/50", dark: "colors/alpha/teal/alpha-16" },
+    "state/stable/light-200": { light: "colors/teal/200", dark: "colors/alpha/teal/alpha-24" },
+    "state/stable/base-500": { light: "colors/teal/500", dark: "colors/teal/600" },
+    "state/stable/dark-950": { light: "colors/teal/950", dark: "colors/teal/400" },
+  },
+  textStyles: {
+    "6xl/default": ["Heading", "6xl", "default", "tight"],
+    "6xl/emphasized": ["Heading", "6xl", "emphasized", "tight"],
+    "5xl/default": ["Heading", "5xl", "default", "tight"],
+    "5xl/emphasized": ["Heading", "5xl", "emphasized", "tight"],
+    "4xl/default": ["Heading", "4xl", "default", "tight"],
+    "4xl/emphasized": ["Heading", "4xl", "emphasized", "tight"],
+    "3xl/default": ["Heading", "3xl", "default", "tight"],
+    "3xl/emphasized": ["Heading", "3xl", "emphasized", "tight"],
+    "2xl/default": ["Body", "2xl", "default", "normal"],
+    "2xl/emphasized": ["Body", "2xl", "emphasized", "normal"],
+    "xl/default": ["Body", "xl", "default", "normal"],
+    "xl/emphasized": ["Body", "xl", "emphasized", "normal"],
+    "lg/default": ["Body", "lg", "default", "normal"],
+    "lg/emphasized": ["Body", "lg", "emphasized", "normal"],
+    "base/default": ["Body", "base", "default", "normal"],
+    "base/emphasized": ["Body", "base", "emphasized", "normal"],
+    "sm/default": ["Body", "sm", "default", "wide"],
+    "sm/emphasized": ["Body", "sm", "emphasized", "wide"],
+    "xs/default": ["Body", "xs", "default", "wide"],
+    "xs/emphasized": ["Body", "xs", "emphasized", "wide"],
+  },
+};
+
+function primVar(name) {
+  if (name.startsWith("colors/alpha/")) {
+    const [, hue, token] = name.replace("colors/alpha/", "").match(/([^/]+)\/alpha-(.+)/);
+    return `alpha-${hue}-${token}`;
+  }
+  if (name.startsWith("colors/")) return name.replace("colors/", "").replaceAll("/", "-");
+  if (name.startsWith("dimensions/spacing/")) return `spacing-${name.split("/")[2].replace(",", "-")}`;
+  if (name.startsWith("dimensions/radius/")) return `radius-${name.split("/")[2]}`;
+  if (name.startsWith("dimensions/border/")) return `border-width-${name.split("/")[2].replace(",", "-")}`;
+  if (name.startsWith("typography/fontFamily/")) return `font-family-${name.split("/")[2].toLowerCase()}`;
+  if (name.startsWith("typography/fontSize/")) return `font-size-${name.split("/")[2]}`;
+  if (name.startsWith("typography/lineHeight/")) return `line-height-${name.split("/")[2]}`;
+  if (name.startsWith("typography/fontWeight/")) return `font-weight-${name.split("/")[2]}`;
+  if (name.startsWith("typography/letterSpacing/")) return `letter-spacing-${name.split("/")[2]}`;
+  throw new Error(`Unknown primitive ${name}`);
+}
+
+function semVar(name) {
+  return name.replaceAll("/", "-");
+}
+
+function hexToCss(hex) {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  if (h.length >= 8) {
+    const a = Math.round((parseInt(h.slice(6, 8), 16) / 255) * 1000) / 1000;
+    return `${r} ${g} ${b} / ${a}`;
+  }
+  return `${r} ${g} ${b}`;
+}
+
+function isAlphaPrimitive(name) {
+  return name.startsWith("colors/alpha/");
+}
+
+function usesAlpha(entry) {
+  return isAlphaPrimitive(entry.light) || isAlphaPrimitive(entry.dark);
+}
+
+function aliasValue(target) {
+  return `var(--${primVar(target)})`;
+}
+
+function groupComment(title) {
+  return `\n  /* ${title} */`;
+}
+
+function generateCss(tokens) {
+  const primLines = [];
+  let lastGroup = "";
+  for (const [name, value] of Object.entries(tokens.primitives)) {
+    const group = name.split("/").slice(0, 2).join("/");
+    if (group !== lastGroup) {
+      primLines.push(groupComment(group));
+      lastGroup = group;
+    }
+    const ident = primVar(name);
+    if (typeof value === "string" && value.startsWith("#")) {
+      primLines.push(`  --${ident}: ${hexToCss(value)};`);
+    } else if (name.startsWith("typography/fontFamily/")) {
+      primLines.push(
+        `  --${ident}: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;`,
+      );
+    } else if (name.startsWith("typography/letterSpacing/")) {
+      primLines.push(`  --${ident}: ${value}px;`);
+    } else if (name.startsWith("typography/fontWeight/")) {
+      primLines.push(`  --${ident}: ${value};`);
+    } else {
+      primLines.push(`  --${ident}: ${value}px;`);
+    }
+  }
+
+  const light = [];
+  const dark = [];
+  lastGroup = "";
+  for (const [name, entry] of Object.entries(tokens.semantic)) {
+    const group = name.split("/")[0];
+    if (group !== lastGroup) {
+      light.push(groupComment(`tokens / ${group}`));
+      dark.push(groupComment(`tokens / ${group}`));
+      lastGroup = group;
+    }
+    const ident = semVar(name);
+    if (usesAlpha(entry)) {
+      light.push(`  --${ident}: rgb(${aliasValue(entry.light)});`);
+      dark.push(`  --${ident}: rgb(${aliasValue(entry.dark)});`);
+    } else {
+      light.push(`  --${ident}: ${aliasValue(entry.light)};`);
+      dark.push(`  --${ident}: ${aliasValue(entry.dark)};`);
+    }
+  }
+
+  const typeLines = [groupComment("text styles")];
+  for (const [name, [family, size, weight, tracking]] of Object.entries(tokens.textStyles)) {
+    const ident = `type-${name.replace("/", "-")}`;
+    typeLines.push(
+      `  --${ident}-font: var(--font-family-${family.toLowerCase()});`,
+      `  --${ident}-size: var(--font-size-${size});`,
+      `  --${ident}-leading: var(--line-height-${size});`,
+      `  --${ident}-weight: var(--font-weight-${weight});`,
+      `  --${ident}-tracking: var(--letter-spacing-${tracking});`,
+    );
+  }
+
+  const typeClasses = Object.keys(tokens.textStyles).map((name) => {
+    const ident = `type-${name.replace("/", "-")}`;
+    return `.${ident} {
+  font-family: var(--${ident}-font);
+  font-size: var(--${ident}-size);
+  line-height: var(--${ident}-leading);
+  font-weight: var(--${ident}-weight);
+  letter-spacing: var(--${ident}-tracking);
+}`;
+  });
+
+  return `/*
+ * Appetite UI tokens.
+ * Source: ${tokens.source.url}
+ * Generated by scripts/build-tokens.mjs — do not edit by hand.
+ *
+ * Primitives (Foundations collection) are raw values.
+ * Semantic tokens (Tokens collection) alias a primitive per Light / Dark mode.
+ * Values for opaque colors are space-separated RGB channels so Tailwind
+ * opacity modifiers work (bg-bg-white-0/90). Alpha primitives already include
+ * an alpha channel; semantic tokens that point at them are stored as complete
+ * rgb() colors and do not take opacity modifiers.
+ *
+ * Text styles from the Figma file are available as .type-5xl-emphasized, etc.
+ */
+
+:root {${primLines.join("\n")}
+${light.join("\n")}
+${typeLines.join("\n")}
+
+  color-scheme: light;
+}
+
+.dark {${dark.join("\n")}
+
+  color-scheme: dark;
+}
+
+${typeClasses.join("\n\n")}
+`;
+}
+
+const css = generateCss(TOKENS);
+fs.mkdirSync(path.join(root, "src/design"), { recursive: true });
+fs.writeFileSync(path.join(root, "src/design/appetite-tokens.json"), JSON.stringify(TOKENS, null, 2) + "\n");
+fs.writeFileSync(path.join(root, "src/app/tokens.css"), css);
+console.log("wrote src/app/tokens.css and src/design/appetite-tokens.json");

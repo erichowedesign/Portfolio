@@ -11,17 +11,17 @@ export function CaseStudyLayout({ project }: { project: CaseStudy }) {
       <header className="mx-auto max-w-content px-6">
         <Link
           href={back.href}
-          className="mb-8 inline-block text-sm text-ink-muted transition hover:text-ink"
+          className="mb-8 inline-block text-sm text-text-sub-600 transition hover:text-text-strong-950"
         >
           ← {back.label}
         </Link>
-        <p className="mb-3 text-xs font-medium uppercase tracking-wider text-ink-faint">
+        <p className="mb-3 text-xs font-medium uppercase tracking-wider text-text-soft-400">
           Case study · {project.category} · {project.year}
         </p>
-        <h1 className="mb-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+        <h1 className="mb-4 text-3xl font-semibold tracking-tight text-text-strong-950 sm:text-4xl">
           {project.title}
         </h1>
-        <p className="mb-10 text-lg leading-relaxed text-ink-muted">
+        <p className="mb-10 text-lg leading-relaxed text-text-sub-600">
           {project.overview}
         </p>
         <MetaList items={project.meta} />
@@ -35,10 +35,10 @@ export function CaseStudyLayout({ project }: { project: CaseStudy }) {
         {project.highlights.map((item) => (
           <div
             key={item.label}
-            className="flex flex-col-reverse rounded-xl border border-surface-border bg-surface-card p-5"
+            className="flex flex-col-reverse rounded-xl border border-border-soft-200 bg-bg-white-0 p-5"
           >
-            <dt className="mt-1 text-sm text-ink-muted">{item.label}</dt>
-            <dd className="text-3xl font-semibold tracking-tight text-ink">{item.value}</dd>
+            <dt className="mt-1 text-sm text-text-sub-600">{item.label}</dt>
+            <dd className="text-3xl font-semibold tracking-tight text-text-strong-950">{item.value}</dd>
           </div>
         ))}
       </dl>

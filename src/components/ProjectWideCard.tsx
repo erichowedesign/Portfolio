@@ -14,7 +14,7 @@ export function ProjectWideCard({ project }: { project: Project }) {
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-surface px-2.5 py-0.5 text-xs text-ink-muted"
+              className="rounded-full bg-bg-weak-50 px-2.5 py-0.5 text-xs text-text-sub-600"
             >
               {tag}
             </span>

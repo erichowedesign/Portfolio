@@ -30,7 +30,7 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label="Toggle dark mode"
       title="Toggle dark mode"
-      className="-m-1.5 rounded-md p-1.5 text-ink-muted transition hover:text-ink"
+      className="-m-1.5 rounded-md p-1.5 text-text-sub-600 transition hover:text-text-strong-950"
     >
       <svg
         className="h-4 w-4 dark:hidden"

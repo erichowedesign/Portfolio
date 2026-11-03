@@ -14,13 +14,13 @@ export function CollectionCard({ collection }: { collection: Collection }) {
       title={collection.title}
       summary={collection.summary}
       badge={
-        <p className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-surface-border px-2.5 py-1 text-xs font-medium text-ink-muted">
+        <p className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-border-soft-200 px-2.5 py-1 text-xs font-medium text-text-sub-600">
           <LockIcon />
           Password protected
         </p>
       }
       footer={
-        <p className="text-sm text-ink-faint">
+        <p className="text-sm text-text-soft-400">
           {caseStudyCount} case {caseStudyCount === 1 ? "study" : "studies"} ·{" "}
           {projectCount} {projectCount === 1 ? "project" : "projects"}
         </p>

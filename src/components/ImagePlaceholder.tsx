@@ -24,7 +24,7 @@ export function ImagePlaceholder({
     <figure className={className}>
       {slot.src ? <RealImage slot={slot} sizes={sizes} /> : <Wireframe slot={slot} />}
       {slot.caption && (
-        <figcaption className="mt-2 text-sm text-ink-faint">{slot.caption}</figcaption>
+        <figcaption className="mt-2 text-sm text-text-soft-400">{slot.caption}</figcaption>
       )}
     </figure>
   );
@@ -36,7 +36,7 @@ function RealImage({ slot, sizes }: { slot: ImageSlot; sizes: string }) {
   if (slot.aspect) {
     return (
       <div
-        className={`relative overflow-hidden rounded-lg border border-surface-border bg-surface-card ${aspectClass[slot.aspect]}`}
+        className={`relative overflow-hidden rounded-lg border border-border-soft-200 bg-bg-white-0 ${aspectClass[slot.aspect]}`}
       >
         <Image src={src} alt={slot.label} fill sizes={sizes} className="object-cover object-top" />
       </div>
@@ -50,7 +50,7 @@ function RealImage({ slot, sizes }: { slot: ImageSlot; sizes: string }) {
       width={slot.width}
       height={slot.height}
       sizes={sizes}
-      className="h-auto w-full rounded-lg border border-surface-border"
+      className="h-auto w-full rounded-lg border border-border-soft-200"
     />
   );
 }
@@ -58,10 +58,10 @@ function RealImage({ slot, sizes }: { slot: ImageSlot; sizes: string }) {
 function Wireframe({ slot }: { slot: ImageSlot }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-lg border border-surface-border bg-surface-card ${aspectClass[slot.aspect ?? "landscape"]}`}
+      className={`relative overflow-hidden rounded-lg border border-border-soft-200 bg-bg-white-0 ${aspectClass[slot.aspect ?? "landscape"]}`}
     >
       <svg
-        className="absolute inset-0 h-full w-full text-surface-border"
+        className="absolute inset-0 h-full w-full text-border-soft-200"
         preserveAspectRatio="none"
         viewBox="0 0 100 100"
         aria-hidden
@@ -69,7 +69,7 @@ function Wireframe({ slot }: { slot: ImageSlot }) {
         <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" vectorEffect="non-scaling-stroke" />
         <line x1="100" y1="0" x2="0" y2="100" stroke="currentColor" vectorEffect="non-scaling-stroke" />
       </svg>
-      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-surface-card px-2 py-1 text-xs font-medium uppercase tracking-wider text-ink-faint">
+      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap rounded bg-bg-white-0 px-2 py-1 text-xs font-medium uppercase tracking-wider text-text-soft-400">
         {slot.label}
       </span>
     </div>

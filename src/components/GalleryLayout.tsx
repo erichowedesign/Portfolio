@@ -10,20 +10,20 @@ export function GalleryLayout({ project }: { project: GalleryProject }) {
       <header className="mx-auto max-w-wide px-6">
         <Link
           href={back.href}
-          className="mb-8 inline-block text-sm text-ink-muted transition hover:text-ink"
+          className="mb-8 inline-block text-sm text-text-sub-600 transition hover:text-text-strong-950"
         >
           ← {back.label}
         </Link>
         <div className="grid gap-8 sm:grid-cols-[2fr_1fr]">
           <div>
-            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-ink-faint">
+            <p className="mb-3 text-xs font-medium uppercase tracking-wider text-text-soft-400">
               {project.category} · {project.year}
             </p>
-            <h1 className="mb-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            <h1 className="mb-4 text-3xl font-semibold tracking-tight text-text-strong-950 sm:text-4xl">
               {project.title}
             </h1>
             {project.description.map((paragraph) => (
-              <p key={paragraph} className="mb-4 text-lg leading-relaxed text-ink-muted">
+              <p key={paragraph} className="mb-4 text-lg leading-relaxed text-text-sub-600">
                 {paragraph}
               </p>
             ))}
@@ -31,10 +31,10 @@ export function GalleryLayout({ project }: { project: GalleryProject }) {
           <dl className="space-y-4 sm:pt-8">
             {project.meta.map((item) => (
               <div key={item.label}>
-                <dt className="text-xs font-medium uppercase tracking-wider text-ink-faint">
+                <dt className="text-xs font-medium uppercase tracking-wider text-text-soft-400">
                   {item.label}
                 </dt>
-                <dd className="mt-1 text-sm text-ink">{item.value}</dd>
+                <dd className="mt-1 text-sm text-text-strong-950">{item.value}</dd>
               </div>
             ))}
           </dl>

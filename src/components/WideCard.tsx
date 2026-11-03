@@ -16,18 +16,18 @@ export function WideCard({ href, cover, eyebrow, title, summary, badge, footer }
   return (
     <Link
       href={href}
-      className="group grid gap-6 rounded-xl border border-surface-border bg-surface-card p-4 transition hover:border-ink/20 hover:shadow-sm sm:grid-cols-[3fr_2fr] sm:items-center"
+      className="group grid gap-6 rounded-xl border border-border-soft-200 bg-bg-white-0 p-4 transition hover:border-border-sub-300 hover:shadow-sm sm:grid-cols-[3fr_2fr] sm:items-center"
     >
       <ImagePlaceholder slot={{ ...cover, aspect: "video" }} />
       <div className="px-2 pb-2 sm:pr-6">
         {badge}
-        <p className="mb-2 text-xs font-medium uppercase tracking-wider text-ink-faint">
+        <p className="mb-2 text-xs font-medium uppercase tracking-wider text-text-soft-400">
           {eyebrow}
         </p>
-        <h3 className="mb-2 text-2xl font-semibold tracking-tight text-ink group-hover:text-accent">
+        <h3 className="mb-2 text-2xl font-semibold tracking-tight text-text-strong-950 group-hover:text-brand-base">
           {title}
         </h3>
-        <p className="mb-4 text-sm leading-relaxed text-ink-muted">{summary}</p>
+        <p className="mb-4 text-sm leading-relaxed text-text-sub-600">{summary}</p>
         {footer}
       </div>
     </Link>

@@ -46,7 +46,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-surface font-sans text-ink antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-bg-weak-50 font-sans text-text-strong-950 antialiased`}
       >
         {underConstruction ? (
           <main>

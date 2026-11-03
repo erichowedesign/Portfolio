@@ -13,20 +13,20 @@ export default function NikePage() {
       <section className="mx-auto max-w-wide px-6 pb-16 pt-20">
         <Link
           href="/#work"
-          className="mb-8 inline-block text-sm text-ink-muted transition hover:text-ink"
+          className="mb-8 inline-block text-sm text-text-sub-600 transition hover:text-text-strong-950"
         >
           ← Back home
         </Link>
-        <p className="mb-4 text-sm font-medium uppercase tracking-wider text-ink-faint">
+        <p className="mb-4 text-sm font-medium uppercase tracking-wider text-text-soft-400">
           {nikeCollection.period}
         </p>
-        <h1 className="max-w-content text-4xl font-semibold leading-tight tracking-tight text-ink sm:text-5xl">
+        <h1 className="max-w-content text-4xl font-semibold leading-tight tracking-tight text-text-strong-950 sm:text-5xl">
           {nikeCollection.title}
         </h1>
         {nikeCollection.intro.map((paragraph) => (
           <p
             key={paragraph}
-            className="mt-6 max-w-content text-lg leading-relaxed text-ink-muted"
+            className="mt-6 max-w-content text-lg leading-relaxed text-text-sub-600"
           >
             {paragraph}
           </p>

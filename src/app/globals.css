@@ -8,25 +8,25 @@
   }
 
   ::selection {
-    @apply bg-selection;
+    @apply bg-brand-light;
   }
 }
 
 @layer components {
   .prose-case h2 {
-    @apply mt-12 mb-4 text-xl font-semibold tracking-tight text-ink;
+    @apply mt-12 mb-4 text-xl font-semibold tracking-tight text-text-strong-950;
   }
 
   .prose-case h3 {
-    @apply mt-8 mb-3 text-base font-semibold text-ink;
+    @apply mt-8 mb-3 text-base font-semibold text-text-strong-950;
   }
 
   .prose-case p {
-    @apply mb-4 leading-relaxed text-ink-muted;
+    @apply mb-4 leading-relaxed text-text-sub-600;
   }
 
   .prose-case ul {
-    @apply mb-4 list-disc space-y-2 pl-5 text-ink-muted;
+    @apply mb-4 list-disc space-y-2 pl-5 text-text-sub-600;
   }
 
   .prose-case li {
@@ -34,6 +34,6 @@
   }
 
   .prose-case strong {
-    @apply font-medium text-ink;
+    @apply font-medium text-text-strong-950;
   }
 }

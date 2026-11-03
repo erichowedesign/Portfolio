@@ -9,7 +9,7 @@ export function ProjectSections({ projects }: { projects: Project[] }) {
     <>
       {caseStudies.length > 0 && (
         <section className="mx-auto max-w-wide px-6 pb-16">
-          <h2 className="mb-8 text-sm font-medium uppercase tracking-wider text-ink-faint">
+          <h2 className="mb-8 text-sm font-medium uppercase tracking-wider text-text-soft-400">
             Case studies
           </h2>
           <div className="grid gap-6 sm:grid-cols-2">
@@ -22,7 +22,7 @@ export function ProjectSections({ projects }: { projects: Project[] }) {
 
       {galleryProjects.length > 0 && (
         <section className="mx-auto max-w-wide px-6 pb-20">
-          <h2 className="mb-8 text-sm font-medium uppercase tracking-wider text-ink-faint">
+          <h2 className="mb-8 text-sm font-medium uppercase tracking-wider text-text-soft-400">
             More projects
           </h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
