@@ -47,17 +47,17 @@ export default async function UnlockPage({ searchParams }: Props) {
             autoComplete="current-password"
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? "password-error" : undefined}
-            className="w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2.5 text-ink outline-none transition focus:border-ink/40 aria-[invalid=true]:border-red-400"
+            className="w-full rounded-lg border border-surface-border bg-surface-card px-3 py-2.5 text-ink outline-none transition focus:border-ink/40 aria-[invalid=true]:border-danger"
           />
         </label>
         {error && (
-          <p id="password-error" className="text-sm text-red-600">
+          <p id="password-error" className="text-sm text-danger">
             That password didn&apos;t work. Try again.
           </p>
         )}
         <button
           type="submit"
-          className="w-full rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-white transition hover:bg-ink/90"
+          className="w-full rounded-lg bg-ink px-5 py-2.5 text-sm font-medium text-ink-inverse transition hover:bg-ink/90"
         >
           View work
         </button>

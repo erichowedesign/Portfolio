@@ -1,3 +1,6 @@
+/** Semantic color tokens are defined per theme in src/app/tokens.css. */
+const token = (name: string) => `rgb(var(--color-${name}) / <alpha-value>)`;
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -5,23 +8,27 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
         ink: {
-          DEFAULT: "#111111",
-          muted: "#555555",
-          faint: "#888888",
+          DEFAULT: token("ink"),
+          muted: token("ink-muted"),
+          faint: token("ink-faint"),
+          inverse: token("ink-inverse"),
         },
         surface: {
-          DEFAULT: "#fafafa",
-          card: "#ffffff",
-          border: "#e8e8e8",
+          DEFAULT: token("surface"),
+          card: token("surface-card"),
+          border: token("surface-border"),
         },
         accent: {
-          DEFAULT: "#2563eb",
-          hover: "#1d4ed8",
+          DEFAULT: token("accent"),
+          hover: token("accent-hover"),
         },
+        danger: token("danger"),
+        selection: token("selection"),
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],

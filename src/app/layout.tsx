@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import "./tokens.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { UnderConstruction } from "@/components/UnderConstruction";
+import { themeInitScript } from "@/lib/theme";
 
 // Set to "true" for Vercel Production only; previews and local dev show the full site.
 const underConstruction = process.env.UNDER_CONSTRUCTION === "true";
@@ -39,7 +41,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-surface font-sans text-ink antialiased`}
       >

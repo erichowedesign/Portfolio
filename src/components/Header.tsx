@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/data/projects";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const nav = [
   { href: "/#work", label: "Work" },
@@ -27,6 +28,7 @@ export function Header() {
               {item.label}
             </Link>
           ))}
+          <ThemeToggle />
         </nav>
       </div>
     </header>

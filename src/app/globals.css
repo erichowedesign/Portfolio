@@ -8,7 +8,7 @@
   }
 
   ::selection {
-    background-color: #dbeafe;
+    @apply bg-selection;
   }
 }
 
