@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Chela_One, Geist, Geist_Mono, Inter } from "next/font/google";
 import "./tokens.css";
 import "./globals.css";
+import { ContactDock } from "@/components/ContactRow";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
@@ -71,6 +72,7 @@ export default function RootLayout({
             <PageTransition />
             <Header />
             <main>{children}</main>
+            <ContactDock />
             <Footer />
           </>
         )}

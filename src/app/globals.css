@@ -27,14 +27,20 @@
       max-width: 1440px;
     }
 
-    html:has(.split-stage) body > footer {
+    html:has(.split-stage) body > footer:not(.site-contact-dock),
+    html:has(.nike-case) body > footer:not(.site-contact-dock) {
       display: none;
+    }
+
+    html:has(.nike-case) {
+      overflow: hidden;
     }
   }
 
   body:has(.split-stage) > header,
+  body:has(.nike-case) > header,
   body:has(.home-stage) > header,
-  body:has(.home-stage) > footer {
+  body:has(.home-stage) > footer:not(.site-contact-dock) {
     display: none;
   }
 
@@ -49,14 +55,227 @@
   }
 }
 
-/* Project changes crossfade. Next and Previous also travel with the button. The nav stays still. */
+/* Project changes crossfade. Next and Previous also travel with the button. The nav stays still.
+   Opening a project from home keeps the image well where it is and lets the clicked thumbnail
+   grow into the first image in the well. */
 header.site-nav {
   view-transition-name: site-nav;
+}
+
+html[data-project-move="enter"] .image-well,
+html[data-project-move="exit"] .image-well,
+html[data-project-move="forward"] .image-well,
+html[data-project-move="back"] .image-well {
+  view-transition-name: image-well;
+}
+
+html[data-project-move="enter"] .project-hero,
+html[data-project-move="exit"] .project-hero {
+  view-transition-name: project-cover;
+}
+
+html[data-cover="child"] .split-stage .project-hero {
+  view-transition-name: none;
+}
+
+html[data-project-move="enter"] .site-name,
+html[data-project-move="exit"] .site-name,
+html[data-project-move="forward"] .site-name,
+html[data-project-move="back"] .site-name {
+  view-transition-name: site-name;
+}
+
+html[data-project-move="enter"] .contact-dock,
+html[data-project-move="exit"] .contact-dock,
+html[data-project-move="forward"] .contact-dock,
+html[data-project-move="back"] .contact-dock {
+  view-transition-name: contact-dock;
+}
+
+html[data-project-move="forward"] .project-nav,
+html[data-project-move="back"] .project-nav {
+  view-transition-name: project-nav;
+}
+
+html[data-project-move="forward"] .project-images,
+html[data-project-move="back"] .project-images {
+  view-transition-name: project-images;
+}
+
+html[data-project-move="enter"] .home-copy,
+html[data-project-move="exit"] .home-copy {
+  view-transition-name: home-copy;
+}
+
+html[data-project-move="enter"] .project-copy,
+html[data-project-move="exit"] .project-copy,
+html[data-project-move="forward"] .project-copy,
+html[data-project-move="back"] .project-copy {
+  view-transition-name: project-copy;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   ::view-transition-group(root) {
     animation-duration: 520ms;
+  }
+
+  html[data-project-move="enter"]::view-transition-group(root),
+  html[data-project-move="exit"]::view-transition-group(root) {
+    z-index: 1;
+  }
+
+  ::view-transition-group(image-well) {
+    animation-duration: 680ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 0;
+  }
+
+  ::view-transition-old(image-well) {
+    animation: none;
+    opacity: 1;
+  }
+
+  ::view-transition-new(image-well) {
+    animation: well-fade-in 680ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-group(project-cover) {
+    animation-duration: 680ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  ::view-transition-old(project-cover),
+  ::view-transition-new(project-cover) {
+    animation-duration: 680ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    mix-blend-mode: normal;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  ::view-transition-group(site-name) {
+    animation-duration: 680ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 3;
+  }
+
+  ::view-transition-old(site-name),
+  ::view-transition-new(site-name) {
+    animation-duration: 680ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    mix-blend-mode: normal;
+    width: 100%;
+    height: 100%;
+  }
+
+  ::view-transition-old(site-name) {
+    animation-name: name-fade-out;
+  }
+
+  ::view-transition-new(site-name) {
+    animation-name: name-fade-in;
+  }
+
+  html[data-project-move="forward"]::view-transition-group(site-name),
+  html[data-project-move="back"]::view-transition-group(site-name),
+  ::view-transition-group(project-nav) {
+    animation: none;
+    z-index: 4;
+  }
+
+  html[data-project-move="forward"]::view-transition-old(site-name),
+  html[data-project-move="back"]::view-transition-old(site-name),
+  ::view-transition-old(project-nav) {
+    animation: none;
+    opacity: 1;
+    mix-blend-mode: normal;
+  }
+
+  html[data-project-move="forward"]::view-transition-new(site-name),
+  html[data-project-move="back"]::view-transition-new(site-name),
+  ::view-transition-new(project-nav) {
+    animation: none;
+    opacity: 0;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-group(project-images) {
+    animation: none;
+    overflow: hidden;
+    border-radius: 10px;
+    z-index: 1;
+  }
+
+  ::view-transition-old(project-images),
+  ::view-transition-new(project-images) {
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: normal;
+    animation-duration: 680ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: both;
+  }
+
+  html[data-project-move="forward"]::view-transition-old(project-images) {
+    animation-name: image-out-forward;
+  }
+
+  html[data-project-move="forward"]::view-transition-new(project-images) {
+    animation-name: image-in-forward;
+  }
+
+  html[data-project-move="back"]::view-transition-old(project-images) {
+    animation-name: image-out-back;
+  }
+
+  html[data-project-move="back"]::view-transition-new(project-images) {
+    animation-name: image-in-back;
+  }
+
+  ::view-transition-group(home-copy),
+  ::view-transition-group(project-copy) {
+    animation: none;
+    z-index: 2;
+  }
+
+  ::view-transition-old(home-copy),
+  ::view-transition-old(project-copy) {
+    animation: text-fade-out 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    mix-blend-mode: normal;
+    object-fit: none;
+    object-position: top left;
+  }
+
+  ::view-transition-new(home-copy),
+  ::view-transition-new(project-copy) {
+    animation: text-fade-in 420ms cubic-bezier(0.4, 0, 0.2, 1) 260ms both;
+    mix-blend-mode: normal;
+    object-fit: none;
+    object-position: top left;
+  }
+
+  ::view-transition-group(contact-dock) {
+    animation-duration: 680ms;
+    z-index: 4;
+  }
+
+  ::view-transition-old(contact-dock),
+  ::view-transition-new(contact-dock) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  ::view-transition-old(contact-dock) {
+    opacity: 1;
+  }
+
+  ::view-transition-new(contact-dock) {
+    opacity: 0;
   }
 
   ::view-transition-old(root),
@@ -74,20 +293,11 @@ header.site-nav {
     animation-name: page-cross-in;
   }
 
-  html[data-project-move="forward"]::view-transition-old(root) {
-    animation-name: page-out-forward;
-  }
-
-  html[data-project-move="forward"]::view-transition-new(root) {
-    animation-name: page-in-forward;
-  }
-
-  html[data-project-move="back"]::view-transition-old(root) {
-    animation-name: page-out-back;
-  }
-
+  html[data-project-move="forward"]::view-transition-old(root),
+  html[data-project-move="forward"]::view-transition-new(root),
+  html[data-project-move="back"]::view-transition-old(root),
   html[data-project-move="back"]::view-transition-new(root) {
-    animation-name: page-in-back;
+    animation: none;
   }
 
   ::view-transition-group(site-nav) {
@@ -100,6 +310,72 @@ header.site-nav {
 
   ::view-transition-new(site-nav) {
     animation: none;
+  }
+}
+
+@keyframes image-out-forward {
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes image-in-forward {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes image-out-back {
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes image-in-back {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes text-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes text-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes name-fade-out {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes name-fade-in {
+  0%,
+  35% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes well-fade-in {
+  from {
+    opacity: 0;
   }
 }
 
@@ -143,9 +419,24 @@ header.site-nav {
   }
 }
 
+/* One contact footer, in the same place on home, project, and Nike pages. */
+.site-contact-dock {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  body:has(.home-stage) .site-contact-dock,
+  body:has(.split-stage) .site-contact-dock,
+  body:has(.nike-case) .site-contact-dock {
+    display: block;
+  }
+}
+
 /* Light project pages use a white canvas. The header shares that fill. */
 html:not(.dark):has(.split-stage) body,
 html:not(.dark):has(.split-stage) header,
+html:not(.dark):has(.nike-case) body,
+html:not(.dark):has(.nike-case) header,
 html:not(.dark):has(.home-stage) body {
   background-color: rgb(var(--gray-0));
 }

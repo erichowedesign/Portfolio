@@ -22,6 +22,8 @@ export type Collection = {
   slug: string;
   title: string;
   period: string;
+  /** Italic line under the title on the collection landing. */
+  subtitle: string;
   /** One line shown on the home page card. */
   summary: string;
   intro: string[];
@@ -73,7 +75,9 @@ export type GalleryProject = ProjectBase & {
   /** Each row holds 1–3 images, displayed side by side. */
   gallery: ImageSlot[][];
   /** "split" is the Figma sidebar + image well. Default is the stacked layout. */
-  presentation?: "stack" | "split";
+  presentation?: "stack" | "split" | "nike-case";
+  /** Small line above the title. Year comes after the dash, e.g. "Nike - 2018". */
+  eyebrow?: string;
   /** Large title in the split sidebar. Falls back to `title`. */
   heading?: string;
   /** Line under the heading in the split sidebar. */
@@ -209,7 +213,43 @@ const galleryDescription = [
   "A short description of the project: what it is, who it was for, and what you contributed. Two or three sentences.",
 ];
 
+const materialLibraryImage = (file: string): ImageSlot => ({
+  label: "Material Library",
+  src: `/nike/media/material-library/${file}`,
+  width: 2880,
+  height: 2048,
+});
+
 export const projects: Project[] = [
+  {
+    kind: "gallery",
+    collection: "nike",
+    slug: "material-library",
+    title: "Material Library",
+    category: "Internal Platform",
+    year: "2018",
+    summary:
+      "Nike's Material Library brought an extensive collection of physical materials into a centralized digital experience.",
+    tags: [],
+    cover: materialLibraryImage("01.png"),
+    meta: [
+      { label: "Client", value: "Nike" },
+      { label: "Year", value: "2018" },
+    ],
+    description: [
+      "Nike's Material Library brought an extensive collection of physical materials into a centralized digital experience. The platform made it easier for footwear and apparel teams to discover, browse, and explore materials, while connecting material information to other tools across Nike's product creation process.",
+    ],
+    gallery: [
+      [materialLibraryImage("01.png")],
+      [materialLibraryImage("02.png")],
+      [materialLibraryImage("03.png")],
+      [materialLibraryImage("04.png")],
+    ],
+    presentation: "nike-case",
+    heading: "Material Library",
+    subheading: "Internal Platform",
+    eyebrow: "Nike - 2018",
+  },
   {
     kind: "case-study",
     collection: "nike",
@@ -329,14 +369,45 @@ export const projects: Project[] = [
 export const nikeCollection: Collection = {
   slug: "nike",
   title: "Nike",
-  period: "2018 – 2026",
-  summary: "One-line summary of the body of work at Nike.",
+  period: "Nike - 2018-2026",
+  subtitle: "Digital Product Creation",
+  summary: "Digital Product Creation - 2018-2026",
   intro: [
-    "A short introduction to your time at Nike: the teams you were part of, the kinds of products you designed, and the scope of your role. Two or three sentences.",
-    "Optional: a note on confidentiality, e.g. that details have been anonymized.",
+    "Over eight years at Nike, I designed digital products that supported the teams behind Nike's footwear and apparel creation process. My work ranged from individual tools to large, connected platforms, focused on simplifying complex workflows, modernizing legacy systems, and creating intuitive, thoughtfully crafted experiences.",
   ],
   cover: { label: "Nike", src: "/images/projects/nike/splash_nikethumb.png", aspect: "video" },
 };
+
+export type PortfolioStop = {
+  href: string;
+  label: string;
+};
+
+/** Home order, with Nike first so next and previous land on this page. */
+export function portfolioStops(): PortfolioStop[] {
+  return [
+    { href: `/${nikeCollection.slug}`, label: nikeCollection.title },
+    ...oldSiteProjects.map((project) => ({
+      href: `/work/${project.slug}`,
+      label: project.heading ?? project.title,
+    })),
+  ];
+}
+
+export function adjacentPortfolioStops(href: string): {
+  previous: PortfolioStop;
+  next: PortfolioStop;
+} {
+  const stops = portfolioStops();
+  const index = Math.max(
+    0,
+    stops.findIndex((stop) => stop.href === href),
+  );
+  return {
+    previous: stops[(index - 1 + stops.length) % stops.length],
+    next: stops[(index + 1) % stops.length],
+  };
+}
 
 export const collections: Collection[] = [nikeCollection];
 

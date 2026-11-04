@@ -10,6 +10,7 @@ export async function unlock(formData: FormData) {
   const given = await accessToken(String(formData.get("password") ?? ""));
 
   if (!expected || given !== expected) {
+    if (next === "/nike") redirect("/nike?error=1");
     redirect(`/unlock?next=${encodeURIComponent(next)}&error=1`);
   }
 

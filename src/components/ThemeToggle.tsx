@@ -38,7 +38,7 @@ export function ThemeToggle() {
 
 /** 38px circle, matching the other controls in the contact row. */
 const revealLabel =
-  "max-w-0 overflow-hidden whitespace-nowrap text-[12px] font-normal leading-[24px] opacity-0 transition-[max-width,opacity,margin] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:ml-2.5 group-hover:max-w-[6.5rem] group-hover:opacity-100 group-focus-visible:ml-2.5 group-focus-visible:max-w-[6.5rem] group-focus-visible:opacity-100";
+  "max-w-0 overflow-hidden whitespace-nowrap text-[12px] font-normal leading-[24px] opacity-0 transition-[max-width,opacity,margin] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:ml-2.5 group-hover:max-w-[8rem] group-hover:opacity-100 group-focus-visible:ml-2.5 group-focus-visible:max-w-[8rem] group-focus-visible:opacity-100";
 
 export function ThemeCircle() {
   const [dark, setDarkState] = useState(false);
@@ -63,7 +63,7 @@ export function ThemeCircle() {
     localStorage.setItem(THEME_STORAGE_KEY, next ? "dark" : "light");
   }
 
-  const label = dark ? "light mode" : "dark mode";
+  const label = dark ? "Light Mode" : "Dark Mode";
 
   return (
     <button

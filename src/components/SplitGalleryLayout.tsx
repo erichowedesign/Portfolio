@@ -3,15 +3,14 @@
 import Link from "next/link";
 import { useEffect, useRef, useState, type TransitionEvent } from "react";
 import {
+  adjacentPortfolioStops,
   backLink,
-  getNextProject,
-  getPreviousProject,
   projectHref,
   siteConfig,
   type GalleryProject,
-  type Project,
 } from "@/data/projects";
-import { ContactRow } from "@/components/ContactRow";
+import { ContactDockSlot } from "@/components/ContactRow";
+import { Eyebrow } from "@/components/Eyebrow";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 
 const WELL_SIZES =
@@ -20,8 +19,7 @@ const WELL_SIZES =
 export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
   const back = backLink(project);
   const images = project.gallery.flat();
-  const previous = getPreviousProject(project);
-  const next = getNextProject(project);
+  const { previous, next } = adjacentPortfolioStops(projectHref(project));
   const credit = project.studio ? `${project.studio} - ${project.year}` : project.year;
   const chapters = project.chapters;
   const chapterStarts = new Set(chapters?.map((chapter) => chapter.start) ?? []);
@@ -95,31 +93,31 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
     <article className="split-stage mx-auto w-full max-w-[1440px] px-6 pb-16 pt-8 font-inter lg:fixed lg:bottom-14 lg:left-1/2 lg:top-0 lg:z-30 lg:flex lg:w-full lg:-translate-x-1/2 lg:flex-col lg:overflow-visible lg:px-10 lg:pb-0 lg:pt-7 min-[1600px]:max-w-[1920px]">
       <div className="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[440px_minmax(0,1fr)] lg:items-stretch lg:gap-x-5">
         <aside className="split-scroll mb-10 flex flex-col lg:mb-0 lg:h-full lg:min-h-0 lg:overflow-y-auto">
-          <Link href="/" className="self-start font-display text-[20px] leading-[24px] text-text-strong-950">
+          <Link href="/" className="site-name self-start font-display text-[20px] leading-[24px] text-text-strong-950">
             {siteConfig.name}
           </Link>
-          <div className="mt-6">
-            <div className="mb-8 flex h-[38px] items-start justify-between">
+          <div className="project-nav mt-6">
+            <div className="mb-12 flex h-[38px] items-start justify-between">
               <CircleButton href={back.href} label="Work" ariaLabel={back.label} direction="previous" />
-              {previous.slug !== project.slug && (
-                <nav aria-label="More projects" className="flex items-start gap-3">
-                  <CircleButton
-                    href={projectHref(previous)}
-                    label="Previous"
-                    ariaLabel={`Previous project, ${projectLabel(previous)}`}
-                    direction="previous"
-                  />
-                  <CircleButton
-                    href={projectHref(next)}
-                    label="Next"
-                    ariaLabel={`Next project, ${projectLabel(next)}`}
-                    direction="next"
-                  />
-                </nav>
-              )}
+              <nav aria-label="More projects" className="flex items-start gap-3">
+                <CircleButton
+                  href={previous.href}
+                  label="Previous"
+                  ariaLabel={`Previous project, ${previous.label}`}
+                  direction="previous"
+                />
+                <CircleButton
+                  href={next.href}
+                  label="Next"
+                  ariaLabel={`Next project, ${next.label}`}
+                  direction="next"
+                />
+              </nav>
             </div>
-
-            <h1 className="text-[40px] font-black leading-[48px] text-text-strong-950">
+          </div>
+          <div className="project-copy flex min-h-0 flex-1 flex-col">
+            {credit ? <Eyebrow>{credit}</Eyebrow> : <div className="h-3" aria-hidden />}
+            <h1 className="mt-6 text-[40px] font-black leading-[48px] text-text-strong-950">
               {project.heading ?? project.title}
             </h1>
             {chapters ? (
@@ -147,23 +145,18 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
             ) : (
               <ChapterCopy subheading={project.subheading} description={project.description} />
             )}
-          </div>
-          {credit ? (
-            <p className="mt-10 text-[16px] font-light leading-[24px] tracking-[0.32px] text-text-soft-400 lg:mb-[175px] lg:mt-auto">
-              {credit}
-            </p>
-          ) : (
             <div className="lg:mt-auto" />
-          )}
-          <ContactRow className="mt-10 lg:mb-6 lg:mt-0" />
+          </div>
+          <ContactDockSlot marginClass="lg:mb-5" />
         </aside>
 
         <div className="lg:h-full lg:min-h-0 lg:pt-3">
-          <div className="h-full rounded-[40px] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
-            <div className="overflow-hidden rounded-[40px] bg-gray-100 p-4 dark:bg-gray-800 sm:p-9 lg:relative lg:h-full lg:p-0">
+          <div className="relative h-full">
+            <div className="image-well pointer-events-none absolute inset-0 rounded-[40px] bg-gray-100 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)] dark:bg-gray-800" />
+            <div className="relative h-full overflow-hidden rounded-[40px] p-4 sm:p-9 lg:p-0">
               <div
                 ref={wellRef}
-                className="split-scroll lg:absolute lg:inset-9 lg:overflow-y-auto lg:overscroll-contain lg:rounded-[10px]"
+                className="project-images split-scroll lg:absolute lg:inset-9 lg:overflow-y-auto lg:overscroll-contain lg:rounded-[10px]"
               >
                 <div className="flex flex-col gap-6">
                   {images.map((slot, i) => (
@@ -172,7 +165,12 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
                       data-chapter-start={chapterStarts.has(i) ? "" : undefined}
                       style={separatedStarts.has(i) ? { marginTop: project.chapterGap ?? 48 } : undefined}
                     >
-                      <ImagePlaceholder slot={slot} framed={false} sizes={WELL_SIZES} />
+                      <ImagePlaceholder
+                        slot={slot}
+                        framed={false}
+                        sizes={WELL_SIZES}
+                        className={i === 0 ? "project-hero" : undefined}
+                      />
                     </div>
                   ))}
                 </div>
@@ -221,11 +219,7 @@ function ChapterCopy({
   );
 }
 
-function projectLabel(project: Project) {
-  return project.kind === "gallery" && project.heading ? project.heading : project.title;
-}
-
-function Arrow({ direction }: { direction: "previous" | "next" }) {
+export function Arrow({ direction }: { direction: "previous" | "next" }) {
   return (
     <svg
       width="9.187"
@@ -250,7 +244,7 @@ function Arrow({ direction }: { direction: "previous" | "next" }) {
   );
 }
 
-function CircleButton({
+export function CircleButton({
   href,
   label,
   ariaLabel,

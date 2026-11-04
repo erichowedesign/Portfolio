@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { ImageAspect, ImageSlot } from "@/data/projects";
+import { darkVariant } from "@/data/darkImages";
 
 const aspectClass: Record<ImageAspect, string> = {
   wide: "aspect-[21/9]",
@@ -47,6 +48,7 @@ function RealImage({
   framed: boolean;
 }) {
   const src = slot.src!;
+  const darkSrc = darkVariant(src);
   const frame = framed
     ? "rounded-lg border border-border-soft-200"
     : "rounded-[10px]";
@@ -56,20 +58,47 @@ function RealImage({
       <div
         className={`relative overflow-hidden bg-bg-white-0 ${frame} ${aspectClass[slot.aspect]}`}
       >
-        <Image src={src} alt={slot.label} fill sizes={sizes} className="object-cover object-top" />
+        <Image
+          src={src}
+          alt={slot.label}
+          fill
+          sizes={sizes}
+          className={`object-cover object-top${darkSrc ? " dark:hidden" : ""}`}
+        />
+        {darkSrc && (
+          <Image
+            src={darkSrc}
+            alt=""
+            fill
+            sizes={sizes}
+            className="hidden object-cover object-top dark:block"
+          />
+        )}
       </div>
     );
   }
 
   return (
-    <Image
-      src={src}
-      alt={slot.label}
-      width={slot.width}
-      height={slot.height}
-      sizes={sizes}
-      className={`h-auto w-full ${frame}`}
-    />
+    <>
+      <Image
+        src={src}
+        alt={slot.label}
+        width={slot.width}
+        height={slot.height}
+        sizes={sizes}
+        className={`h-auto w-full ${frame}${darkSrc ? " dark:hidden" : ""}`}
+      />
+      {darkSrc && (
+        <Image
+          src={darkSrc}
+          alt=""
+          width={slot.width}
+          height={slot.height}
+          sizes={sizes}
+          className={`hidden h-auto w-full dark:block ${frame}`}
+        />
+      )}
+    </>
   );
 }
 

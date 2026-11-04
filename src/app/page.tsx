@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ContactRow } from "@/components/ContactRow";
+import { ContactDockSlot } from "@/components/ContactRow";
 import { siteConfig } from "@/data/projects";
 
 const tiles = [
@@ -9,6 +9,7 @@ const tiles = [
     meta: "Digital Product Creation - 2018-2026",
     src: "/images/home/light/nike.png",
     darkSrc: "/images/home/dark/nike.png",
+    locked: true,
   },
   {
     href: "/work/google-product-experts",
@@ -52,13 +53,12 @@ export default function HomePage() {
     <div className="home-stage mx-auto w-full max-w-[1440px] px-6 pb-16 pt-8 font-inter lg:fixed lg:bottom-4 lg:left-1/2 lg:top-12 lg:z-30 lg:flex lg:w-full lg:-translate-x-1/2 lg:flex-col lg:overflow-visible lg:px-10 lg:pb-0 lg:pt-0 min-[1600px]:max-w-[1920px]">
       <div className="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[440px_minmax(0,1fr)] lg:items-stretch lg:gap-x-5">
         <div className="mb-10 flex flex-col lg:mb-0 lg:h-full lg:min-h-0 lg:overflow-y-auto lg:pb-6 lg:pt-9">
-          <div>
-            <p className="font-display text-[45px] leading-[53px] text-text-strong-950">{siteConfig.name}</p>
+          <p className="site-name w-fit font-display text-[45px] leading-[53px] text-text-strong-950">{siteConfig.name}</p>
+          <div className="home-copy flex min-h-0 flex-1 flex-col">
             <p className="mt-3 text-[22px] font-light italic leading-[30px] tracking-[0.44px] text-gray-500">
               {siteConfig.title}
             </p>
-          </div>
-          <div className="mt-12 lg:mb-[72px] lg:mt-auto">
+            <div className="mt-12 lg:mb-[72px] lg:mt-auto">
             <h1 className="max-w-[406px] text-[40px] font-black leading-[48px] text-text-strong-950">
               I design thoughtful, intuitive digital experiences that make complexity feel simple.
             </h1>
@@ -69,13 +69,15 @@ export default function HomePage() {
               establishing design direction to refining the details that make an experience feel just
               right.
             </p>
+            </div>
           </div>
-          <ContactRow className="mt-10 lg:mb-9 lg:mt-0" />
+          <ContactDockSlot marginClass="lg:mb-9" />
         </div>
 
         <div className="lg:h-full lg:min-h-0 lg:pb-6">
-          <div className="h-full rounded-[40px] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
-            <div className="overflow-hidden rounded-[40px] bg-gray-200 p-4 dark:bg-gray-800 sm:p-9 lg:relative lg:h-full lg:p-0">
+          <div className="relative h-full">
+            <div className="image-well pointer-events-none absolute inset-0 rounded-[40px] bg-gray-200 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)] dark:bg-gray-800" />
+            <div className="relative h-full overflow-hidden rounded-[40px] p-4 sm:p-9 lg:p-0">
               <div className="split-scroll lg:absolute lg:inset-9 lg:overflow-y-auto lg:overscroll-contain lg:rounded-[10px]">
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                   {tiles.map((tile) => (
@@ -97,18 +99,21 @@ function WorkCard({
   meta,
   src,
   darkSrc,
+  locked = false,
 }: {
   href?: string;
   title: string;
   meta: string;
   src: string;
   darkSrc: string;
+  locked?: boolean;
 }) {
   const card = (
     <>
       <img src={src} alt="" className="aspect-[402/227] w-full object-cover dark:hidden" />
       <img src={darkSrc} alt="" className="hidden aspect-[402/227] w-full object-cover dark:block" />
-      <div className="px-6 pb-6 pt-6">
+      <div className="relative px-6 pb-6 pt-6">
+        {locked && <LockIcon />}
         <h2 className="text-[24px] font-black leading-[29px] text-gray-950 dark:text-gray-50">
           {title}
         </h2>
@@ -133,5 +138,21 @@ function WorkCard({
     <Link href={href} className={frame}>
       <div className={inner}>{card}</div>
     </Link>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden
+      className="absolute right-6 top-6 text-gray-500 dark:text-gray-300"
+    >
+      <rect x="3.5" y="10" width="17" height="11" rx="2" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
   );
 }

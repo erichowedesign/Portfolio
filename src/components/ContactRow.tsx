@@ -7,18 +7,18 @@ const iconClass = "text-gray-600 dark:text-gray-300";
 const revealLabel =
   "max-w-0 overflow-hidden whitespace-nowrap text-[12px] font-normal leading-[24px] opacity-0 transition-[max-width,opacity,margin] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:ml-2.5 group-hover:opacity-100 group-focus-visible:ml-2.5 group-focus-visible:opacity-100";
 
-const revealShort = "group-hover:max-w-[6.5rem] group-focus-visible:max-w-[6.5rem]";
+const revealShort = "group-hover:max-w-[8rem] group-focus-visible:max-w-[8rem]";
 
 export function ContactRow({ className = "" }: { className?: string }) {
   return (
-    <div className={`flex flex-wrap items-center gap-3 ${className}`}>
+    <div className={`contact-dock flex flex-wrap items-center gap-3 font-inter ${className}`}>
       <a
         href={`mailto:${siteConfig.email}`}
-        aria-label="Email me"
+        aria-label="Email Me"
         className={`btn-glow group inline-flex h-[38px] items-center justify-center rounded-[25px] border border-current px-[6px] font-inter text-[12px] font-normal leading-[24px] hover:px-[17px] focus-visible:px-[17px] ${iconClass}`}
       >
         <MailIcon />
-        <span className={`${revealLabel} ${revealShort}`}>email me</span>
+        <span className={`${revealLabel} ${revealShort}`}>Email Me</span>
       </a>
       <a
         href={siteConfig.linkedin}
@@ -28,7 +28,7 @@ export function ContactRow({ className = "" }: { className?: string }) {
         className={`btn-glow group inline-flex h-[38px] items-center justify-center rounded-[25px] border border-current px-[10px] hover:px-[17px] focus-visible:px-[17px] ${iconClass}`}
       >
         <LinkedInIcon />
-        <span className={`${revealLabel} ${revealShort}`}>linkedin</span>
+        <span className={`${revealLabel} ${revealShort}`}>LinkedIn</span>
       </a>
       <Link
         href="/about"
@@ -36,10 +36,31 @@ export function ContactRow({ className = "" }: { className?: string }) {
         className={`btn-glow group inline-flex h-[38px] items-center justify-center rounded-[25px] border border-current px-[14px] hover:px-[17px] focus-visible:px-[17px] ${iconClass}`}
       >
         <InfoIcon />
-        <span className={`${revealLabel} ${revealShort}`}>about</span>
+        <span className={`${revealLabel} ${revealShort}`}>About</span>
       </Link>
       <ThemeCircle />
     </div>
+  );
+}
+
+/** Shared footer. One position on every portfolio page, outside the scrolling columns. */
+export function ContactDock() {
+  return (
+    <footer className="site-contact-dock pointer-events-none fixed inset-x-0 bottom-[76px] z-40">
+      <div className="mx-auto w-full max-w-[1440px] px-10 min-[1600px]:max-w-[1920px]">
+        <ContactRow className="pointer-events-auto w-fit" />
+      </div>
+    </footer>
+  );
+}
+
+/** In-flow buttons on small screens. On large screens, a spacer keeps the copy above the footer. */
+export function ContactDockSlot({ marginClass }: { marginClass: string }) {
+  return (
+    <>
+      <ContactRow className="mt-10 lg:hidden" />
+      <div className={`mt-10 hidden h-[38px] lg:mt-0 lg:block ${marginClass}`} aria-hidden />
+    </>
   );
 }
 
