@@ -14,19 +14,22 @@
  */
 
 :root {
+  /* colors/black */
+  --black: 0 0 0;
+
   /* colors/gray */
   --gray-0: 255 255 255;
-  --gray-50: 249 250 251;
-  --gray-100: 243 244 246;
-  --gray-200: 229 231 235;
-  --gray-300: 209 213 219;
-  --gray-400: 156 163 175;
-  --gray-500: 107 114 128;
-  --gray-600: 75 85 99;
-  --gray-700: 55 65 81;
-  --gray-800: 31 41 55;
-  --gray-900: 17 24 39;
-  --gray-950: 3 7 18;
+  --gray-50: 250 250 250;
+  --gray-100: 245 245 245;
+  --gray-200: 229 229 229;
+  --gray-300: 212 212 212;
+  --gray-400: 163 163 163;
+  --gray-500: 115 115 115;
+  --gray-600: 82 82 82;
+  --gray-700: 64 64 64;
+  --gray-800: 38 38 38;
+  --gray-900: 23 23 23;
+  --gray-950: 10 10 10;
 
   /* colors/blue */
   --blue-50: 239 246 255;
@@ -149,12 +152,12 @@
   --alpha-white-10: 255 255 255 / 0.102;
   --alpha-white-16: 255 255 255 / 0.161;
   --alpha-white-24: 255 255 255 / 0.239;
-  --alpha-black-10: 3 7 18 / 0.102;
-  --alpha-black-16: 3 7 18 / 0.161;
-  --alpha-black-24: 3 7 18 / 0.239;
-  --alpha-gray-10: 106 114 130 / 0.102;
-  --alpha-gray-16: 106 114 130 / 0.161;
-  --alpha-gray-24: 106 114 130 / 0.239;
+  --alpha-black-10: 0 0 0 / 0.102;
+  --alpha-black-16: 0 0 0 / 0.161;
+  --alpha-black-24: 0 0 0 / 0.239;
+  --alpha-gray-10: 115 115 115 / 0.102;
+  --alpha-gray-16: 115 115 115 / 0.161;
+  --alpha-gray-24: 115 115 115 / 0.239;
   --alpha-blue-10: 43 127 255 / 0.102;
   --alpha-blue-16: 43 127 255 / 0.161;
   --alpha-blue-24: 43 127 255 / 0.239;
@@ -275,14 +278,14 @@
   /* tokens / text */
   --text-white-0: var(--gray-0);
   --text-disabled-300: var(--gray-300);
-  --text-soft-400: var(--gray-400);
+  --text-soft-400: var(--gray-500);
   --text-sub-600: var(--gray-600);
   --text-strong-950: var(--gray-950);
 
   /* tokens / fg */
   --fg-white-0: var(--gray-0);
   --fg-disabled-300: var(--gray-300);
-  --fg-soft-400: var(--gray-400);
+  --fg-soft-400: var(--gray-500);
   --fg-sub-600: var(--gray-600);
   --fg-strong-950: var(--gray-950);
 
@@ -455,8 +458,8 @@
   --static-black-950: var(--gray-950);
 
   /* tokens / bg */
-  --bg-white-0: var(--gray-950);
-  --bg-weak-50: var(--gray-800);
+  --bg-white-0: var(--gray-900);
+  --bg-weak-50: var(--gray-950);
   --bg-soft-200: var(--gray-700);
   --bg-sub-300: var(--gray-600);
   --bg-surface-800: var(--gray-200);
@@ -464,21 +467,21 @@
 
   /* tokens / text */
   --text-white-0: var(--gray-950);
-  --text-disabled-300: var(--gray-600);
-  --text-soft-400: var(--gray-500);
-  --text-sub-600: var(--gray-400);
+  --text-disabled-300: var(--gray-500);
+  --text-soft-400: var(--gray-400);
+  --text-sub-600: var(--gray-300);
   --text-strong-950: var(--gray-0);
 
   /* tokens / fg */
   --fg-white-0: var(--gray-950);
-  --fg-disabled-300: var(--gray-600);
-  --fg-soft-400: var(--gray-500);
-  --fg-sub-600: var(--gray-400);
+  --fg-disabled-300: var(--gray-500);
+  --fg-soft-400: var(--gray-400);
+  --fg-sub-600: var(--gray-300);
   --fg-strong-950: var(--gray-0);
 
   /* tokens / border */
   --border-white-0: var(--gray-950);
-  --border-soft-200: var(--gray-800);
+  --border-soft-200: var(--gray-700);
   --border-sub-300: var(--gray-600);
   --border-strong-950: var(--gray-0);
 

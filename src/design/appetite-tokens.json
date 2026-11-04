@@ -5,18 +5,19 @@
     "url": "https://www.figma.com/design/2s2IMdwXuk8M1klMmEt9xT"
   },
   "primitives": {
+    "colors/black": "#000000",
     "colors/gray/0": "#ffffff",
-    "colors/gray/50": "#f9fafb",
-    "colors/gray/100": "#f3f4f6",
-    "colors/gray/200": "#e5e7eb",
-    "colors/gray/300": "#d1d5db",
-    "colors/gray/400": "#9ca3af",
-    "colors/gray/500": "#6b7280",
-    "colors/gray/600": "#4b5563",
-    "colors/gray/700": "#374151",
-    "colors/gray/800": "#1f2937",
-    "colors/gray/900": "#111827",
-    "colors/gray/950": "#030712",
+    "colors/gray/50": "#fafafa",
+    "colors/gray/100": "#f5f5f5",
+    "colors/gray/200": "#e5e5e5",
+    "colors/gray/300": "#d4d4d4",
+    "colors/gray/400": "#a3a3a3",
+    "colors/gray/500": "#737373",
+    "colors/gray/600": "#525252",
+    "colors/gray/700": "#404040",
+    "colors/gray/800": "#262626",
+    "colors/gray/900": "#171717",
+    "colors/gray/950": "#0a0a0a",
     "colors/blue/50": "#eff6ff",
     "colors/blue/100": "#dbeafe",
     "colors/blue/200": "#bedbff",
@@ -119,12 +120,12 @@
     "colors/alpha/white/alpha-10": "#ffffff1a",
     "colors/alpha/white/alpha-16": "#ffffff29",
     "colors/alpha/white/alpha-24": "#ffffff3d",
-    "colors/alpha/black/alpha-10": "#0307121a",
-    "colors/alpha/black/alpha-16": "#03071229",
-    "colors/alpha/black/alpha-24": "#0307123d",
-    "colors/alpha/gray/alpha-10": "#6a72821a",
-    "colors/alpha/gray/alpha-16": "#6a728229",
-    "colors/alpha/gray/alpha-24": "#6a72823d",
+    "colors/alpha/black/alpha-10": "#0000001a",
+    "colors/alpha/black/alpha-16": "#00000029",
+    "colors/alpha/black/alpha-24": "#0000003d",
+    "colors/alpha/gray/alpha-10": "#7373731a",
+    "colors/alpha/gray/alpha-16": "#73737329",
+    "colors/alpha/gray/alpha-24": "#7373733d",
     "colors/alpha/blue/alpha-10": "#2b7fff1a",
     "colors/alpha/blue/alpha-16": "#2b7fff29",
     "colors/alpha/blue/alpha-24": "#2b7fff3d",
@@ -225,11 +226,11 @@
     },
     "bg/white-0": {
       "light": "colors/gray/0",
-      "dark": "colors/gray/950"
+      "dark": "colors/gray/900"
     },
     "bg/weak-50": {
       "light": "colors/gray/50",
-      "dark": "colors/gray/800"
+      "dark": "colors/gray/950"
     },
     "bg/soft-200": {
       "light": "colors/gray/200",
@@ -253,15 +254,15 @@
     },
     "text/disabled-300": {
       "light": "colors/gray/300",
-      "dark": "colors/gray/600"
+      "dark": "colors/gray/500"
     },
     "text/soft-400": {
-      "light": "colors/gray/400",
-      "dark": "colors/gray/500"
+      "light": "colors/gray/500",
+      "dark": "colors/gray/400"
     },
     "text/sub-600": {
       "light": "colors/gray/600",
-      "dark": "colors/gray/400"
+      "dark": "colors/gray/300"
     },
     "text/strong-950": {
       "light": "colors/gray/950",
@@ -273,15 +274,15 @@
     },
     "fg/disabled-300": {
       "light": "colors/gray/300",
-      "dark": "colors/gray/600"
+      "dark": "colors/gray/500"
     },
     "fg/soft-400": {
-      "light": "colors/gray/400",
-      "dark": "colors/gray/500"
+      "light": "colors/gray/500",
+      "dark": "colors/gray/400"
     },
     "fg/sub-600": {
       "light": "colors/gray/600",
-      "dark": "colors/gray/400"
+      "dark": "colors/gray/300"
     },
     "fg/strong-950": {
       "light": "colors/gray/950",
@@ -293,7 +294,7 @@
     },
     "border/soft-200": {
       "light": "colors/gray/200",
-      "dark": "colors/gray/800"
+      "dark": "colors/gray/700"
     },
     "border/sub-300": {
       "light": "colors/gray/300",

@@ -15,14 +15,21 @@ export function ImagePlaceholder({
   slot,
   className = "",
   sizes = FULL_WIDTH_SIZES,
+  framed = true,
 }: {
   slot: ImageSlot;
   className?: string;
   sizes?: string;
+  /** When false, images sit unframed (used in the split project well). */
+  framed?: boolean;
 }) {
   return (
     <figure className={className}>
-      {slot.src ? <RealImage slot={slot} sizes={sizes} /> : <Wireframe slot={slot} />}
+      {slot.src ? (
+        <RealImage slot={slot} sizes={sizes} framed={framed} />
+      ) : (
+        <Wireframe slot={slot} />
+      )}
       {slot.caption && (
         <figcaption className="mt-2 text-sm text-text-soft-400">{slot.caption}</figcaption>
       )}
@@ -30,13 +37,24 @@ export function ImagePlaceholder({
   );
 }
 
-function RealImage({ slot, sizes }: { slot: ImageSlot; sizes: string }) {
+function RealImage({
+  slot,
+  sizes,
+  framed,
+}: {
+  slot: ImageSlot;
+  sizes: string;
+  framed: boolean;
+}) {
   const src = slot.src!;
+  const frame = framed
+    ? "rounded-lg border border-border-soft-200"
+    : "rounded-[10px]";
 
   if (slot.aspect) {
     return (
       <div
-        className={`relative overflow-hidden rounded-lg border border-border-soft-200 bg-bg-white-0 ${aspectClass[slot.aspect]}`}
+        className={`relative overflow-hidden bg-bg-white-0 ${frame} ${aspectClass[slot.aspect]}`}
       >
         <Image src={src} alt={slot.label} fill sizes={sizes} className="object-cover object-top" />
       </div>
@@ -50,7 +68,7 @@ function RealImage({ slot, sizes }: { slot: ImageSlot; sizes: string }) {
       width={slot.width}
       height={slot.height}
       sizes={sizes}
-      className="h-auto w-full rounded-lg border border-border-soft-200"
+      className={`h-auto w-full ${frame}`}
     />
   );
 }

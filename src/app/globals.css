@@ -7,9 +7,139 @@
     scroll-behavior: smooth;
   }
 
+  /* Split project pages pin the image well to the viewport. */
+  @media (min-width: 1024px) {
+    html:has(.split-stage) {
+      overflow: hidden;
+    }
+
+    .split-scroll {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .split-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    html:has(.split-stage) .site-header {
+      max-width: 1440px;
+    }
+
+    html:has(.split-stage) body > footer {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    html:has(.split-stage) .site-header {
+      max-width: 1920px;
+    }
+  }
+
   ::selection {
     @apply bg-brand-light;
   }
+}
+
+/* Project changes crossfade. Next and Previous also travel with the button. The nav stays still. */
+header.site-nav {
+  view-transition-name: site-nav;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-group(root) {
+    animation-duration: 520ms;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 520ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    animation-fill-mode: both;
+  }
+
+  ::view-transition-old(root) {
+    animation-name: page-cross-out;
+  }
+
+  ::view-transition-new(root) {
+    animation-name: page-cross-in;
+  }
+
+  html[data-project-move="forward"]::view-transition-old(root) {
+    animation-name: page-out-forward;
+  }
+
+  html[data-project-move="forward"]::view-transition-new(root) {
+    animation-name: page-in-forward;
+  }
+
+  html[data-project-move="back"]::view-transition-old(root) {
+    animation-name: page-out-back;
+  }
+
+  html[data-project-move="back"]::view-transition-new(root) {
+    animation-name: page-in-back;
+  }
+
+  ::view-transition-group(site-nav) {
+    animation: none;
+  }
+
+  ::view-transition-old(site-nav) {
+    display: none;
+  }
+
+  ::view-transition-new(site-nav) {
+    animation: none;
+  }
+}
+
+@keyframes page-cross-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes page-cross-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes page-out-forward {
+  to {
+    opacity: 0;
+    transform: translateX(-64px);
+  }
+}
+
+@keyframes page-in-forward {
+  from {
+    opacity: 0;
+    transform: translateX(64px);
+  }
+}
+
+@keyframes page-out-back {
+  to {
+    opacity: 0;
+    transform: translateX(64px);
+  }
+}
+
+@keyframes page-in-back {
+  from {
+    opacity: 0;
+    transform: translateX(-64px);
+  }
+}
+
+/* Light project pages use a white canvas. The header shares that fill. */
+html:not(.dark):has(.split-stage) body,
+html:not(.dark):has(.split-stage) header {
+  background-color: rgb(var(--gray-0));
 }
 
 @layer components {

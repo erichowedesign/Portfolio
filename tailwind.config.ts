@@ -113,6 +113,8 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-family-body)"],
         heading: ["var(--font-family-heading)"],
+        inter: ["var(--font-inter)", "sans-serif"],
+        display: ["var(--font-chela)", "cursive"],
         mono: ["var(--font-geist-mono)", "ui-monospace", "monospace"],
       },
       fontSize: {

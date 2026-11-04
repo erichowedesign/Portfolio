@@ -57,11 +57,39 @@ export type CaseStudy = ProjectBase & {
   sections: CaseStudySection[];
 };
 
+/** Copy that replaces the split sidebar while this stretch of images is in view. */
+export type GalleryChapter = {
+  subheading: string;
+  description: string[];
+  /** Index of this chapter's first image in `gallery`, flattened. */
+  start: number;
+  /** Wider gap above this chapter's first image. */
+  separated?: boolean;
+};
+
 export type GalleryProject = ProjectBase & {
   kind: "gallery";
   description: string[];
   /** Each row holds 1–3 images, displayed side by side. */
   gallery: ImageSlot[][];
+  /** "split" is the Figma sidebar + image well. Default is the stacked layout. */
+  presentation?: "stack" | "split";
+  /** Large title in the split sidebar. Falls back to `title`. */
+  heading?: string;
+  /** Line under the heading in the split sidebar. */
+  subheading?: string;
+  /** Shown after the year in the split sidebar, e.g. "R/GA". */
+  studio?: string;
+  /**
+   * When set, the split sidebar swaps to the chapter whose images are at the
+   * top of the well. Chapters run in order and cover the whole gallery.
+   */
+  chapters?: GalleryChapter[];
+  /**
+   * Extra space above a separated chapter, added to the 24px image gap.
+   * Defaults to 48, which makes a 72px break.
+   */
+  chapterGap?: number;
 };
 
 export type Project = CaseStudy | GalleryProject;
@@ -331,6 +359,12 @@ export function getNextProject(project: Project): Project {
   const siblings = getCollectionProjects(project.collection);
   const index = siblings.findIndex((p) => p.slug === project.slug);
   return siblings[(index + 1) % siblings.length];
+}
+
+export function getPreviousProject(project: Project): Project {
+  const siblings = getCollectionProjects(project.collection);
+  const index = siblings.findIndex((p) => p.slug === project.slug);
+  return siblings[(index - 1 + siblings.length) % siblings.length];
 }
 
 export function projectHref(project: Project): string {

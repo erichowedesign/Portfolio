@@ -10,25 +10,25 @@ const nav = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border-soft-200 bg-bg-weak-50/90 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-wide items-center justify-between px-6 py-4">
+    <header className="site-nav sticky top-0 z-50 h-[72px] bg-bg-weak-50">
+      <div className="site-header mx-auto flex h-full max-w-wide items-center justify-between px-6 lg:px-10">
         <Link
           href="/"
-          className="text-sm font-semibold tracking-tight text-text-strong-950 transition hover:text-brand-base"
+          className="font-display text-[24px] leading-none text-text-strong-950 transition hover:text-brand-base"
         >
           {siteConfig.name}
         </Link>
         <nav className="flex items-center gap-6">
+          <ThemeToggle />
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm text-text-sub-600 transition hover:text-text-strong-950"
+              className="font-inter text-[15px] font-normal text-text-soft-400 transition hover:text-text-strong-950"
             >
               {item.label}
             </Link>
           ))}
-          <ThemeToggle />
         </nav>
       </div>
     </header>

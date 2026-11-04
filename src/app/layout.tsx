@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Chela_One, Geist, Geist_Mono, Inter } from "next/font/google";
 import "./tokens.css";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { PageTransition } from "@/components/PageTransition";
 import { UnderConstruction } from "@/components/UnderConstruction";
 import { themeInitScript } from "@/lib/theme";
 
@@ -18,6 +19,19 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["300", "400", "900"],
+  style: ["normal", "italic"],
+});
+
+const chelaOne = Chela_One({
+  variable: "--font-chela",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -46,7 +60,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-bg-weak-50 font-sans text-text-strong-950 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${chelaOne.variable} min-h-screen bg-bg-weak-50 font-sans text-text-strong-950 antialiased`}
       >
         {underConstruction ? (
           <main>
@@ -54,6 +68,7 @@ export default function RootLayout({
           </main>
         ) : (
           <>
+            <PageTransition />
             <Header />
             <main>{children}</main>
             <Footer />
