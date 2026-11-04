@@ -36,13 +36,13 @@ const chelaOne = Chela_One({
 
 export const metadata: Metadata = {
   title: {
-    default: "Eric Howe — Lead Product Designer",
+    default: "Eric Howe — Senior Digital Product Designer",
     template: "%s · Eric Howe",
   },
   description:
     "Lead product designer specializing in enterprise internal tools, design leadership, complex workflows, and design systems. 8 years at Nike.",
   openGraph: {
-    title: "Eric Howe — Lead Product Designer",
+    title: "Eric Howe — Senior Digital Product Designer",
     description:
       "Design leadership · enterprise & internal tools · workflow design · design systems",
     type: "website",

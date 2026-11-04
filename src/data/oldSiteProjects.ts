@@ -1,4 +1,5 @@
 import type { GalleryProject, ImageSlot } from "@/data/projects";
+import { funStuffImages } from "@/data/funStuffImages";
 
 // Projects carried over from the old Squarespace site. Images live in public/images/projects/{slug}/.
 
@@ -209,7 +210,7 @@ export const oldSiteProjects: GalleryProject[] = [
     "15-years-of-sb-dunk",
     "Nike SB — 15 Years of SB Dunk",
     "Nike SB",
-    "2017",
+    "2016",
     "splash_nikesb.webp",
     [
       [{ label: "Nike SB", src: "/images/projects/15-years-of-sb-dunk/02.jpg", width: 1920, height: 1080 }],
@@ -252,6 +253,21 @@ export const oldSiteProjects: GalleryProject[] = [
       description: [
         "In 2017, R/GA San Francisco did a full redesign of Nature's Recipe web experience. I was brought in at the end to help bring the last few pages across the finish line.",
       ],
+    },
+  ),
+  oldSiteProject(
+    "fun-stuff",
+    "Fun Stuff",
+    "Fun Stuff",
+    "",
+    "cover.png",
+    funStuffImages,
+    {
+      presentation: "split",
+      heading: "Fun Stuff",
+      subheading: "A collection of graphical designs",
+      summary: "A collection of graphical designs",
+      description: [],
     },
   ),
 ];

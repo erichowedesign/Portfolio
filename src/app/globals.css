@@ -9,7 +9,8 @@
 
   /* Split project pages pin the image well to the viewport. */
   @media (min-width: 1024px) {
-    html:has(.split-stage) {
+    html:has(.split-stage),
+    html:has(.home-stage) {
       overflow: hidden;
     }
 
@@ -29,6 +30,12 @@
     html:has(.split-stage) body > footer {
       display: none;
     }
+  }
+
+  body:has(.split-stage) > header,
+  body:has(.home-stage) > header,
+  body:has(.home-stage) > footer {
+    display: none;
   }
 
   @media (min-width: 1600px) {
@@ -138,8 +145,76 @@ header.site-nav {
 
 /* Light project pages use a white canvas. The header shares that fill. */
 html:not(.dark):has(.split-stage) body,
-html:not(.dark):has(.split-stage) header {
+html:not(.dark):has(.split-stage) header,
+html:not(.dark):has(.home-stage) body {
   background-color: rgb(var(--gray-0));
+}
+
+.btn-glow {
+  transition:
+    color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-glow:hover,
+.btn-glow:focus-visible {
+  border-color: #e6b325;
+  box-shadow: 0 0 12px rgba(230, 179, 37, 0.28);
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.dark .btn-glow:hover,
+.dark .btn-glow:focus-visible {
+  color: #fff;
+  background-color: #111;
+}
+
+.tile-glow {
+  position: relative;
+}
+
+.tile-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px transparent,
+    inset 0 0 12px transparent;
+  transition: box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tile-glow:hover,
+.tile-glow:focus-visible {
+  z-index: 1;
+  outline: none;
+}
+
+.tile-glow:hover::after,
+.tile-glow:focus-visible::after {
+  box-shadow:
+    inset 0 0 0 1px #e6b325,
+    inset 0 0 12px rgba(230, 179, 37, 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-glow,
+  .tile-glow,
+  .tile-glow::after {
+    transition: none;
+  }
+
+  .btn-glow:hover,
+  .btn-glow:focus-visible {
+    transform: none;
+  }
 }
 
 @layer components {

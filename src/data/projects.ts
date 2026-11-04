@@ -78,7 +78,7 @@ export type GalleryProject = ProjectBase & {
   heading?: string;
   /** Line under the heading in the split sidebar. */
   subheading?: string;
-  /** Shown after the year in the split sidebar, e.g. "R/GA". */
+  /** Shown before the year in the split sidebar, e.g. "R/GA - 2016". */
   studio?: string;
   /**
    * When set, the split sidebar swaps to the chapter whose images are at the
@@ -96,7 +96,7 @@ export type Project = CaseStudy | GalleryProject;
 
 export const siteConfig = {
   name: "Eric Howe",
-  title: "Lead Product Designer",
+  title: "Senior Digital Product Designer",
   email: "erichowedesign@gmail.com",
   linkedin: "https://www.linkedin.com/in/eric-howe-76a771b4/",
   location: "Portland, OR · Open to remote",

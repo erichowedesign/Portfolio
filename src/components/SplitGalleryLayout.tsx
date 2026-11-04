@@ -7,9 +7,11 @@ import {
   getNextProject,
   getPreviousProject,
   projectHref,
+  siteConfig,
   type GalleryProject,
   type Project,
 } from "@/data/projects";
+import { ContactRow } from "@/components/ContactRow";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 
 const WELL_SIZES =
@@ -20,7 +22,7 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
   const images = project.gallery.flat();
   const previous = getPreviousProject(project);
   const next = getNextProject(project);
-  const eyebrow = project.studio ? `${project.year} - ${project.studio}` : project.year;
+  const credit = project.studio ? `${project.studio} - ${project.year}` : project.year;
   const chapters = project.chapters;
   const chapterStarts = new Set(chapters?.map((chapter) => chapter.start) ?? []);
   const separatedStarts = new Set(
@@ -90,19 +92,17 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
   }
 
   return (
-    <article className="split-stage mx-auto w-full max-w-[1440px] px-6 pb-16 pt-8 font-inter lg:fixed lg:bottom-4 lg:left-1/2 lg:top-[72px] lg:z-30 lg:flex lg:w-full lg:-translate-x-1/2 lg:flex-col lg:overflow-visible lg:px-10 lg:pb-0 lg:pt-6 min-[1600px]:max-w-[1920px]">
+    <article className="split-stage mx-auto w-full max-w-[1440px] px-6 pb-16 pt-8 font-inter lg:fixed lg:bottom-14 lg:left-1/2 lg:top-0 lg:z-30 lg:flex lg:w-full lg:-translate-x-1/2 lg:flex-col lg:overflow-visible lg:px-10 lg:pb-0 lg:pt-7 min-[1600px]:max-w-[1920px]">
       <div className="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[440px_minmax(0,1fr)] lg:items-stretch lg:gap-x-5">
-        <aside className="split-scroll mb-10 lg:mb-0 lg:h-full lg:min-h-0 lg:overflow-y-auto lg:pt-9">
-          <div>
-            <div className="mb-[34px] flex h-[38px] items-start justify-between">
-              <CircleButton
-                href={back.href}
-                label="Back"
-                ariaLabel={back.label}
-                direction="previous"
-              />
+        <aside className="split-scroll mb-10 flex flex-col lg:mb-0 lg:h-full lg:min-h-0 lg:overflow-y-auto">
+          <Link href="/" className="self-start font-display text-[20px] leading-[24px] text-text-strong-950">
+            {siteConfig.name}
+          </Link>
+          <div className="mt-6">
+            <div className="mb-8 flex h-[38px] items-start justify-between">
+              <CircleButton href={back.href} label="Work" ariaLabel={back.label} direction="previous" />
               {previous.slug !== project.slug && (
-                <nav aria-label="More projects" className="flex items-start gap-2.5">
+                <nav aria-label="More projects" className="flex items-start gap-3">
                   <CircleButton
                     href={projectHref(previous)}
                     label="Previous"
@@ -119,10 +119,7 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
               )}
             </div>
 
-            <p className="text-[16px] font-light leading-[24px] tracking-[0.32px] text-text-soft-400">
-              {eyebrow}
-            </p>
-            <h1 className="mt-6 text-[40px] font-black leading-[48px] text-text-strong-950">
+            <h1 className="text-[40px] font-black leading-[48px] text-text-strong-950">
               {project.heading ?? project.title}
             </h1>
             {chapters ? (
@@ -151,10 +148,18 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
               <ChapterCopy subheading={project.subheading} description={project.description} />
             )}
           </div>
+          {credit ? (
+            <p className="mt-10 text-[16px] font-light leading-[24px] tracking-[0.32px] text-text-soft-400 lg:mb-[175px] lg:mt-auto">
+              {credit}
+            </p>
+          ) : (
+            <div className="lg:mt-auto" />
+          )}
+          <ContactRow className="mt-10 lg:mb-6 lg:mt-0" />
         </aside>
 
-        <div className="lg:h-full lg:min-h-0 lg:pb-6">
-          <div className="h-full rounded-[40px] shadow-[0_9px_13px_-2px_rgba(0,0,0,0.05),0_3px_5px_-2px_rgba(0,0,0,0.08)]">
+        <div className="lg:h-full lg:min-h-0 lg:pt-3">
+          <div className="h-full rounded-[40px] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-4px_rgba(0,0,0,0.1)]">
             <div className="overflow-hidden rounded-[40px] bg-gray-100 p-4 dark:bg-gray-800 sm:p-9 lg:relative lg:h-full lg:p-0">
               <div
                 ref={wellRef}
@@ -200,16 +205,18 @@ function ChapterCopy({
           {subheading}
         </p>
       )}
-      <div className="mt-[38px] space-y-6">
-        {description.map((paragraph) => (
-          <p
-            key={paragraph}
-            className="text-[14px] font-normal leading-[24px] tracking-[0.42px] text-text-soft-400"
-          >
-            {paragraph}
-          </p>
-        ))}
-      </div>
+      {description.length > 0 && (
+        <div className="mt-8 space-y-6">
+          {description.map((paragraph) => (
+            <p
+              key={paragraph}
+              className="text-[14px] font-normal leading-[24px] tracking-[0.42px] text-text-soft-400"
+            >
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -260,11 +267,11 @@ function CircleButton({
     <Link
       href={href}
       aria-label={ariaLabel}
-      className="group inline-flex h-[38px] items-center justify-center overflow-hidden rounded-[25px] border border-current px-[13.4px] text-gray-600 transition-[padding] duration-200 ease-out hover:px-[17px] focus-visible:px-[17px] focus-visible:outline-none dark:text-gray-300"
+      className="btn-glow group inline-flex h-[38px] items-center justify-center rounded-[25px] border border-current px-[13.4px] text-gray-600 hover:px-[17px] focus-visible:px-[17px] dark:text-gray-300"
     >
       {!next && <Arrow direction="previous" />}
       <span
-        className={`max-w-0 overflow-hidden whitespace-nowrap text-[12px] font-normal leading-[24px] opacity-0 transition-[max-width,opacity,margin] duration-200 ease-out group-hover:max-w-[5rem] group-hover:opacity-100 group-focus-visible:max-w-[5rem] group-focus-visible:opacity-100 ${
+        className={`max-w-0 overflow-hidden whitespace-nowrap text-[12px] font-normal leading-[24px] opacity-0 transition-[max-width,opacity,margin] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:max-w-[5.5rem] group-hover:opacity-100 group-focus-visible:max-w-[5.5rem] group-focus-visible:opacity-100 ${
           next
             ? "group-hover:mr-2.5 group-focus-visible:mr-2.5"
             : "group-hover:ml-2.5 group-focus-visible:ml-2.5"
