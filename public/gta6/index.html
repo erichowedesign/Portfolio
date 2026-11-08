@@ -25,7 +25,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html, body { height: 100%; background: var(--ink); color: #fff; overflow: hidden; }
+    html { background: var(--ink); color: #fff; scroll-behavior: smooth; }
 
     body {
       font-family: "Rubik", system-ui, sans-serif;
@@ -65,10 +65,11 @@
       mix-blend-mode: multiply;
     }
 
-    main {
+    .hero {
       position: relative;
       z-index: 2;
-      height: 100%;
+      min-height: 100vh;
+      min-height: 100svh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -190,17 +191,68 @@
     body.released .countdown { display: none; }
     body.released .passed { display: flex; }
 
-    footer {
-      position: fixed;
-      bottom: 1rem;
-      left: 0;
-      right: 0;
+    .scroll-cue {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-weight: 900;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      text-shadow: 0 2px 0 #000;
+      animation: bob 1.6s ease-in-out infinite;
+    }
+
+    .scroll-cue::after { content: "▼"; display: block; margin-top: 0.3rem; color: var(--hot); }
+
+    @keyframes bob { 50% { transform: translate(-50%, 6px); } }
+
+    .map {
+      position: relative;
       z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 5rem 1rem 3rem;
+      text-align: center;
+      background: linear-gradient(180deg, transparent 0%, rgba(18, 6, 31, 0.85) 18%, rgba(18, 6, 31, 0.92) 100%);
+    }
+
+    .map h2 {
+      font-family: "Anton", sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      line-height: 1;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #7aa8ff 0%, var(--hot) 50%, var(--orange) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0.04em 0 #000) drop-shadow(0 0 0.15em rgba(255, 47, 168, 0.6));
+    }
+
+    .map img {
+      width: min(820px, 100%);
+      max-height: 75vh;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
+    }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 1.5rem 1rem 2rem;
+      background: rgba(18, 6, 31, 0.92);
       text-align: center;
       font-size: 0.7rem;
       letter-spacing: 0.08em;
       color: rgba(255, 255, 255, 0.55);
-      padding: 0 1rem;
     }
 
     footer a { color: inherit; }
@@ -212,7 +264,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .bg img, .sep, .passed h1 { transition: none; animation: none; }
+      .bg img, .sep, .passed h1, .scroll-cue { transition: none; animation: none; }
     }
   </style>
 </head>
@@ -225,7 +277,7 @@
   </div>
   <div class="scanlines" aria-hidden="true"></div>
 
-  <main>
+  <main class="hero">
     <div class="logo">
       <div class="wordmark">grand theft auto</div>
       <img class="vi" src="/gta6/img/vi-logo.png" alt="VI" />
@@ -251,7 +303,15 @@
     </div>
 
     <p class="date">November 19, 2026 · PS5 &amp; Xbox Series X|S</p>
+
+    <a class="scroll-cue" href="#map">See the map</a>
   </main>
+
+  <section class="map" id="map">
+    <p class="label">The state of</p>
+    <h2>Leonida</h2>
+    <img src="/gta6/img/leonida.png" alt="Rockstar's Vice City, Leonida map artwork" loading="lazy" width="1463" height="1241" />
+  </section>
 
   <footer>
     Fan countdown. Grand Theft Auto VI and all artwork © Rockstar Games / Take-Two Interactive.
