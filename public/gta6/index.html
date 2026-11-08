@@ -210,41 +210,130 @@
 
     @keyframes bob { 50% { transform: translate(-50%, 6px); } }
 
+    .minibar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(0.6rem, 2vw, 1.25rem);
+      padding: 0 1rem;
+      background: rgba(18, 6, 31, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 2px solid #000;
+      box-shadow: 0 2px 0 var(--hot), 0 6px 20px rgba(0, 0, 0, 0.4);
+      transform: translateY(-110%);
+      transition: transform 0.3s ease;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .minibar.show { transform: translateY(0); }
+    .minibar img { height: 28px; width: auto; }
+
+    .minibar .mini-label {
+      font-weight: 900;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .minibar .mini-time {
+      font-family: "Anton", sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.04em;
+      font-variant-numeric: tabular-nums;
+      background: linear-gradient(180deg, #7aa8ff 0%, var(--hot) 50%, var(--orange) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .minibar .mini-time small { font-size: 0.65em; margin-right: 0.35em; }
+
+    @media (max-width: 480px) {
+      .minibar .mini-label { display: none; }
+    }
+
     .trailer {
       position: relative;
       z-index: 2;
+      height: 100vh;
+      height: 100svh;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .trailer iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100vw, 177.78vh);
+      height: max(100vh, 56.25vw);
+      transform: translate(-50%, -50%) scale(1.25);
+      border: 0;
+      pointer-events: none;
+    }
+
+    .trailer::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(18, 6, 31, 0.7) 0%, transparent 18%, transparent 75%, rgba(18, 6, 31, 0.85) 100%);
+    }
+
+    .trailer-ui {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: clamp(1.5rem, 5vh, 3rem);
+      z-index: 1;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.25rem;
-      padding: 5rem 1rem 3rem;
-      text-align: center;
-      background: linear-gradient(180deg, transparent 0%, rgba(18, 6, 31, 0.85) 15%, rgba(18, 6, 31, 0.92) 100%);
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0 clamp(1rem, 4vw, 3rem);
     }
 
     .trailer h2 {
       font-family: "Anton", sans-serif;
       font-weight: 400;
-      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-size: clamp(1.8rem, 5vw, 4rem);
       line-height: 1;
       text-transform: uppercase;
       color: #fff;
       -webkit-text-stroke: 0.03em #000;
       paint-order: stroke fill;
       text-shadow: 0 0.05em 0 #000, 0 0 0.3em rgba(255, 47, 168, 0.6);
+      text-align: left;
     }
 
-    .video {
-      width: min(1100px, 100%);
-      aspect-ratio: 16 / 9;
-      border: 3px solid #000;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 0 0 2px var(--hot), 0 20px 50px rgba(0, 0, 0, 0.5);
-      background: #000;
+    .trailer .label { display: block; text-align: left; margin-bottom: 0.3rem; }
+
+    .sound {
+      flex: none;
+      font-family: "Anton", sans-serif;
+      font-size: clamp(0.95rem, 1.6vw, 1.2rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #000;
+      background: linear-gradient(180deg, var(--orange), var(--pink));
+      border: 2px solid #000;
+      border-radius: 999px;
+      padding: 0.7rem 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #000, 0 0 20px rgba(255, 47, 168, 0.5);
     }
 
-    .video iframe { width: 100%; height: 100%; border: 0; display: block; }
+    .sound:active { transform: translateY(2px); box-shadow: 0 2px 0 #000; }
 
     .map {
       position: relative;
@@ -406,7 +495,13 @@
   </div>
   <div class="scanlines" aria-hidden="true"></div>
 
-  <main class="hero">
+  <a class="minibar" id="minibar" href="#top" aria-label="Back to the countdown">
+    <img src="/gta6/img/vi-logo.png" alt="" />
+    <span class="mini-label" id="mini-label">Vice City in</span>
+    <span class="mini-time" id="mini-time">--</span>
+  </a>
+
+  <main class="hero" id="top">
     <div class="logo">
       <div class="wordmark">grand theft auto</div>
       <img class="vi" src="/gta6/img/vi-logo.png" alt="VI" />
@@ -437,16 +532,19 @@
   </main>
 
   <section class="trailer" id="trailer">
-    <p class="label">Official launch trailer</p>
-    <h2>Watch the Trailer</h2>
-    <div class="video">
-      <iframe
-        src="https://www.youtube-nocookie.com/embed/rz1B4B2yBZY?autoplay=1&mute=1&loop=1&playlist=rz1B4B2yBZY&playsinline=1&rel=0&modestbranding=1"
-        title="Grand Theft Auto VI Launch Trailer"
-        loading="lazy"
-        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-        allowfullscreen
-      ></iframe>
+    <iframe
+      id="trailer-video"
+      src="https://www.youtube-nocookie.com/embed/rz1B4B2yBZY?autoplay=1&mute=1&loop=1&playlist=rz1B4B2yBZY&controls=0&playsinline=1&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&cc_load_policy=0&fs=0&enablejsapi=1"
+      title="Grand Theft Auto VI Launch Trailer"
+      allow="autoplay; encrypted-media"
+      tabindex="-1"
+    ></iframe>
+    <div class="trailer-ui">
+      <div>
+        <span class="label">Official launch trailer</span>
+        <h2>Grand Theft Auto VI</h2>
+      </div>
+      <button class="sound" id="sound" type="button" aria-pressed="false">🔇 Tap for sound</button>
     </div>
   </section>
 
@@ -480,18 +578,29 @@
     // Rockstar unlocks at midnight in each player's local time zone.
     const release = new Date(2026, 10, 19, 0, 0, 0);
     const els = ["days", "hours", "minutes", "seconds"].map((id) => document.getElementById(id));
+    const miniTime = document.getElementById("mini-time");
+    const miniLabel = document.getElementById("mini-label");
     let timer;
+
+    const minibar = document.getElementById("minibar");
+    new IntersectionObserver(([entry]) => {
+      minibar.classList.toggle("show", !entry.isIntersecting);
+    }, { threshold: 0.15 }).observe(document.getElementById("top"));
 
     function tick() {
       const diff = release - Date.now();
       if (diff <= 0) {
         document.body.classList.add("released");
+        miniLabel.textContent = "Grand Theft Auto VI";
+        miniTime.textContent = "Out now";
         clearInterval(timer);
         return;
       }
       const s = Math.floor(diff / 1000);
       const parts = [Math.floor(s / 86400), Math.floor(s / 3600) % 24, Math.floor(s / 60) % 60, s % 60];
-      parts.forEach((v, i) => { els[i].textContent = String(v).padStart(2, "0"); });
+      const padded = parts.map((v) => String(v).padStart(2, "0"));
+      padded.forEach((v, i) => { els[i].textContent = v; });
+      miniTime.innerHTML = padded.map((v, i) => `${v}<small>${"dhms"[i]}</small>`).join("");
     }
 
     timer = setInterval(tick, 1000);
@@ -506,6 +615,39 @@
         slides[current].classList.add("active");
       }, 7000);
     }
+
+    const trailer = document.getElementById("trailer-video");
+    const soundButton = document.getElementById("sound");
+    let soundOn = false;
+
+    function player(func, args = []) {
+      trailer.contentWindow.postMessage(JSON.stringify({ event: "command", func, args }), "*");
+    }
+
+    trailer.addEventListener("load", () => {
+      setTimeout(() => {
+        player("unloadModule", ["captions"]);
+        player("setPlaybackQuality", ["hd1080"]);
+      }, 1500);
+    });
+
+    soundButton.addEventListener("click", () => {
+      soundOn = !soundOn;
+      if (soundOn) {
+        player("unMute");
+        player("setVolume", [80]);
+        player("playVideo");
+      } else {
+        player("mute");
+      }
+      soundButton.textContent = soundOn ? "🔊 Sound on" : "🔇 Tap for sound";
+      soundButton.setAttribute("aria-pressed", String(soundOn));
+    });
+
+    // Mute again when the trailer scrolls out of view so it doesn't play under the rest of the page.
+    new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting && soundOn) soundButton.click();
+    }, { threshold: 0.25 }).observe(trailer.parentElement);
 
     // Visit /gta6?admin=YOUR_KEY once to enable delete buttons on this browser.
     const params = new URLSearchParams(location.search);
