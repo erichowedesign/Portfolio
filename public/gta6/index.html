@@ -210,6 +210,42 @@
 
     @keyframes bob { 50% { transform: translate(-50%, 6px); } }
 
+    .trailer {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 5rem 1rem 3rem;
+      text-align: center;
+      background: linear-gradient(180deg, transparent 0%, rgba(18, 6, 31, 0.85) 15%, rgba(18, 6, 31, 0.92) 100%);
+    }
+
+    .trailer h2 {
+      font-family: "Anton", sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      line-height: 1;
+      text-transform: uppercase;
+      color: #fff;
+      -webkit-text-stroke: 0.03em #000;
+      paint-order: stroke fill;
+      text-shadow: 0 0.05em 0 #000, 0 0 0.3em rgba(255, 47, 168, 0.6);
+    }
+
+    .video {
+      width: min(1100px, 100%);
+      aspect-ratio: 16 / 9;
+      border: 3px solid #000;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 0 0 2px var(--hot), 0 20px 50px rgba(0, 0, 0, 0.5);
+      background: #000;
+    }
+
+    .video iframe { width: 100%; height: 100%; border: 0; display: block; }
+
     .map {
       position: relative;
       z-index: 2;
@@ -397,8 +433,22 @@
 
     <p class="date">November 19, 2026 · PS5 &amp; Xbox Series X|S</p>
 
-    <a class="scroll-cue" href="#map">See the map</a>
+    <a class="scroll-cue" href="#trailer">Watch the trailer</a>
   </main>
+
+  <section class="trailer" id="trailer">
+    <p class="label">Official launch trailer</p>
+    <h2>Watch the Trailer</h2>
+    <div class="video">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/rz1B4B2yBZY?autoplay=1&mute=1&loop=1&playlist=rz1B4B2yBZY&playsinline=1&rel=0&modestbranding=1"
+        title="Grand Theft Auto VI Launch Trailer"
+        loading="lazy"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+        allowfullscreen
+      ></iframe>
+    </div>
+  </section>
 
   <section class="map" id="map">
     <p class="label">The state of</p>
