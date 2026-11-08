@@ -257,6 +257,99 @@
 
     footer a { color: inherit; }
 
+    .chat {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+      padding: 4rem 1rem;
+      background: rgba(18, 6, 31, 0.92);
+    }
+
+    .chat h2 {
+      font-family: "Anton", sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      line-height: 1;
+      text-transform: uppercase;
+      color: #fff;
+      -webkit-text-stroke: 0.03em #000;
+      paint-order: stroke fill;
+      text-shadow: 0 0.05em 0 #000, 0 0 0.3em rgba(255, 47, 168, 0.6);
+    }
+
+    .chat-box {
+      width: min(720px, 100%);
+      border: 3px solid #000;
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(123, 47, 247, 0.25), rgba(255, 47, 168, 0.12));
+      box-shadow: 0 0 0 2px var(--hot), 0 20px 50px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .feed {
+      height: 380px;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      text-align: left;
+    }
+
+    .msg { font-size: 0.95rem; line-height: 1.4; overflow-wrap: anywhere; }
+    .msg .who { font-weight: 900; color: var(--orange); margin-right: 0.4rem; }
+    .msg .when { font-size: 0.7rem; color: rgba(255, 255, 255, 0.45); margin-left: 0.4rem; }
+    .msg button { margin-left: 0.4rem; background: none; border: 0; color: var(--hot); cursor: pointer; font: inherit; font-size: 0.7rem; }
+    .feed .empty { margin: auto; color: rgba(255, 255, 255, 0.55); font-weight: 700; }
+
+    .compose {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-top: 3px solid #000;
+      background: rgba(0, 0, 0, 0.35);
+    }
+
+    .compose input {
+      font: inherit;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      min-width: 0;
+    }
+
+    .compose input:focus { outline: none; border-color: var(--hot); }
+    .compose .name { flex: 0 0 9rem; }
+    .compose .text { flex: 1; }
+    .compose .trap { position: absolute; left: -9999px; }
+
+    .compose button {
+      font-family: "Anton", sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #000;
+      background: linear-gradient(180deg, var(--orange), var(--pink));
+      border: 2px solid #000;
+      border-radius: 8px;
+      padding: 0 1.2rem;
+      cursor: pointer;
+    }
+
+    .compose button:disabled { opacity: 0.5; cursor: default; }
+    .chat-status { min-height: 1.2em; font-size: 0.8rem; font-weight: 700; color: var(--orange); }
+
+    @media (max-width: 640px) {
+      .compose { flex-wrap: wrap; }
+      .compose .name { flex: 1 0 100%; }
+    }
+
     @media (max-width: 640px) {
       .sep { display: none; }
       .timer { display: grid; grid-template-columns: repeat(2, auto); gap: 0.5rem 2rem; }
@@ -313,6 +406,21 @@
     <img src="/gta6/img/leonida.png" alt="Rockstar's Vice City, Leonida map artwork" loading="lazy" width="1463" height="1241" />
   </section>
 
+  <section class="chat" id="chat">
+    <p class="label">Talk to the crew</p>
+    <h2>Vice City Chat</h2>
+    <div class="chat-box">
+      <div class="feed" id="feed" aria-live="polite"><p class="empty">No messages yet. Be the first.</p></div>
+      <form class="compose" id="compose" autocomplete="off">
+        <input class="name" id="chat-name" maxlength="20" placeholder="Nickname" aria-label="Nickname" />
+        <input class="text" id="chat-text" maxlength="280" placeholder="Say something…" aria-label="Message" required />
+        <input class="trap" name="website" tabindex="-1" aria-hidden="true" />
+        <button type="submit" id="chat-send">Send</button>
+      </form>
+    </div>
+    <p class="chat-status" id="chat-status"></p>
+  </section>
+
   <footer>
     Fan countdown. Grand Theft Auto VI and all artwork © Rockstar Games / Take-Two Interactive.
     <a href="https://www.rockstargames.com/VI" target="_blank" rel="noopener">rockstargames.com/VI</a>
@@ -348,6 +456,113 @@
         slides[current].classList.add("active");
       }, 7000);
     }
+
+    // Visit /gta6?admin=YOUR_KEY once to enable delete buttons on this browser.
+    const params = new URLSearchParams(location.search);
+    if (params.get("admin")) {
+      localStorage.setItem("gta6-admin", params.get("admin"));
+      history.replaceState(null, "", location.pathname + location.hash);
+    }
+    const adminKey = localStorage.getItem("gta6-admin");
+
+    const feed = document.getElementById("feed");
+    const form = document.getElementById("compose");
+    const nameInput = document.getElementById("chat-name");
+    const textInput = document.getElementById("chat-text");
+    const sendButton = document.getElementById("chat-send");
+    const statusEl = document.getElementById("chat-status");
+    nameInput.value = localStorage.getItem("gta6-name") || "";
+
+    let lastRendered = "";
+
+    function timeAgo(at) {
+      const s = Math.floor((Date.now() - at) / 1000);
+      if (s < 60) return "just now";
+      if (s < 3600) return `${Math.floor(s / 60)}m ago`;
+      if (s < 86400) return `${Math.floor(s / 3600)}h ago`;
+      return `${Math.floor(s / 86400)}d ago`;
+    }
+
+    function render(messages) {
+      const key = messages.map((m) => m.id).join();
+      if (key === lastRendered) {
+        feed.querySelectorAll(".when").forEach((el) => { el.textContent = timeAgo(Number(el.dataset.at)); });
+        return;
+      }
+      lastRendered = key;
+      const atBottom = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 40;
+      feed.replaceChildren();
+      if (!messages.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty";
+        empty.textContent = "No messages yet. Be the first.";
+        feed.append(empty);
+        return;
+      }
+      for (const m of [...messages].reverse()) {
+        const row = document.createElement("p");
+        row.className = "msg";
+        const who = document.createElement("span");
+        who.className = "who";
+        who.textContent = m.name;
+        const when = document.createElement("span");
+        when.className = "when";
+        when.dataset.at = m.at;
+        when.textContent = timeAgo(m.at);
+        row.append(who, document.createTextNode(m.text), when);
+        if (adminKey) {
+          const del = document.createElement("button");
+          del.textContent = "delete";
+          del.onclick = async () => {
+            await fetch(`/api/gta6/chat?id=${encodeURIComponent(m.id)}`, { method: "DELETE", headers: { "x-admin-key": adminKey } });
+            loadChat();
+          };
+          row.append(del);
+        }
+        feed.append(row);
+      }
+      if (atBottom || feed.dataset.loaded !== "1") feed.scrollTop = feed.scrollHeight;
+      feed.dataset.loaded = "1";
+    }
+
+    async function loadChat() {
+      try {
+        const res = await fetch("/api/gta6/chat", { cache: "no-store" });
+        const data = await res.json();
+        if (res.ok) render(data.messages);
+      } catch {}
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const text = textInput.value.trim();
+      if (!text) return;
+      sendButton.disabled = true;
+      statusEl.textContent = "";
+      localStorage.setItem("gta6-name", nameInput.value.trim());
+      try {
+        const res = await fetch("/api/gta6/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name: nameInput.value, text, website: form.website.value }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          statusEl.textContent = data.error || "Couldn't send that.";
+        } else {
+          textInput.value = "";
+          feed.dataset.loaded = "0";
+          await loadChat();
+        }
+      } catch {
+        statusEl.textContent = "Couldn't send that.";
+      }
+      sendButton.disabled = false;
+      textInput.focus();
+    });
+
+    loadChat();
+    setInterval(() => { if (!document.hidden) loadChat(); }, 4000);
   </script>
 </body>
 </html>
