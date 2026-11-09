@@ -261,6 +261,8 @@
 
     @media (max-width: 480px) {
       .minibar .mini-label { display: none; }
+      .minibar { justify-content: flex-start; }
+      body.bar-on .wanted { font-size: 1.1rem; }
     }
 
     @media (max-width: 640px) {
@@ -487,6 +489,354 @@
     .compose button:disabled { opacity: 0.5; cursor: default; }
     .chat-status { min-height: 1.2em; font-size: 0.8rem; font-weight: 700; color: var(--orange); }
 
+    .compose .dice {
+      flex: none;
+      font-size: 1.1rem;
+      padding: 0 0.6rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .pinned {
+      display: none;
+      gap: 0.5rem;
+      align-items: baseline;
+      padding: 0.6rem 1rem;
+      border-bottom: 3px solid #000;
+      background: linear-gradient(90deg, rgba(255, 179, 64, 0.3), rgba(255, 47, 168, 0.2));
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-align: left;
+      overflow-wrap: anywhere;
+    }
+
+    .pinned.show { display: flex; }
+    .pinned b { flex: none; font-family: "Anton", sans-serif; font-weight: 400; letter-spacing: 0.08em; color: var(--orange); text-transform: uppercase; }
+
+    .msg .reacts { display: inline-flex; gap: 0.25rem; margin-left: 0.4rem; vertical-align: middle; }
+
+    .msg .reacts button {
+      margin: 0;
+      font-size: 0.75rem;
+      color: #fff;
+      padding: 0.05rem 0.35rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      opacity: 0.55;
+    }
+
+    .msg .reacts button.has { opacity: 1; }
+    .msg .reacts button.mine { border-color: var(--hot); background: rgba(255, 47, 168, 0.25); }
+    .msg:hover .reacts button { opacity: 1; }
+
+    .admin-pin { display: none; gap: 0.5rem; width: min(720px, 100%); }
+    .admin-pin.show { display: flex; }
+    .admin-pin input { flex: 1; min-width: 0; font: inherit; color: #fff; background: rgba(255, 255, 255, 0.08); border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 8px; padding: 0.5rem 0.75rem; }
+    .admin-pin button { font: inherit; font-weight: 900; color: #000; background: var(--orange); border: 2px solid #000; border-radius: 8px; padding: 0 0.9rem; cursor: pointer; }
+
+    /* Wanted level: fixed top-right like the in-game HUD, and vertically centred in the countdown bar once it shows. */
+    .wanted {
+      position: fixed;
+      top: clamp(0.75rem, 2.5vw, 1.5rem);
+      right: clamp(0.75rem, 2.5vw, 1.75rem);
+      z-index: 11;
+      display: flex;
+      gap: clamp(0.1rem, 0.4vw, 0.3rem);
+      font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+      line-height: 1;
+      transition: top 0.3s ease, font-size 0.3s ease;
+      pointer-events: none;
+    }
+
+    body.bar-on .wanted { top: 24px; transform: translateY(-50%); font-size: 1.35rem; }
+
+    .wanted span {
+      color: rgba(0, 0, 0, 0.45);
+      -webkit-text-stroke: 0.06em rgba(0, 0, 0, 0.9);
+      filter: drop-shadow(0 0.04em 0 rgba(0, 0, 0, 0.6));
+    }
+
+    body.bar-on .wanted span { color: rgba(255, 255, 255, 0.2); }
+    .wanted span.on, body.bar-on .wanted span.on { color: #fff; animation: wanted 1s steps(1) infinite; }
+    @keyframes wanted { 50% { color: #8fb4ff; } }
+
+    /* Wasted easter egg */
+    .vi { cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+
+    .wasted {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.75));
+    }
+
+    .wasted span {
+      font-family: "Anton", sans-serif;
+      font-size: clamp(4rem, 16vw, 13rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #c8161d;
+      -webkit-text-stroke: 0.025em #000;
+      paint-order: stroke fill;
+      text-shadow: 0 0.04em 0 #000, 0 0 0.25em rgba(0, 0, 0, 0.8);
+    }
+
+    body.is-wasted > :not(.wasted):not(script) { filter: grayscale(1) brightness(0.7); transition: filter 1.2s ease; }
+    body.is-wasted .wasted { display: flex; animation: wasted-in 0.5s ease both; }
+    body.is-wasted .wasted span { animation: wasted-zoom 3.2s ease-out both; }
+    @keyframes wasted-in { from { opacity: 0; } }
+    @keyframes wasted-zoom { from { transform: scale(1.4); opacity: 0; } 25% { opacity: 1; } to { transform: scale(1); } }
+
+    /* Trailer picker */
+    .picker { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+
+    .picker button {
+      font: inherit;
+      font-weight: 900;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #fff;
+      background: rgba(18, 6, 31, 0.6);
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-radius: 999px;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+    }
+
+    .picker button[aria-pressed="true"] { color: #000; background: #fff; border-color: #000; }
+
+    /* Characters */
+    .characters {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 4rem 1rem;
+      background: rgba(18, 6, 31, 0.92);
+    }
+
+    .section-title {
+      font-family: "Anton", sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      line-height: 1;
+      text-transform: uppercase;
+      color: #fff;
+      -webkit-text-stroke: 0.03em #000;
+      paint-order: stroke fill;
+      text-shadow: 0 0.05em 0 #000, 0 0 0.3em rgba(255, 47, 168, 0.6);
+      text-align: center;
+    }
+
+    .cards {
+      width: min(1200px, 100%);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+      gap: 1rem;
+    }
+
+    .card { aspect-ratio: 4 / 5; perspective: 1200px; cursor: pointer; }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s cubic-bezier(0.3, 1.3, 0.5, 1);
+      transform-style: preserve-3d;
+    }
+
+    .card:hover .card-inner, .card:focus-visible .card-inner, .card.flipped .card-inner { transform: rotateY(180deg); }
+
+    .card-face {
+      position: absolute;
+      inset: 0;
+      border: 3px solid #000;
+      border-radius: 14px;
+      overflow: hidden;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      box-shadow: 0 0 0 2px var(--hot), 0 14px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .card-face img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .card-front::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(18, 6, 31, 0.95) 100%);
+    }
+
+    .card-name {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 0.9rem;
+      z-index: 1;
+      text-align: left;
+    }
+
+    .card-name strong {
+      display: block;
+      font-family: "Anton", sans-serif;
+      font-weight: 400;
+      font-size: 1.7rem;
+      line-height: 1;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 2px 0 #000;
+    }
+
+    .card-name span { font-weight: 900; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--orange); }
+
+    .card-back {
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.8rem;
+      padding: 1.5rem;
+      text-align: left;
+      background: linear-gradient(160deg, var(--purple), var(--pink) 60%, var(--orange));
+    }
+
+    .card-back strong {
+      font-family: "Anton", sans-serif;
+      font-weight: 400;
+      font-size: 2rem;
+      line-height: 1;
+      text-transform: uppercase;
+      color: #fff;
+      -webkit-text-stroke: 0.03em #000;
+      paint-order: stroke fill;
+      text-shadow: 0 0.05em 0 #000;
+    }
+
+    .card-back p { font-weight: 700; font-size: 1rem; line-height: 1.45; color: #fff; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6); }
+
+    /* Hype meter and polls */
+    .hype {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 4rem 1rem;
+      background: rgba(18, 6, 31, 0.92);
+    }
+
+    .meter-box {
+      width: min(720px, 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .hype-count {
+      font-family: "Anton", sans-serif;
+      font-size: clamp(3rem, 10vw, 6rem);
+      line-height: 1;
+      background: linear-gradient(180deg, #7aa8ff 0%, var(--hot) 50%, var(--orange) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 0.04em 0 #000);
+    }
+
+    .meter {
+      width: 100%;
+      height: 22px;
+      border: 3px solid #000;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 2px var(--hot);
+      overflow: hidden;
+    }
+
+    .meter div {
+      height: 100%;
+      width: 0;
+      background: repeating-linear-gradient(-45deg, var(--orange) 0 14px, var(--pink) 14px 28px);
+      background-size: 40px 40px;
+      animation: stripes 1s linear infinite;
+      transition: width 0.8s ease;
+    }
+
+    @keyframes stripes { to { background-position: 40px 0; } }
+
+    .meter-goal { font-weight: 700; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.7); }
+
+    .hype-button {
+      font-family: "Anton", sans-serif;
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #000;
+      background: linear-gradient(180deg, var(--orange), var(--pink));
+      border: 3px solid #000;
+      border-radius: 999px;
+      padding: 0.8rem 2rem;
+      cursor: pointer;
+      box-shadow: 0 5px 0 #000, 0 0 24px rgba(255, 47, 168, 0.5);
+    }
+
+    .hype-button:active { transform: translateY(3px); box-shadow: 0 2px 0 #000; }
+    .hype-button:disabled { cursor: default; filter: saturate(0.6); }
+    .hype-button.pop { animation: pop 0.5s cubic-bezier(0.2, 1.6, 0.4, 1); }
+
+    .polls {
+      width: min(780px, 100%);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .poll {
+      border: 3px solid #000;
+      border-radius: 14px;
+      padding: 1.1rem;
+      text-align: left;
+      background: linear-gradient(180deg, rgba(123, 47, 247, 0.25), rgba(255, 47, 168, 0.12));
+      box-shadow: 0 0 0 2px var(--hot);
+    }
+
+    .poll h3 { font-weight: 900; font-size: 1.05rem; margin-bottom: 0.8rem; text-shadow: 0 2px 0 #000; }
+
+    .poll button {
+      position: relative;
+      display: block;
+      width: 100%;
+      margin-top: 0.45rem;
+      padding: 0.6rem 0.8rem;
+      font: inherit;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-align: left;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.07);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .poll button:disabled { cursor: default; }
+    .poll button .fill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, rgba(255, 179, 64, 0.45), rgba(255, 47, 168, 0.45)); transition: width 0.8s ease; }
+    .poll button .txt { position: relative; display: flex; justify-content: space-between; gap: 0.5rem; }
+    .poll button.picked { border-color: var(--orange); }
+    .poll .total { margin-top: 0.6rem; font-size: 0.75rem; color: rgba(255, 255, 255, 0.55); }
+
     @media (max-width: 640px) {
       .compose { flex-wrap: wrap; }
       .compose .name { flex: 1 0 100%; }
@@ -499,7 +849,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .bg img, .sep, .passed h1, .scroll-cue { transition: none; animation: none; }
+      .bg img, .sep, .passed h1, .scroll-cue, .wanted span, .meter div, .card-inner { transition: none; animation: none; }
     }
   </style>
 </head>
@@ -517,6 +867,8 @@
     <span class="mini-label" id="mini-label">Vice City in</span>
     <span class="mini-time" id="mini-time">--</span>
   </a>
+
+  <div class="wanted" id="stars" role="img" aria-label="Wanted level" title="Wanted level rises as launch gets closer"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
 
   <main class="hero" id="top">
     <div class="logo">
@@ -560,11 +912,22 @@
     </div>
     <div class="trailer-ui">
       <div>
-        <span class="label">Official launch trailer</span>
+        <span class="label" id="trailer-label">Official launch trailer</span>
         <h2>Grand Theft Auto VI</h2>
+        <div class="picker" id="picker">
+          <button type="button" data-video="QdBZY2fkU-0" data-label="Trailer 1 · December 2023" aria-pressed="false">Trailer 1</button>
+          <button type="button" data-video="VQRLujxTm3c" data-label="Trailer 2 · May 2025" aria-pressed="false">Trailer 2</button>
+          <button type="button" data-video="rz1B4B2yBZY" data-label="Official launch trailer" aria-pressed="true">Launch Trailer</button>
+        </div>
       </div>
       <button class="sound" id="sound" type="button" aria-pressed="false">🔇 Tap for sound</button>
     </div>
+  </section>
+
+  <section class="characters" id="characters">
+    <p class="label">Meet the crew</p>
+    <h2 class="section-title">The Characters</h2>
+    <div class="cards" id="cards"></div>
   </section>
 
   <section class="map" id="map">
@@ -573,20 +936,40 @@
     <img src="/gta6/img/leonida.png" alt="Rockstar's Vice City, Leonida map artwork" loading="lazy" width="1463" height="1241" />
   </section>
 
+  <section class="hype" id="hype">
+    <p class="label">How hyped is Vice City?</p>
+    <h2 class="section-title">Hype Meter</h2>
+    <div class="meter-box">
+      <div class="hype-count" id="hype-count">0</div>
+      <div class="meter"><div id="meter-fill"></div></div>
+      <p class="meter-goal" id="meter-goal">Next goal: 100</p>
+      <button class="hype-button" id="hype-button" type="button">🔥 I'm hyped</button>
+    </div>
+    <div class="polls" id="polls"></div>
+  </section>
+
   <section class="chat" id="chat">
     <p class="label">Talk to the crew</p>
     <h2>Vice City Chat</h2>
     <div class="chat-box">
+      <div class="pinned" id="pinned"><b>📌 Pinned</b><span id="pinned-text"></span></div>
       <div class="feed" id="feed" aria-live="polite"><p class="empty">No messages yet. Be the first.</p></div>
       <form class="compose" id="compose" autocomplete="off">
         <input class="name" id="chat-name" maxlength="20" placeholder="Nickname" aria-label="Nickname" />
+        <button class="dice" id="dice" type="button" title="Random GTA name" aria-label="Random GTA name">🎲</button>
         <input class="text" id="chat-text" maxlength="280" placeholder="Say something…" aria-label="Message" required />
         <input class="trap" name="website" tabindex="-1" aria-hidden="true" />
         <button type="submit" id="chat-send">Send</button>
       </form>
     </div>
     <p class="chat-status" id="chat-status"></p>
+    <form class="admin-pin" id="admin-pin">
+      <input id="pin-input" maxlength="280" placeholder="Pinned message (leave empty to unpin)" aria-label="Pinned message" />
+      <button type="submit">Pin</button>
+    </form>
   </section>
+
+  <div class="wasted" aria-hidden="true"><span>Wasted</span></div>
 
   <footer>
     Fan countdown. Grand Theft Auto VI and all artwork © Rockstar Games / Take-Two Interactive.
@@ -594,6 +977,12 @@
   </footer>
 
   <script>
+    const uuid = () => crypto.randomUUID?.() ??
+      "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16));
+    const visitorId = localStorage.getItem("gta6-visitor") || uuid();
+    localStorage.setItem("gta6-visitor", visitorId);
+    const jsonHeaders = { "Content-Type": "application/json", "x-visitor-id": visitorId };
+
     // Rockstar unlocks at midnight in each player's local time zone.
     const release = new Date(2026, 10, 19, 0, 0, 0);
     const els = ["days", "hours", "minutes", "seconds"].map((id) => document.getElementById(id));
@@ -604,10 +993,21 @@
     const minibar = document.getElementById("minibar");
     new IntersectionObserver(([entry]) => {
       minibar.classList.toggle("show", !entry.isIntersecting);
+      document.body.classList.toggle("bar-on", !entry.isIntersecting);
     }, { threshold: 0.15 }).observe(document.getElementById("top"));
+
+    const stars = [...document.querySelectorAll("#stars span")];
+
+    // Gains a star roughly every 2.4 days: 1 star at about 10 days out, all 5 in the final 2 days.
+    function setWanted(daysLeft) {
+      const level = Math.max(0, Math.min(5, Math.ceil((12 - daysLeft) / 2.4)));
+      stars.forEach((star, i) => star.classList.toggle("on", i < level));
+      document.getElementById("stars").setAttribute("aria-label", `Wanted level: ${level} of 5 stars`);
+    }
 
     function tick() {
       const diff = release - Date.now();
+      setWanted(Math.max(0, diff) / 86400000);
       if (diff <= 0) {
         document.body.classList.add("released");
         miniLabel.textContent = "Grand Theft Auto VI";
@@ -663,10 +1063,183 @@
       soundButton.setAttribute("aria-pressed", String(soundOn));
     });
 
+    const picker = document.getElementById("picker");
+    const trailerLabel = document.getElementById("trailer-label");
+
+    picker.addEventListener("click", (event) => {
+      const choice = event.target.closest("button");
+      if (!choice || choice.getAttribute("aria-pressed") === "true") return;
+      const id = choice.dataset.video;
+      picker.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b === choice)));
+      trailerLabel.textContent = choice.dataset.label;
+      trailer.src = trailer.src.replace(/embed\/[^?]+/, `embed/${id}`).replace(/playlist=[^&]+/, `playlist=${id}`);
+      if (soundOn) {
+        // A fresh embed always starts muted, so turn sound back on once it loads.
+        trailer.addEventListener("load", () => setTimeout(() => { player("unMute"); player("setVolume", [80]); }, 1200), { once: true });
+      }
+    });
+
     // Mute again when the trailer scrolls out of view so it doesn't play under the rest of the page.
     new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting && soundOn) soundButton.click();
     }, { threshold: 0.25 }).observe(trailer.parentElement);
+
+    const characters = [
+      { file: "jason", name: "Jason Duval", tag: "The drifter", pos: "72% 30%", bio: "Ex-Army and short on options, Jason drifts through the Leonida Keys running jobs for local players. All he wants is an easy life, but it never comes easy." },
+      { file: "lucia", name: "Lucia Caminos", tag: "The fighter", pos: "60% 30%", bio: "Fresh out of Leonida Penitentiary, Lucia learned early to fight for everything. This time she's determined to do it smarter and look after her family." },
+      { file: "cal", name: "Cal Hampton", tag: "The lookout", pos: "68% 30%", bio: "Jason's buddy, part-time conspiracy theorist, full-time homebody. Cal listens in on Coast Guard radio and would rather stay in with a cold beer." },
+      { file: "boobie", name: "Boobie Ike", tag: "The local legend", pos: "50% 30%", bio: "A Vice City icon who turned street money into real estate, a strip club and a record studio. Boobie plays it friendly, but business always comes first." },
+      { file: "drequan", name: "Dre'Quan Priest", tag: "The hustler", pos: "60% 30%", bio: "A dealer who'd rather be a music mogul. Dre'Quan runs Only Raw Records out of a strip club and is betting big on his newest signing." },
+      { file: "dimez", name: "Real Dimez", tag: "The rap duo", pos: "50% 30%", bio: "Bae-Luxe and Roxy went viral once and want a second shot. With a new deal and a lot to prove, they're turning Vice City drama into hits." },
+      { file: "raul", name: "Raul Bautista", tag: "The pro", pos: "55% 30%", bio: "A seasoned bank robber who's always looking for new talent. Raul's confidence is magnetic, and so is his appetite for bigger and riskier scores." },
+      { file: "brian", name: "Brian Heder", tag: "The old hand", pos: "52% 30%", bio: "An old-school drug runner in the Keys and Jason's landlord. Brian has been in the game long enough to let younger guys do the heavy lifting." },
+    ];
+
+    const cards = document.getElementById("cards");
+    for (const c of characters) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.tabIndex = 0;
+      card.setAttribute("role", "button");
+      card.setAttribute("aria-label", `${c.name}: ${c.bio}`);
+      card.innerHTML = `
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <img src="/gta6/img/chars/${c.file}.jpg" alt="" loading="lazy" style="object-position: ${c.pos}" />
+            <div class="card-name"><span>${c.tag}</span><strong>${c.name}</strong></div>
+          </div>
+          <div class="card-face card-back"><strong>${c.name}</strong><p>${c.bio}</p></div>
+        </div>`;
+      card.addEventListener("click", () => card.classList.toggle("flipped"));
+      card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.classList.toggle("flipped"); } });
+      cards.append(card);
+    }
+
+    // Easter egg: click the VI logo five times quickly.
+    let logoClicks = [];
+    document.querySelector(".hero .vi").addEventListener("click", () => {
+      const now = Date.now();
+      logoClicks = logoClicks.filter((t) => now - t < 2000).concat(now);
+      if (logoClicks.length < 5 || document.body.classList.contains("is-wasted")) return;
+      logoClicks = [];
+      document.body.classList.add("is-wasted");
+      playWastedSound();
+      setTimeout(() => document.body.classList.remove("is-wasted"), 4000);
+    });
+
+    function playWastedSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sawtooth";
+        osc.frequency.setValueAtTime(220, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 1.6);
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.8);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 1.8);
+      } catch {}
+    }
+
+    const hypeCount = document.getElementById("hype-count");
+    const hypeButton = document.getElementById("hype-button");
+    const meterFill = document.getElementById("meter-fill");
+    const meterGoal = document.getElementById("meter-goal");
+    const GOALS = [100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000];
+
+    function showHype(count) {
+      hypeCount.textContent = count.toLocaleString();
+      const goal = GOALS.find((g) => g > count) ?? Math.ceil((count + 1) / 100000) * 100000;
+      const floor = [0, ...GOALS].filter((g) => g <= count).pop() ?? 0;
+      meterFill.style.width = `${Math.min(100, ((count - floor) / (goal - floor)) * 100)}%`;
+      meterGoal.textContent = `Next goal: ${goal.toLocaleString()}`;
+    }
+
+    function markHyped() {
+      hypeButton.disabled = true;
+      hypeButton.textContent = "🔥 You're hyped";
+    }
+
+    if (localStorage.getItem("gta6-hyped")) markHyped();
+
+    async function loadHype() {
+      try {
+        const res = await fetch("/api/gta6/hype", { cache: "no-store" });
+        if (res.ok) showHype((await res.json()).count);
+      } catch {}
+    }
+
+    hypeButton.addEventListener("click", async () => {
+      markHyped();
+      hypeButton.classList.add("pop");
+      localStorage.setItem("gta6-hyped", "1");
+      try {
+        const res = await fetch("/api/gta6/hype", { method: "POST", headers: jsonHeaders });
+        if (res.ok) showHype((await res.json()).count);
+      } catch {}
+    });
+
+    const pollsEl = document.getElementById("polls");
+    const myVotes = JSON.parse(localStorage.getItem("gta6-votes") || "{}");
+
+    function renderPolls(questions) {
+      pollsEl.replaceChildren();
+      for (const q of questions) {
+        const total = q.counts.reduce((a, b) => a + b, 0);
+        const voted = q.id in myVotes;
+        const box = document.createElement("div");
+        box.className = "poll";
+        const title = document.createElement("h3");
+        title.textContent = q.question;
+        box.append(title);
+        q.options.forEach((option, i) => {
+          const pct = total ? Math.round((q.counts[i] / total) * 100) : 0;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.disabled = voted;
+          if (myVotes[q.id] === i) btn.classList.add("picked");
+          btn.innerHTML = `<span class="fill"></span><span class="txt"><span></span><span></span></span>`;
+          btn.querySelector(".txt span").textContent = option;
+          if (voted) {
+            btn.querySelector(".txt span:last-child").textContent = `${pct}%`;
+            requestAnimationFrame(() => { btn.querySelector(".fill").style.width = `${pct}%`; });
+          }
+          btn.addEventListener("click", () => vote(q.id, i));
+          box.append(btn);
+        });
+        const foot = document.createElement("p");
+        foot.className = "total";
+        foot.textContent = voted ? `${total.toLocaleString()} vote${total === 1 ? "" : "s"}` : "Vote to see results";
+        box.append(foot);
+        pollsEl.append(box);
+      }
+    }
+
+    async function loadPolls() {
+      try {
+        const res = await fetch("/api/gta6/poll", { cache: "no-store" });
+        if (res.ok) renderPolls((await res.json()).questions);
+      } catch {}
+    }
+
+    async function vote(id, option) {
+      myVotes[id] = option;
+      localStorage.setItem("gta6-votes", JSON.stringify(myVotes));
+      try {
+        await fetch("/api/gta6/poll", {
+          method: "POST",
+          headers: jsonHeaders,
+          body: JSON.stringify({ id, option }),
+        });
+      } catch {}
+      loadPolls();
+    }
+
+    loadHype();
+    loadPolls();
+    setInterval(() => { if (!document.hidden) { loadHype(); loadPolls(); } }, 15000);
 
     // Visit /gta6?admin=YOUR_KEY once to enable delete buttons on this browser.
     const params = new URLSearchParams(location.search);
@@ -694,8 +1267,57 @@
       return `${Math.floor(s / 86400)}d ago`;
     }
 
-    function render(messages) {
-      const key = messages.map((m) => m.id).join();
+    const pinnedEl = document.getElementById("pinned");
+    const pinnedText = document.getElementById("pinned-text");
+    const myReactions = new Set(JSON.parse(localStorage.getItem("gta6-reacted") || "[]"));
+    let reactionChoices = ["🔥", "😂", "💀", "❤️"];
+
+    const NAME_START = ["Tommy", "Vice", "Leonida", "Neon", "Gator", "Palm", "Ocean", "Keys", "Flamingo", "Biscayne", "Swamp", "Hustle", "Sunset", "Vapid", "Grotti"];
+    const NAME_END = ["Kid", "King", "Queen", "Boss", "Runner", "Rider", "Bandit", "Hustler", "Legend", "Shark", "Ghost", "Dealer"];
+    const pick = (list) => list[Math.floor(Math.random() * list.length)];
+    const randomName = () => `${pick(NAME_START)}${pick(NAME_END)}${Math.random() < 0.6 ? Math.floor(Math.random() * 900 + 100) : ""}`.slice(0, 20);
+
+    document.getElementById("dice").addEventListener("click", () => {
+      nameInput.value = randomName();
+      localStorage.setItem("gta6-name", nameInput.value);
+    });
+    if (!nameInput.value) nameInput.placeholder = `Nickname (e.g. ${randomName()})`;
+
+    async function react(id, emoji) {
+      const key = `${id}:${emoji}`;
+      if (myReactions.has(key)) return;
+      myReactions.add(key);
+      localStorage.setItem("gta6-reacted", JSON.stringify([...myReactions].slice(-500)));
+      try {
+        await fetch("/api/gta6/chat", {
+          method: "POST",
+          headers: jsonHeaders,
+          body: JSON.stringify({ react: emoji, id }),
+        });
+      } catch {}
+      loadChat();
+    }
+
+    const adminPin = document.getElementById("admin-pin");
+    const pinInput = document.getElementById("pin-input");
+    if (adminKey) adminPin.classList.add("show");
+    adminPin.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await fetch("/api/gta6/chat", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", "x-admin-key": adminKey },
+        body: JSON.stringify({ pin: pinInput.value }),
+      });
+      lastRendered = "";
+      loadChat();
+    });
+
+    function render({ messages, pinned, reactions }) {
+      if (reactions) reactionChoices = reactions;
+      pinnedEl.classList.toggle("show", Boolean(pinned));
+      pinnedText.textContent = pinned || "";
+      if (adminKey && document.activeElement !== pinInput) pinInput.value = pinned || "";
+      const key = JSON.stringify([pinned, messages.map((m) => [m.id, m.reactions])]);
       if (key === lastRendered) {
         feed.querySelectorAll(".when").forEach((el) => { el.textContent = timeAgo(Number(el.dataset.at)); });
         return;
@@ -721,6 +1343,20 @@
         when.dataset.at = m.at;
         when.textContent = timeAgo(m.at);
         row.append(who, document.createTextNode(m.text), when);
+        const reacts = document.createElement("span");
+        reacts.className = "reacts";
+        for (const emoji of reactionChoices) {
+          const count = m.reactions?.[emoji] || 0;
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.textContent = count ? `${emoji} ${count}` : emoji;
+          btn.setAttribute("aria-label", `React ${emoji}`);
+          if (count) btn.classList.add("has");
+          if (myReactions.has(`${m.id}:${emoji}`)) btn.classList.add("mine");
+          btn.onclick = () => react(m.id, emoji);
+          reacts.append(btn);
+        }
+        row.append(reacts);
         if (adminKey) {
           const del = document.createElement("button");
           del.textContent = "delete";
@@ -740,7 +1376,7 @@
       try {
         const res = await fetch("/api/gta6/chat", { cache: "no-store" });
         const data = await res.json();
-        if (res.ok) render(data.messages);
+        if (res.ok) render(data);
       } catch {}
     }
 
