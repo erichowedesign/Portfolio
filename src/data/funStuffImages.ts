@@ -28,7 +28,7 @@ export const funStuffImages: ImageSlot[][] = [
   [image("09.jpg", 2400, 960)],
   [image("10.png", 3840, 3840)],
   [image("11.png", 3840, 2480)],
-  [image("12.png", 3840, 3840)],
+  [image("12.png", 819, 819)],
   [image("13.png", 2160, 2160)],
   [image("14.png", 3840, 3840)],
   [image("20.png", 1081, 1350)],

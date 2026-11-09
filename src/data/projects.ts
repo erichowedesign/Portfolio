@@ -67,7 +67,7 @@ export type GalleryChapter = {
   description: string[];
   /** Index of this chapter's first image in `gallery`, flattened. */
   start: number;
-  /** Wider gap above this chapter's first image. */
+  /** Kept for older chapter data. Image gaps in the well are a uniform 24px. */
   separated?: boolean;
 };
 
@@ -91,10 +91,7 @@ export type GalleryProject = ProjectBase & {
    * top of the well. Chapters run in order and cover the whole gallery.
    */
   chapters?: GalleryChapter[];
-  /**
-   * Extra space above a separated chapter, added to the 24px image gap.
-   * Defaults to 48, which makes a 72px break.
-   */
+  /** Unused. Image gaps in the well are a uniform 24px. */
   chapterGap?: number;
 };
 

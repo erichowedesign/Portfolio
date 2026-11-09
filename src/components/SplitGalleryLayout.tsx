@@ -25,9 +25,6 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
   const credit = project.studio ? `${project.studio} - ${project.year}` : project.year;
   const chapters = project.chapters;
   const chapterStarts = new Set(chapters?.map((chapter) => chapter.start) ?? []);
-  const separatedStarts = new Set(
-    chapters?.filter((chapter) => chapter.separated).map((chapter) => chapter.start) ?? [],
-  );
   const wellRef = useRef<HTMLDivElement>(null);
   const activeRef = useRef(0);
   const shownRef = useRef(0);
@@ -167,7 +164,6 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
                       <div
                         key={row.map((slot) => slot.src ?? slot.video).join("-")}
                         data-chapter-start={chapterStarts.has(start) ? "" : undefined}
-                        style={separatedStarts.has(start) ? { marginTop: project.chapterGap ?? 48 } : undefined}
                       >
                         {row.length > 1 ? (
                           <div className={`grid grid-cols-2 overflow-hidden rounded-[10px] ${start === 0 ? "project-hero" : ""}`}>
