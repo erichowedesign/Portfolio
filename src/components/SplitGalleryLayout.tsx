@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, type TransitionEvent } from "react";
 import {
@@ -8,6 +9,7 @@ import {
   projectHref,
   siteConfig,
   type GalleryProject,
+  type ImageSlot,
 } from "@/data/projects";
 import { ContactDockSlot } from "@/components/ContactRow";
 import { Eyebrow } from "@/components/Eyebrow";
@@ -18,7 +20,7 @@ const WELL_SIZES =
 
 export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
   const back = backLink(project);
-  const images = project.gallery.flat();
+  const rows = project.gallery;
   const { previous, next } = adjacentPortfolioStops(projectHref(project));
   const credit = project.studio ? `${project.studio} - ${project.year}` : project.year;
   const chapters = project.chapters;
@@ -159,20 +161,31 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
                 className="project-images split-scroll lg:absolute lg:inset-9 lg:overflow-y-auto lg:overscroll-contain lg:rounded-[10px]"
               >
                 <div className="flex flex-col gap-6">
-                  {images.map((slot, i) => (
-                    <div
-                      key={`${slot.src ?? "image"}-${i}`}
-                      data-chapter-start={chapterStarts.has(i) ? "" : undefined}
-                      style={separatedStarts.has(i) ? { marginTop: project.chapterGap ?? 48 } : undefined}
-                    >
-                      <ImagePlaceholder
-                        slot={slot}
-                        framed={false}
-                        sizes={WELL_SIZES}
-                        className={i === 0 ? "project-hero" : undefined}
-                      />
-                    </div>
-                  ))}
+                  {rows.map((row, rowIndex) => {
+                    const start = rows.slice(0, rowIndex).reduce((count, item) => count + item.length, 0);
+                    return (
+                      <div
+                        key={row.map((slot) => slot.src ?? slot.video).join("-")}
+                        data-chapter-start={chapterStarts.has(start) ? "" : undefined}
+                        style={separatedStarts.has(start) ? { marginTop: project.chapterGap ?? 48 } : undefined}
+                      >
+                        {row.length > 1 ? (
+                          <div className={`grid grid-cols-2 overflow-hidden rounded-[10px] ${start === 0 ? "project-hero" : ""}`}>
+                            {row.map((slot) => (
+                              <PairCell key={slot.src ?? slot.video} slot={slot} />
+                            ))}
+                          </div>
+                        ) : (
+                          <ImagePlaceholder
+                            slot={row[0]}
+                            framed={false}
+                            sizes={WELL_SIZES}
+                            className={start === 0 ? "project-hero" : undefined}
+                          />
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -180,6 +193,33 @@ export function SplitGalleryLayout({ project }: { project: GalleryProject }) {
         </div>
       </div>
     </article>
+  );
+}
+
+function PairCell({ slot }: { slot: ImageSlot }) {
+  if (slot.video) {
+    return (
+      <video
+        src={slot.video}
+        aria-label={slot.label}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="aspect-[4/5] h-full w-full object-cover"
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={slot.src!}
+      alt={slot.label}
+      width={slot.width}
+      height={slot.height}
+      sizes="(min-width: 1024px) 414px, 50vw"
+      className="aspect-[4/5] h-full w-full object-cover"
+    />
   );
 }
 

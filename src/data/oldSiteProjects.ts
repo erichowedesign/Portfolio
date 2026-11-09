@@ -259,7 +259,7 @@ export const oldSiteProjects: GalleryProject[] = [
     "fun-stuff",
     "Fun Stuff",
     "Fun Stuff",
-    "",
+    "2023+",
     "cover.png",
     funStuffImages,
     {
@@ -267,7 +267,7 @@ export const oldSiteProjects: GalleryProject[] = [
       heading: "Fun Stuff",
       subheading: "A collection of graphical designs",
       summary: "A collection of graphical designs",
-      description: [],
+      description: ["Flyers and logos outside of my 9-5."],
     },
   ),
 ];

@@ -9,6 +9,8 @@ export type ImageSlot = {
   caption?: string;
   /** Path under /public, e.g. "/images/projects/nikeplus/01.jpg". Without it, a wireframe box is shown. */
   src?: string;
+  /** Looping video, used in place of an image. */
+  video?: string;
   width?: number;
   height?: number;
 };
