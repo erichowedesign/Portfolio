@@ -12,7 +12,7 @@ const MAX_TEXT = 280;
 const COOLDOWN_SECONDS = 8;
 const REACTIONS = ["🔥", "😂", "💀", "❤️"];
 
-type Message = { id: string; name: string; text: string; at: number };
+type Message = { id: string; name: string; text: string; at: number; admin?: true };
 
 const BLOCKED = [
   "fuck", "shit", "bitch", "cunt", "nigger", "nigga", "faggot", "fag", "retard",
@@ -103,6 +103,7 @@ export async function POST(request: NextRequest) {
       );
     }
     const message: Message = { id: crypto.randomUUID(), name, text, at: Date.now() };
+    if (isAdmin(request)) message.admin = true;
     await redis([["LPUSH", LIST_KEY, JSON.stringify(message)], ["LTRIM", LIST_KEY, 0, MAX_STORED - 1]]);
     return NextResponse.json({ message });
   } catch {
