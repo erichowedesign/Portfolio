@@ -838,6 +838,99 @@
     .poll button.picked { border-color: var(--orange); }
     .poll .total { margin-top: 0.6rem; font-size: 0.75rem; color: rgba(255, 255, 255, 0.55); }
 
+    /* Shark card store */
+    .store {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 4rem 1rem;
+      background: rgba(18, 6, 31, 0.92);
+    }
+
+    .sharks {
+      width: min(960px, 100%);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 820px) { .sharks { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 460px) { .sharks { grid-template-columns: 1fr; } }
+
+    .shark {
+      display: flex;
+      flex-direction: column;
+      border: 3px solid #000;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #12061f;
+      box-shadow: 0 0 0 2px var(--hot), 0 14px 30px rgba(0, 0, 0, 0.45);
+      transition: transform 0.2s ease;
+    }
+
+    .shark:hover { transform: translateY(-4px); }
+
+    .shark-art {
+      position: relative;
+      aspect-ratio: 5 / 3;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0.8rem 1rem;
+      background: var(--tier);
+      border-bottom: 3px solid #000;
+    }
+
+    .shark-art::after {
+      content: "🦈";
+      position: absolute;
+      right: 0.6rem;
+      bottom: 0.2rem;
+      font-size: 3.4rem;
+      transform: scaleX(-1);
+      filter: drop-shadow(0 3px 0 rgba(0, 0, 0, 0.5));
+    }
+
+    .shark-art span { font-weight: 900; font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 0 #000; }
+
+    .shark-art strong {
+      position: relative;
+      z-index: 1;
+      font-family: "Anton", sans-serif;
+      font-weight: 400;
+      font-size: 1.7rem;
+      line-height: 1;
+      text-transform: uppercase;
+      color: #fff;
+      -webkit-text-stroke: 0.03em #000;
+      paint-order: stroke fill;
+      text-shadow: 0 0.06em 0 #000;
+    }
+
+    .shark-info { display: flex; flex-direction: column; gap: 0.8rem; padding: 1rem; }
+    .shark-cash { font-family: "Anton", sans-serif; font-size: 1.9rem; line-height: 1; color: #7dff7a; text-shadow: 0 2px 0 #000; }
+
+    .shark-buy {
+      font-family: "Anton", sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      text-decoration: none;
+      color: #000;
+      background: linear-gradient(180deg, var(--orange), var(--pink));
+      border: 3px solid #000;
+      border-radius: 999px;
+      padding: 0.55rem 1rem;
+      box-shadow: 0 4px 0 #000;
+    }
+
+    .shark-buy:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
+    .store-note { max-width: 560px; font-size: 0.8rem; line-height: 1.5; text-align: center; color: rgba(255, 255, 255, 0.55); }
+
     @media (max-width: 640px) {
       .compose { flex-wrap: wrap; }
       .compose .name { flex: 1 0 100%; }
@@ -947,6 +1040,13 @@
       <button class="hype-button" id="hype-button" type="button">🔥 I'm hyped</button>
     </div>
     <div class="polls" id="polls"></div>
+  </section>
+
+  <section class="store" id="store">
+    <p class="label">Maze Bank of Leonida</p>
+    <h2 class="section-title">Shark Cards</h2>
+    <div class="sharks" id="sharks"></div>
+    <p class="store-note">Parody store, not affiliated with Rockstar. "Buying" a card just sends me a Venmo tip. No GTA$ will be delivered, but you'll have my eternal respect.</p>
   </section>
 
   <section class="chat" id="chat">
@@ -1138,6 +1238,29 @@
     function playWastedSound() {
       wastedAudio.currentTime = 0;
       wastedAudio.play().catch(() => {});
+    }
+
+    const VENMO = "Eric-Howe-6";
+    const sharkCards = [
+      { name: "Red Shark", cash: "$100,000", price: "2.99", tier: "linear-gradient(150deg, #ff5f6d, #a8001c)" },
+      { name: "Tiger Shark", cash: "$250,000", price: "4.99", tier: "linear-gradient(150deg, #ffb340, #c4570a)" },
+      { name: "Bull Shark", cash: "$600,000", price: "9.99", tier: "linear-gradient(150deg, #5ee7a0, #0b7a4b)" },
+      { name: "Great White", cash: "$1,250,000", price: "19.99", tier: "linear-gradient(150deg, #9fd3ff, #2c5d9e)" },
+      { name: "Whale Shark", cash: "$4,250,000", price: "49.99", tier: "linear-gradient(150deg, #c08bff, #5a1fb0)" },
+      { name: "Megalodon", cash: "$8,000,000", price: "99.99", tier: "linear-gradient(150deg, #ffe36e, #ff2fa8 55%, #7b2ff7)" },
+    ];
+    const sharks = document.getElementById("sharks");
+    for (const s of sharkCards) {
+      const note = encodeURIComponent(`${s.name} Card (${s.cash} GTA$) 🦈`);
+      const card = document.createElement("article");
+      card.className = "shark";
+      card.innerHTML = `
+        <div class="shark-art" style="--tier: ${s.tier}"><span>Shark Card</span><strong>${s.name}</strong></div>
+        <div class="shark-info">
+          <div class="shark-cash">${s.cash}</div>
+          <a class="shark-buy" href="https://venmo.com/${VENMO}?txn=pay&amount=${s.price}&note=${note}" target="_blank" rel="noopener">Buy $${s.price}</a>
+        </div>`;
+      sharks.append(card);
     }
 
     const hypeCount = document.getElementById("hype-count");
