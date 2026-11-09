@@ -1260,6 +1260,14 @@
           <div class="shark-cash">${s.cash}</div>
           <a class="shark-buy" href="https://venmo.com/${VENMO}?txn=pay&amount=${s.price}&note=${note}" target="_blank" rel="noopener">Buy $${s.price}</a>
         </div>`;
+      card.querySelector(".shark-buy").addEventListener("click", (e) => {
+        if (!/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) return;
+        e.preventDefault();
+        const web = e.currentTarget.href;
+        const fallback = setTimeout(() => { if (!document.hidden) location.href = web; }, 1500);
+        document.addEventListener("visibilitychange", () => clearTimeout(fallback), { once: true });
+        location.href = `venmo://paycharge?txn=pay&recipients=${VENMO}&amount=${s.price}&note=${note}`;
+      });
       sharks.append(card);
     }
 
