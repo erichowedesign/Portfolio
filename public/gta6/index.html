@@ -1039,6 +1039,49 @@
     }
 
     .shark-buy:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
+    .beer {
+      position: fixed;
+      left: clamp(0.75rem, 2.5vw, 1.5rem);
+      bottom: clamp(0.75rem, 2.5vw, 1.5rem);
+      z-index: 12;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: "Anton", sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 2px 0 #000;
+      background: linear-gradient(180deg, #ffd54a 0%, #e8a317 45%, #c8102e 46%, #8e0b20 100%);
+      border: 3px solid #000;
+      border-radius: 999px;
+      padding: 0.45rem 0.95rem 0.45rem 0.7rem;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #000, 0 0 18px rgba(255, 213, 74, 0.4);
+      transition: transform 0.15s ease;
+    }
+
+    .beer:hover { transform: rotate(-4deg) scale(1.05); }
+    .beer:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
+
+    .haze {
+      position: fixed;
+      inset: 0;
+      z-index: 9;
+      pointer-events: none;
+      opacity: 0;
+      backdrop-filter: blur(var(--drunk-blur, 0px)) saturate(1.5) hue-rotate(var(--drunk-hue, 0deg));
+      -webkit-backdrop-filter: blur(var(--drunk-blur, 0px)) saturate(1.5) hue-rotate(var(--drunk-hue, 0deg));
+      background: radial-gradient(ellipse at center, transparent 45%, rgba(40, 0, 30, 0.55) 100%);
+    }
+
+    body.drunk .haze { opacity: var(--drunk-level, 0); }
+    body.drunk > :not(script):not(.minibar):not(.wasted):not(.lightbox):not(.wanted):not(.haze):not(.beer):not(.bg):not(.scanlines) {
+      transform: translate(var(--sway-x, 0), var(--sway-y, 0)) rotate(var(--sway-r, 0deg));
+      will-change: transform;
+    }
+
     .store-note { max-width: 560px; font-size: 0.8rem; line-height: 1.5; text-align: center; color: rgba(255, 255, 255, 0.55); }
 
     @media (max-width: 640px) {
@@ -1198,6 +1241,9 @@
       <span class="stamp armed">Armed &amp; dangerous</span>
     </div>
   </section>
+
+  <div class="haze" aria-hidden="true"></div>
+  <button class="beer" id="beer" type="button">🍺 Have 1 Pisswasser</button>
 
   <div class="lightbox" id="lightbox"><img alt="" /></div>
 
@@ -1456,6 +1502,43 @@
       { name: "Whale Shark", cash: "$4,250,000", price: "49.99", tier: "linear-gradient(150deg, #c08bff, #5a1fb0)" },
       { name: "Megalodon", cash: "$8,000,000", price: "99.99", tier: "linear-gradient(150deg, #ffe36e, #ff2fa8 55%, #7b2ff7)" },
     ];
+    const beer = document.getElementById("beer");
+    const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let beers = 0;
+    let level = 0;
+    let soberTimer;
+    let swaying = false;
+
+    function sway(t) {
+      level += ((beers ? 0.4 + beers * 0.15 : 0) - level) * 0.03;
+      const s = document.body.style;
+      const m = calm ? 0 : level;
+      s.setProperty("--sway-x", `${Math.sin(t / 850) * 16 * m}px`);
+      s.setProperty("--sway-y", `${Math.sin(t / 1150) * 7 * m}px`);
+      s.setProperty("--sway-r", `${Math.sin(t / 1000) * 1.4 * m}deg`);
+      s.setProperty("--drunk-blur", `${(1 + Math.sin(t / 550) * 0.4) * 20 * level}px`);
+      s.setProperty("--drunk-hue", `${Math.sin(t / 1500) * 25 * level}deg`);
+      s.setProperty("--drunk-level", Math.min(level, 1));
+      if (!beers && level < 0.01) {
+        swaying = false;
+        document.body.classList.remove("drunk");
+        return;
+      }
+      requestAnimationFrame(sway);
+    }
+
+    beer.addEventListener("click", () => {
+      beers = Math.min(beers + 1, 5);
+      beer.textContent = beers === 1 ? "🍺 Have another" : `🍺 ${beers} deep`;
+      document.body.classList.add("drunk");
+      if (!swaying) { swaying = true; requestAnimationFrame(sway); }
+      clearTimeout(soberTimer);
+      soberTimer = setTimeout(() => {
+        beers = 0;
+        beer.textContent = "🍺 Have 1 Pisswasser";
+      }, 30000);
+    });
+
     const sharks = document.getElementById("sharks");
     for (const s of sharkCards) {
       const note = encodeURIComponent(`${s.name} Card (${s.cash} GTA$) 🦈`);
