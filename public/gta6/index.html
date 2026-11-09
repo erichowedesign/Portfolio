@@ -653,7 +653,8 @@
       transform-style: preserve-3d;
     }
 
-    .card:hover .card-inner, .card:focus-visible .card-inner, .card.flipped .card-inner { transform: rotateY(180deg); }
+    .card.flipped .card-inner { transform: rotateY(180deg); }
+    .card:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
 
     .card-face {
       position: absolute;
@@ -1110,8 +1111,12 @@
           </div>
           <div class="card-face card-back"><strong>${c.name}</strong><p>${c.bio}</p></div>
         </div>`;
-      card.addEventListener("click", () => card.classList.toggle("flipped"));
-      card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); card.classList.toggle("flipped"); } });
+      const flip = () => {
+        for (const other of cards.querySelectorAll(".card.flipped")) if (other !== card) other.classList.remove("flipped");
+        card.classList.toggle("flipped");
+      };
+      card.addEventListener("click", flip);
+      card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
       cards.append(card);
     }
 
