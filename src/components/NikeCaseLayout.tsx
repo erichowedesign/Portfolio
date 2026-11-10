@@ -23,14 +23,14 @@ export function NikeCaseLayout({ project }: { project: GalleryProject }) {
   const images = project.gallery.flat();
 
   return (
-    <article className="nike-case mx-auto w-full max-w-[1440px] px-6 pb-16 pt-8 font-inter lg:fixed lg:bottom-14 lg:left-1/2 lg:top-0 lg:z-30 lg:flex lg:w-full lg:-translate-x-1/2 lg:flex-col lg:overflow-visible lg:px-10 lg:pb-0 lg:pt-7 min-[1600px]:max-w-[1920px]">
-      <div className="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[440px_minmax(0,1fr)] lg:items-stretch lg:gap-x-5">
+    <article className="nike-case layout-frame mx-auto pb-16 pt-8 font-inter lg:fixed lg:bottom-14 lg:left-1/2 lg:top-0 lg:z-30 lg:flex lg:w-full lg:-translate-x-1/2 lg:flex-col lg:overflow-visible lg:pb-0 lg:pt-7">
+      <div className="layout-split">
         <aside className="split-scroll mb-10 flex flex-col lg:mb-0 lg:h-full lg:min-h-0 lg:overflow-y-auto">
           <Link href="/" className="site-name self-start font-display text-[20px] leading-[24px] text-text-strong-950">
             {siteConfig.name}
           </Link>
           <div className="project-nav mt-6">
-            <div className="mb-12 flex h-[38px] items-start justify-between">
+            <div className="mb-12 flex h-auto flex-wrap items-start justify-between gap-y-3 lg:h-[38px] lg:flex-nowrap">
               <BreadcrumbBack />
               <nav aria-label="More projects" className="flex items-start gap-3">
                 <CircleButton
@@ -52,11 +52,11 @@ export function NikeCaseLayout({ project }: { project: GalleryProject }) {
             <p className="h-[26px] text-[16px] font-light leading-[24px] tracking-[0.32px] text-text-soft-400">
               {project.eyebrow}
             </p>
-            <h1 className="mt-6 text-[40px] font-black leading-[48px] text-text-strong-950">
+            <h1 className="type-title mt-6 font-black text-text-strong-950">
               {project.heading ?? project.title}
             </h1>
             {project.subheading && (
-              <p className="mt-3 text-[24px] font-normal italic leading-[29px] text-text-strong-950">
+              <p className="type-sub mt-3 font-normal italic text-text-strong-950">
                 {project.subheading}
               </p>
             )}
@@ -119,10 +119,10 @@ function BreadcrumbBack() {
   const label =
     "text-[12px] font-normal leading-[24px] text-current no-underline outline-none";
   const reveal =
-    "inline-flex max-w-0 items-center gap-2 overflow-hidden whitespace-nowrap opacity-0 transition-[max-width,opacity,margin] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:ml-2.5 group-hover:max-w-[9rem] group-hover:opacity-100 group-focus-within:ml-2.5 group-focus-within:max-w-[9rem] group-focus-within:opacity-100";
+    "inline-flex items-center gap-2 overflow-hidden whitespace-nowrap transition-[max-width,opacity,margin] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] max-lg:ml-2.5 max-lg:max-w-[9rem] max-lg:opacity-100 lg:max-w-0 lg:opacity-0 lg:group-hover:ml-2.5 lg:group-hover:max-w-[9rem] lg:group-hover:opacity-100 lg:group-focus-within:ml-2.5 lg:group-focus-within:max-w-[9rem] lg:group-focus-within:opacity-100";
 
   return (
-    <div className="btn-glow group inline-flex h-[38px] items-center justify-center rounded-[25px] border border-current px-[13.4px] text-gray-600 hover:px-[17px] focus-within:px-[17px] dark:text-gray-300">
+    <div className="btn-glow group inline-flex h-[38px] shrink-0 items-center justify-center rounded-[25px] border border-current px-[17px] text-gray-600 hover:px-[17px] focus-within:px-[17px] dark:text-gray-300 lg:px-[13.4px]">
       <Arrow direction="previous" />
       <span className={reveal}>
         <Link href="/#work" aria-label="Back to work" className={label}>

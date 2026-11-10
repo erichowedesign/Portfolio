@@ -103,24 +103,24 @@ export const oldSiteProjects: GalleryProject[] = [
       chapters: [
         { subheading: "Product Experts", description: googleIntro, start: 0 },
         {
-          subheading: "Product Experts - Branding",
+          subheading: "Branding",
           description: ["First, we created a logo and visual design system."],
           start: 1,
           separated: true,
         },
         {
-          subheading: "Product Experts - Marketing Website",
+          subheading: "Marketing Website",
           description: ["We then created a marketing website to attract new candidates into the program."],
           start: 7,
           separated: true,
         },
         {
-          subheading: "Product Experts - Profile Setup",
+          subheading: "Profile Setup",
           description: ["Product Expert Candidates are taken to profile creation."],
           start: 10,
         },
         {
-          subheading: "Product Experts - Activity Tracker",
+          subheading: "Activity Tracker",
           description: [
             "After the Product Expert remains active, they level up to Early Product Expert and are able to track activity in the profile.",
           ],
@@ -128,7 +128,7 @@ export const oldSiteProjects: GalleryProject[] = [
           separated: true,
         },
         {
-          subheading: "Product Experts - Public Profile",
+          subheading: "Public Profile",
           description: [
             "Continued activity levels the user up to Product Expert; unlocking the ability to then create a public profile.",
           ],
@@ -136,13 +136,13 @@ export const oldSiteProjects: GalleryProject[] = [
           separated: true,
         },
         {
-          subheading: "Product Experts - Directory",
+          subheading: "Directory",
           description: ["Profiles made public are then displayed on a profile directory."],
           start: 18,
           separated: true,
         },
         {
-          subheading: "Product Experts - Social Status",
+          subheading: "Social Status",
           description: [
             "And lastly, assets for social media were created so Product Experts could show off their status.",
           ],

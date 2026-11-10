@@ -2,6 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Anchored at 1440. The frame, side column, and display type ease away from those sizes. */
+:root {
+  --stage-max: 1920px;
+  --page-pad: clamp(24px, 40px + (100vw - 1440px) * 0.025, 52px);
+  --col-side: clamp(320px, 440px + (100vw - 1440px) * 0.2, 536px);
+  --col-gap: 20px;
+  --type-display: clamp(36px, 45px + (100vw - 1440px) * 0.01875, 54px);
+  --type-display-leading: calc(var(--type-display) * 53 / 45);
+  --type-title: clamp(32px, 40px + (100vw - 1440px) * 0.0125, 46px);
+  --type-title-leading: calc(var(--type-title) * 48 / 40);
+  --type-sub: clamp(20px, 24px + (100vw - 1440px) * 0.008, 28px);
+  --type-sub-leading: calc(var(--type-sub) * 29 / 24);
+  --type-card: clamp(22px, 24px + (100vw - 1440px) * 0.006, 28px);
+  --type-card-leading: calc(var(--type-card) * 29 / 24);
+  --copy-title: clamp(406px, 406px + (100vw - 1440px) * 0.2, 502px);
+  --copy-body: clamp(440px, 440px + (100vw - 1440px) * 0.2, 536px);
+}
+
+.layout-frame {
+  width: 100%;
+  max-width: var(--stage-max);
+  padding-left: var(--page-pad);
+  padding-right: var(--page-pad);
+}
+
+@media (min-width: 1024px) {
+  .layout-split {
+    display: grid;
+    min-height: 0;
+    flex: 1 1 auto;
+    grid-template-columns: var(--col-side) minmax(0, 1fr);
+    align-items: stretch;
+    column-gap: var(--col-gap);
+  }
+}
+
+.type-display {
+  font-size: var(--type-display);
+  line-height: var(--type-display-leading);
+}
+
+.type-title {
+  font-size: var(--type-title);
+  line-height: var(--type-title-leading);
+}
+
+.type-sub {
+  font-size: var(--type-sub);
+  line-height: var(--type-sub-leading);
+}
+
+.type-card {
+  font-size: var(--type-card);
+  line-height: var(--type-card-leading);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -24,7 +80,7 @@
     }
 
     html:has(.split-stage) .site-header {
-      max-width: 1440px;
+      max-width: var(--stage-max);
     }
 
     html:has(.split-stage) body > footer:not(.site-contact-dock),
@@ -42,12 +98,6 @@
   body:has(.home-stage) > header,
   body:has(.home-stage) > footer:not(.site-contact-dock) {
     display: none;
-  }
-
-  @media (min-width: 1600px) {
-    html:has(.split-stage) .site-header {
-      max-width: 1920px;
-    }
   }
 
   ::selection {

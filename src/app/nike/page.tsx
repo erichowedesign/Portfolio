@@ -31,14 +31,14 @@ export default async function NikePage({ searchParams }: Props) {
   const projects = getCollectionProjects(nikeCollection.slug).filter((project) => project.cover.src);
 
   return (
-    <article className="split-stage mx-auto w-full max-w-[1440px] px-6 pb-16 pt-8 font-inter lg:fixed lg:bottom-14 lg:left-1/2 lg:top-0 lg:z-30 lg:flex lg:w-full lg:-translate-x-1/2 lg:flex-col lg:overflow-visible lg:px-10 lg:pb-0 lg:pt-7 min-[1600px]:max-w-[1920px]">
-      <div className="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[440px_minmax(0,1fr)] lg:items-stretch lg:gap-x-5">
+    <article className="split-stage layout-frame mx-auto pb-16 pt-8 font-inter lg:fixed lg:bottom-14 lg:left-1/2 lg:top-0 lg:z-30 lg:flex lg:w-full lg:-translate-x-1/2 lg:flex-col lg:overflow-visible lg:pb-0 lg:pt-7">
+      <div className="layout-split">
         <aside className="split-scroll mb-10 flex flex-col lg:mb-0 lg:h-full lg:min-h-0 lg:overflow-y-auto">
           <Link href="/" className="site-name self-start font-display text-[20px] leading-[24px] text-text-strong-950">
             {siteConfig.name}
           </Link>
           <div className="project-nav mt-6">
-            <div className="mb-12 flex h-[38px] items-start justify-between">
+            <div className="mb-12 flex h-auto flex-wrap items-start justify-between gap-y-3 lg:h-[38px] lg:flex-nowrap">
               <CircleButton href="/#work" label="Work" ariaLabel="Back to work" direction="previous" />
               <nav aria-label="More projects" className="flex items-start gap-3">
                 <CircleButton
@@ -58,10 +58,10 @@ export default async function NikePage({ searchParams }: Props) {
           </div>
           <div className="project-copy flex min-h-0 flex-1 flex-col">
             <Eyebrow>{nikeCollection.period}</Eyebrow>
-            <h1 className="mt-6 text-[40px] font-black leading-[48px] text-text-strong-950">
+            <h1 className="type-title mt-6 font-black text-text-strong-950">
               {nikeCollection.title}
             </h1>
-            <p className="mt-3 text-[24px] font-normal italic leading-[29px] text-text-strong-950">
+            <p className="type-sub mt-3 font-normal italic text-text-strong-950">
               {nikeCollection.subtitle}
             </p>
             <div className="mt-8 space-y-6">
@@ -86,7 +86,7 @@ export default async function NikePage({ searchParams }: Props) {
                   aria-label="Password"
                   aria-invalid={error ? true : undefined}
                   aria-describedby={error ? "password-error" : undefined}
-                  className="h-[62px] w-full rounded-[15px] border border-current bg-transparent px-4 text-[12px] font-normal leading-[24px] text-gray-600 outline-none placeholder:text-gray-500 focus-visible:border-[#e6b325] focus-visible:shadow-[0_0_12px_rgba(230,179,37,0.28)] dark:text-gray-300"
+                  className="h-[62px] w-full rounded-[15px] border border-current bg-transparent px-4 text-[16px] font-normal leading-[24px] text-gray-600 outline-none placeholder:text-gray-500 focus-visible:border-[#e6b325] focus-visible:shadow-[0_0_12px_rgba(230,179,37,0.28)] dark:text-gray-300 lg:text-[12px]"
                 />
                 {error && (
                   <p id="password-error" className="mt-3 text-[12px] leading-[24px] text-state-error-base-500">
@@ -144,7 +144,7 @@ function ThemePhoto({ src }: { src: string }) {
 
 function NikeTiles({ projects }: { projects: Project[] }) {
   return (
-    <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+    <div className="mt-6 grid grid-cols-1 gap-6">
       {projects.map((project) => (
         <Link key={project.slug} href={projectHref(project)} className="tile-glow block rounded-[10px]">
           <div className="overflow-hidden rounded-[10px] bg-gray-50 dark:bg-gray-900">
@@ -154,7 +154,7 @@ function NikeTiles({ projects }: { projects: Project[] }) {
               <div className="aspect-[402/227] w-full bg-gray-200 dark:bg-gray-800" />
             )}
             <div className="px-6 pb-6 pt-6">
-              <h2 className="text-[24px] font-black leading-[29px] text-gray-950 dark:text-gray-50">
+              <h2 className="type-card font-black text-gray-950 dark:text-gray-50">
                 {project.title}
               </h2>
               <p className="mt-[15px] text-[16px] font-normal leading-[19px] text-gray-400">

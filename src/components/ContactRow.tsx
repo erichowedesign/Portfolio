@@ -47,7 +47,7 @@ export function ContactRow({ className = "" }: { className?: string }) {
 export function ContactDock() {
   return (
     <footer className="site-contact-dock pointer-events-none fixed inset-x-0 bottom-[76px] z-40">
-      <div className="mx-auto w-full max-w-[1440px] px-10 min-[1600px]:max-w-[1920px]">
+      <div className="layout-frame mx-auto">
         <ContactRow className="pointer-events-auto w-fit" />
       </div>
     </footer>
