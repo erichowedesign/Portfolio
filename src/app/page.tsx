@@ -60,7 +60,7 @@ export default function HomePage() {
             </p>
             <div className="mt-12 lg:mb-[72px] lg:mt-auto">
             <h1 className="type-title max-w-[var(--copy-title)] font-black text-text-strong-950">
-              I design thoughtful, intuitive digital experiences that make complexity feel simple.
+              I design thoughtful, intuitive experiences that make complexity feel simple.
             </h1>
             <p className="mt-8 max-w-[var(--copy-body)] text-[16px] font-normal leading-[29px] tracking-[0.48px] text-gray-500 dark:text-gray-400">
               With over 10 years of experience, including eight at Nike, I bring a strong foundation in

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ThemeCircle } from "@/components/ThemeToggle";
 import { siteConfig } from "@/data/projects";
 
@@ -30,14 +29,6 @@ export function ContactRow({ className = "" }: { className?: string }) {
         <LinkedInIcon />
         <span className={`${revealLabel} ${revealShort}`}>LinkedIn</span>
       </a>
-      <Link
-        href="/about"
-        aria-label="About"
-        className={`btn-glow group inline-flex h-[38px] items-center justify-center rounded-[25px] border border-current px-[14px] hover:px-[17px] focus-visible:px-[17px] ${iconClass}`}
-      >
-        <InfoIcon />
-        <span className={`${revealLabel} ${revealShort}`}>About</span>
-      </Link>
       <ThemeCircle />
     </div>
   );
@@ -74,27 +65,6 @@ function MailIcon() {
         strokeLinejoin="round"
       />
       <path d="M3 7L12 13L21 7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function InfoIcon() {
-  return (
-    <svg width="8" height="18" viewBox="15.5 9 8 20" fill="none" aria-hidden className="shrink-0">
-      <path
-        d="M19.5 27.1003V19.5003"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M19.5 11.9H19.519"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
     </svg>
   );
 }

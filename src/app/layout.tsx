@@ -6,11 +6,7 @@ import { ContactDock } from "@/components/ContactRow";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
-import { UnderConstruction } from "@/components/UnderConstruction";
 import { themeInitScript } from "@/lib/theme";
-
-// Set to "true" for Vercel Production only; previews and local dev show the full site.
-const underConstruction = process.env.UNDER_CONSTRUCTION === "true";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,19 +59,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${chelaOne.variable} min-h-screen bg-bg-weak-50 font-sans text-text-strong-950 antialiased`}
       >
-        {underConstruction ? (
-          <main>
-            <UnderConstruction />
-          </main>
-        ) : (
-          <>
-            <PageTransition />
-            <Header />
-            <main>{children}</main>
-            <ContactDock />
-            <Footer />
-          </>
-        )}
+        <PageTransition />
+        <Header />
+        <main>{children}</main>
+        <ContactDock />
+        <Footer />
       </body>
     </html>
   );
