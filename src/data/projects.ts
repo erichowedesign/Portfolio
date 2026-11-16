@@ -1,26 +1,105 @@
-export type ProjectSection = {
-  title: string;
-  content: string[];
-  list?: string[];
+import { oldSiteProjects } from "@/data/oldSiteProjects";
+
+export type ImageAspect = "wide" | "video" | "landscape" | "square" | "portrait";
+
+export type ImageSlot = {
+  label: string;
+  /** Crops the image to this shape. Leave unset on real images to show them uncropped. */
+  aspect?: ImageAspect;
+  caption?: string;
+  /** Path under /public, e.g. "/images/projects/nikeplus/01.jpg". Without it, a wireframe box is shown. */
+  src?: string;
+  /** Looping video, used in place of an image. */
+  video?: string;
+  width?: number;
+  height?: number;
 };
 
-export type Project = {
+export type MetaItem = {
+  label: string;
+  value: string;
+};
+
+export type Collection = {
   slug: string;
   title: string;
+  period: string;
+  /** Italic line under the title on the collection landing. */
   subtitle: string;
-  impact: string;
-  role: string;
-  timeline: string;
-  team: string;
-  tags: string[];
-  heroColor: string;
-  overview: string;
-  sections: ProjectSection[];
+  /** One line shown on the home page card. */
+  summary: string;
+  intro: string[];
+  cover: ImageSlot;
 };
+
+type ProjectBase = {
+  slug: string;
+  /** Projects in a collection live under /{collection}/{slug} and share its password. */
+  collection?: string;
+  title: string;
+  category: string;
+  year: string;
+  /** One line shown on project cards. */
+  summary: string;
+  tags: string[];
+  cover: ImageSlot;
+  meta: MetaItem[];
+};
+
+export type CaseStudySection = {
+  title: string;
+  body: string[];
+  list?: string[];
+  /** Images render below the text; 2–3 images sit side by side. */
+  images?: ImageSlot[];
+};
+
+export type CaseStudy = ProjectBase & {
+  kind: "case-study";
+  overview: string;
+  highlights: MetaItem[];
+  sections: CaseStudySection[];
+};
+
+/** Copy that replaces the split sidebar while this stretch of images is in view. */
+export type GalleryChapter = {
+  subheading: string;
+  description: string[];
+  /** Index of this chapter's first image in `gallery`, flattened. */
+  start: number;
+  /** Kept for older chapter data. Image gaps in the well are a uniform 24px. */
+  separated?: boolean;
+};
+
+export type GalleryProject = ProjectBase & {
+  kind: "gallery";
+  description: string[];
+  /** Each row holds 1–3 images, displayed side by side. */
+  gallery: ImageSlot[][];
+  /** "split" is the Figma sidebar + image well. Default is the stacked layout. */
+  presentation?: "stack" | "split" | "nike-case";
+  /** Small line above the title. Year comes after the dash, e.g. "Nike - 2018". */
+  eyebrow?: string;
+  /** Large title in the split sidebar. Falls back to `title`. */
+  heading?: string;
+  /** Line under the heading in the split sidebar. */
+  subheading?: string;
+  /** Shown before the year in the split sidebar, e.g. "R/GA - 2016". */
+  studio?: string;
+  /**
+   * When set, the split sidebar swaps to the chapter whose images are at the
+   * top of the well. Chapters run in order and cover the whole gallery.
+   */
+  chapters?: GalleryChapter[];
+  /** Unused. Image gaps in the well are a uniform 24px. */
+  chapterGap?: number;
+};
+
+export type Project = CaseStudy | GalleryProject;
 
 export const siteConfig = {
   name: "Eric Howe",
-  title: "Lead Product Designer",
+  title: "Senior Digital Product Designer",
   email: "erichowedesign@gmail.com",
   linkedin: "https://www.linkedin.com/in/eric-howe-76a771b4/",
   location: "Portland, OR · Open to remote",
@@ -59,151 +138,314 @@ export const siteConfig = {
   },
 };
 
-export const projects: Project[] = [
+const caseStudyMeta: MetaItem[] = [
+  { label: "Role", value: "Your title on the project" },
+  { label: "Timeline", value: "Duration · Year" },
+  { label: "Team", value: "Who you worked with" },
+  { label: "Tools", value: "Figma, FigJam, etc." },
+];
+
+const caseStudyHighlights: MetaItem[] = [
+  { label: "Outcome metric", value: "00%" },
+  { label: "Adoption or scale", value: "000+" },
+  { label: "Time or cost saved", value: "0x" },
+];
+
+const caseStudySections: CaseStudySection[] = [
   {
-    slug: "inventory-allocation-tool",
-    title: "Regional Inventory Allocation Tool",
-    subtitle: "Global athletic apparel company · Internal ops",
-    impact: "~35% reduction in allocation task time · 12 regional teams",
-    role: "Lead Product Designer",
-    timeline: "14 months",
-    team: "1 designer (guided) · 2 PMs · 6 engineers · ops SMEs",
-    tags: ["Design leadership", "Workflow design", "Design systems"],
-    heroColor: "from-slate-800 to-slate-600",
-    overview:
-      "Operational teams spent hours reconciling inventory across regions using spreadsheets and legacy tools. As design lead, I set UX direction and guided a designer through research and delivery for a unified allocation workflow adopted by 12 regional teams.",
-    sections: [
-      {
-        title: "Context",
-        content: [
-          "Regional inventory planners and warehouse ops leads manage high-volume SKU allocation during seasonal peaks — high-stakes decisions under time pressure.",
-          "Data lived in 4+ systems. Planners copied numbers manually. New hires required weeks of shadowing.",
-        ],
-      },
-      {
-        title: "Problem",
-        content: [
-          "Misallocation drove costly transfers and fulfillment delays. Planners lacked confidence in data and tools.",
-          "Design challenge: surface complex constraints without overwhelming power users.",
-        ],
-      },
-      {
-        title: "Leadership",
-        content: ["My scope as design lead:"],
-        list: [
-          "Set UX direction and IA strategy across 2 eng squads",
-          "Guided 1 designer on research synthesis and deliverable quality",
-          "Facilitated weekly critique with PM and eng leads",
-          "Drove exception-first framework — pushed back on low-impact feature requests",
-          "Established patterns adopted into internal ops design system",
-        ],
-      },
-      {
-        title: "Process",
-        content: ["Research and alignment approach:"],
-        list: [
-          "Contextual inquiry with 8 planners across 3 regions",
-          "Workflow mapping — 6 handoff points causing delay",
-          "Cross-functional workshops with PM, eng, and ops",
-          "Concept and usability testing before build",
-        ],
-      },
-      {
-        title: "Solution",
-        content: ["Task-based navigation and progressive disclosure:"],
-        list: [
-          "Exception-first landing matched mental model",
-          "Inline validation kept users in flow during bulk edits",
-          "Audit log on same screen for trust and compliance",
-          "Shared patterns aligned with internal ops design system",
-        ],
-      },
-      {
-        title: "Impact",
-        content: [
-          "~35% reduction in weekly allocation cycle time. 12 regional teams adopted across two rollout phases. Allocation patterns became reference flows for subsequent ops tools.",
-        ],
-      },
-      {
-        title: "Reflection",
-        content: [
-          "Embedding ops SMEs in critiques made decisions stick. I'd instrument analytics earlier to tie design changes to error rates across teams.",
-        ],
-      },
+    title: "Context",
+    body: [
+      "Who the users are, what the business does, and what the world looked like before this project. Two or three sentences.",
     ],
   },
   {
-    slug: "returns-processing-dashboard",
-    title: "Returns Processing Operations Dashboard",
-    subtitle: "Global athletic apparel company · Internal ops",
-    impact: "Fewer processing errors · 800+ daily users",
-    role: "Lead Product Designer (player-coach)",
-    timeline: "10 months",
-    team: "1 PM · 4 engineers · returns ops lead",
-    tags: ["Player-coach", "Ops UX", "Stakeholder leadership"],
-    heroColor: "from-zinc-800 to-zinc-600",
-    overview:
-      "Returns center staff processed thousands of inbound items daily using fragmented screens. As sole designer on the pod, I owned design direction, stakeholder alignment, and quality bar for a unified dashboard serving 800+ daily users.",
-    sections: [
-      {
-        title: "Context",
-        content: [
-          "Associates complete high-volume, repetitive tasks; supervisors manage throughput and exceptions across lanes.",
-          "Users switched between 3 tools per item. Priority queues were unclear. Supervisors relied on end-of-day reports.",
-        ],
-      },
-      {
-        title: "Problem",
-        content: [
-          "Processing delays and errors increased cost per return. Associates needed speed and clarity; supervisors needed situational awareness without micromanaging.",
-        ],
-      },
-      {
-        title: "Leadership",
-        content: ["Player-coach scope on the pod:"],
-        list: [
-          "Owned design direction with no direct reports — set standards for eng design reviews",
-          "Advocated for role-based IA over separate tools; aligned ops leadership on shared data model",
-          "Ran weekly working sessions with floor leads during pilot",
-          "Defined scan-feedback patterns reused in subsequent floor-tool projects",
-        ],
-      },
-      {
-        title: "Process",
-        content: ["Floor-first discovery:"],
-        list: [
-          "Site visits during peak receipt at 2 processing centers",
-          "Task timing — 40% of time lost to context switching",
-          "Co-design sessions with associates on paper",
-          "Pilot prototype on one lane before full build",
-        ],
-      },
-      {
-        title: "Solution",
-        content: ["Role-based views on a shared data model:"],
-        list: [
-          "Associate mode: scan → classify → disposition → next",
-          "Supervisor mode: queue depth, error rate, active exceptions",
-          "Large touch targets and immediate scan feedback",
-          "Plain-language error recovery to reduce escalations",
-        ],
-      },
-      {
-        title: "Impact",
-        content: [
-          "Pilot lane showed ~25% fewer mis-classifications. Rolled out to 800+ daily users. Scan-feedback patterns adopted as reference for other ops tools.",
-        ],
-      },
-      {
-        title: "Reflection",
-        content: [
-          "Designing with associates on the floor surfaced constraints we wouldn't catch in Figma. Next time I'd run a longer pilot across shift changes.",
-        ],
-      },
+    title: "Problem",
+    body: [
+      "The core problem in one or two sentences, framed from the user's and the business's point of view.",
+      "Optional: the design challenge or key constraint that made this hard.",
     ],
+    images: [{ label: "Before state / current experience", aspect: "video" }],
+  },
+  {
+    title: "My role",
+    body: ["What you owned and how you led:"],
+    list: [
+      "Scope of ownership and decisions you drove",
+      "People you guided, mentored, or aligned",
+      "Rituals you ran (critique, workshops, reviews)",
+    ],
+  },
+  {
+    title: "Process",
+    body: [
+      "How you got from problem to solution — research, synthesis, exploration, testing. Show the messy middle.",
+    ],
+    list: ["Research method + what you learned", "Key insight that shaped direction", "How you validated it"],
+    images: [
+      { label: "Research artifact", aspect: "landscape", caption: "Caption for the artifact" },
+      { label: "Journey map / flow", aspect: "landscape", caption: "Caption for the flow" },
+    ],
+  },
+  {
+    title: "Solution",
+    body: ["The final design and the reasoning behind the most important decisions."],
+    images: [
+      { label: "Key screen", aspect: "wide", caption: "Caption describing the key screen" },
+      { label: "Detail", aspect: "square" },
+      { label: "Detail", aspect: "square" },
+      { label: "Detail", aspect: "square" },
+    ],
+  },
+  {
+    title: "Outcomes",
+    body: [
+      "What changed because of this work — metrics, adoption, qualitative feedback, and anything the team kept building on.",
+    ],
+  },
+  {
+    title: "Reflection",
+    body: ["What you learned, and what you'd do differently next time."],
   },
 ];
 
-export function getProject(slug: string): Project | undefined {
-  return projects.find((p) => p.slug === slug);
+const galleryDescription = [
+  "A short description of the project: what it is, who it was for, and what you contributed. Two or three sentences.",
+];
+
+const materialLibraryImage = (file: string): ImageSlot => ({
+  label: "Material Library",
+  src: `/nike/media/material-library/${file}`,
+  width: 2880,
+  height: 2048,
+});
+
+export const projects: Project[] = [
+  {
+    kind: "gallery",
+    collection: "nike",
+    slug: "material-library",
+    title: "Material Library",
+    category: "Internal Platform",
+    year: "2018",
+    summary:
+      "Nike's Material Library brought an extensive collection of physical materials into a centralized digital experience.",
+    tags: [],
+    cover: materialLibraryImage("01.png"),
+    meta: [
+      { label: "Client", value: "Nike" },
+      { label: "Year", value: "2018" },
+    ],
+    description: [
+      "Nike's Material Library brought an extensive collection of physical materials into a centralized digital experience. The platform made it easier for footwear and apparel teams to discover, browse, and explore materials, while connecting material information to other tools across Nike's product creation process.",
+    ],
+    gallery: [
+      [materialLibraryImage("01.png")],
+      [materialLibraryImage("02.png")],
+      [materialLibraryImage("03.png")],
+      [materialLibraryImage("04.png")],
+    ],
+    presentation: "nike-case",
+    heading: "Material Library",
+    subheading: "Internal Platform",
+    eyebrow: "Nike - 2018",
+  },
+  {
+    kind: "case-study",
+    collection: "nike",
+    slug: "case-study-one",
+    title: "Case Study One",
+    category: "Company · Product area",
+    year: "2025",
+    summary: "One-line summary of the project and its headline outcome.",
+    tags: ["Tag one", "Tag two", "Tag three"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: caseStudyMeta,
+    overview:
+      "A two-to-three sentence overview: the problem, what you did, and the result. Someone who only reads this paragraph should understand the project.",
+    highlights: caseStudyHighlights,
+    sections: caseStudySections,
+  },
+  {
+    kind: "case-study",
+    collection: "nike",
+    slug: "case-study-two",
+    title: "Case Study Two",
+    category: "Company · Product area",
+    year: "2024",
+    summary: "One-line summary of the project and its headline outcome.",
+    tags: ["Tag one", "Tag two"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: caseStudyMeta,
+    overview:
+      "A two-to-three sentence overview: the problem, what you did, and the result. Someone who only reads this paragraph should understand the project.",
+    highlights: caseStudyHighlights,
+    sections: caseStudySections,
+  },
+  {
+    kind: "gallery",
+    collection: "nike",
+    slug: "project-one",
+    title: "Project One",
+    category: "Visual design",
+    year: "2025",
+    summary: "One-line description of the work shown.",
+    tags: ["Tag one", "Tag two"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: [
+      { label: "Type", value: "Project type" },
+      { label: "Year", value: "2025" },
+      { label: "Tools", value: "Figma" },
+    ],
+    description: galleryDescription,
+    gallery: [
+      [{ label: "Hero image", aspect: "wide" }],
+      [
+        { label: "Screen", aspect: "landscape" },
+        { label: "Screen", aspect: "landscape" },
+      ],
+      [{ label: "Full-width image", aspect: "video", caption: "Optional caption" }],
+      [
+        { label: "Detail", aspect: "square" },
+        { label: "Detail", aspect: "square" },
+        { label: "Detail", aspect: "square" },
+      ],
+    ],
+  },
+  {
+    kind: "gallery",
+    collection: "nike",
+    slug: "project-two",
+    title: "Project Two",
+    category: "Mobile app",
+    year: "2024",
+    summary: "One-line description of the work shown.",
+    tags: ["Tag one", "Tag two"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: [
+      { label: "Type", value: "Project type" },
+      { label: "Year", value: "2024" },
+      { label: "Tools", value: "Figma" },
+    ],
+    description: galleryDescription,
+    gallery: [
+      [{ label: "Hero image", aspect: "video" }],
+      [
+        { label: "Mobile screen", aspect: "portrait" },
+        { label: "Mobile screen", aspect: "portrait" },
+        { label: "Mobile screen", aspect: "portrait" },
+      ],
+      [{ label: "Full-width image", aspect: "wide" }],
+    ],
+  },
+  {
+    kind: "gallery",
+    collection: "nike",
+    slug: "project-three",
+    title: "Project Three",
+    category: "Design system",
+    year: "2023",
+    summary: "One-line description of the work shown.",
+    tags: ["Tag one"],
+    cover: { label: "Cover image", aspect: "landscape" },
+    meta: [
+      { label: "Type", value: "Project type" },
+      { label: "Year", value: "2023" },
+      { label: "Tools", value: "Figma" },
+    ],
+    description: galleryDescription,
+    gallery: [
+      [{ label: "Hero image", aspect: "wide" }],
+      [
+        { label: "Component sheet", aspect: "square" },
+        { label: "Component sheet", aspect: "square" },
+      ],
+      [{ label: "Full-width image", aspect: "video" }],
+    ],
+  },
+  ...oldSiteProjects,
+];
+
+export const nikeCollection: Collection = {
+  slug: "nike",
+  title: "Nike",
+  period: "Nike - 2018-2026",
+  subtitle: "Digital Product Creation",
+  summary: "Digital Product Creation - 2018-2026",
+  intro: [
+    "Over eight years at Nike, I designed digital products that supported the teams behind Nike's footwear and apparel creation process. My work ranged from individual tools to large, connected platforms, focused on simplifying complex workflows, modernizing legacy systems, and creating intuitive, thoughtfully crafted experiences.",
+  ],
+  cover: { label: "Nike", src: "/images/projects/nike/splash_nikethumb.png", aspect: "video" },
+};
+
+export type PortfolioStop = {
+  href: string;
+  label: string;
+};
+
+/** Home order, with Nike first so next and previous land on this page. */
+export function portfolioStops(): PortfolioStop[] {
+  return [
+    { href: `/${nikeCollection.slug}`, label: nikeCollection.title },
+    ...oldSiteProjects.map((project) => ({
+      href: `/work/${project.slug}`,
+      label: project.heading ?? project.title,
+    })),
+  ];
+}
+
+export function adjacentPortfolioStops(href: string): {
+  previous: PortfolioStop;
+  next: PortfolioStop;
+} {
+  const stops = portfolioStops();
+  const index = Math.max(
+    0,
+    stops.findIndex((stop) => stop.href === href),
+  );
+  return {
+    previous: stops[(index - 1 + stops.length) % stops.length],
+    next: stops[(index + 1) % stops.length],
+  };
+}
+
+export const collections: Collection[] = [nikeCollection];
+
+export function getCollection(slug: string): Collection | undefined {
+  return collections.find((c) => c.slug === slug);
+}
+
+export function getCollectionProjects(collection: string | undefined): Project[] {
+  return projects.filter((p) => p.collection === collection);
+}
+
+export function getProject(
+  slug: string,
+  collection?: string,
+): Project | undefined {
+  return getCollectionProjects(collection).find((p) => p.slug === slug);
+}
+
+export function getNextProject(project: Project): Project {
+  const siblings = getCollectionProjects(project.collection);
+  const index = siblings.findIndex((p) => p.slug === project.slug);
+  return siblings[(index + 1) % siblings.length];
+}
+
+export function getPreviousProject(project: Project): Project {
+  const siblings = getCollectionProjects(project.collection);
+  const index = siblings.findIndex((p) => p.slug === project.slug);
+  return siblings[(index - 1 + siblings.length) % siblings.length];
+}
+
+export function projectHref(project: Project): string {
+  return project.collection
+    ? `/${project.collection}/${project.slug}`
+    : `/work/${project.slug}`;
+}
+
+export function backLink(project: Project): { href: string; label: string } {
+  const collection = project.collection && getCollection(project.collection);
+  return collection
+    ? { href: `/${collection.slug}`, label: `Back to ${collection.title}` }
+    : { href: "/#work", label: "Back to work" };
 }
